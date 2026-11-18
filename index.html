@@ -4746,9 +4746,12 @@
           </div>
         </div>
 
-        <div style="padding:12px 18px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; background:rgba(15,23,42,0.8);">
-          <a href="https://github.com/andiarman/PetaPalu/blob/main/DISCLAIMER.md" target="_blank" rel="noopener noreferrer" style="font-size:0.72rem; color:#94a3b8; text-decoration:none;">Baca Dokumen Hukum Lengkap (DISCLAIMER.md) ↗</a>
-          <button type="button" id="btn-agree-disclaimer" class="btn-submit-action" style="padding:6px 16px; font-size:0.75rem;">Saya Mengerti &amp; Setuju</button>
+        <div style="padding:14px 18px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:8px; background:rgba(15,23,42,0.85);">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <a href="https://github.com/andiarman/PetaPalu/blob/main/DISCLAIMER.md" target="_blank" rel="noopener noreferrer" style="font-size:0.72rem; color:#38bdf8; text-decoration:none;">Baca Dokumen Hukum Lengkap (DISCLAIMER.md) ↗</a>
+            <button type="button" id="btn-agree-disclaimer" class="btn-submit-action" style="padding:8px 18px; font-size:0.78rem; font-weight:700; background:linear-gradient(135deg, #0284c7, #0ea5e9); border:none; border-radius:8px; color:#fff; cursor:pointer; box-shadow:0 0 15px rgba(14,165,233,0.35);">✅ Saya Mengerti, Setuju &amp; Buka Peta</button>
+          </div>
+          <div id="disclaimer-mandatory-hint" style="font-size:0.68rem; color:#94a3b8; text-align:right;">*Persetujuan penafian hukum ini hanya diminta 1 kali pada kunjungan pertama Anda.</div>
         </div>
       </div>
     </dialog>
@@ -11587,42 +11590,104 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         document.body.classList.add("map-frozen");
       }
 
+      const LEGAL_CONSENT_KEY = "palu_legal_consent_v1";
+      let inMemoryConsent = false;
+
+      function hasAgreedConsent() {
+        if (inMemoryConsent) return true;
+        try {
+          return localStorage.getItem(LEGAL_CONSENT_KEY) === "true";
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function setAgreedConsent() {
+        inMemoryConsent = true;
+        try {
+          localStorage.setItem(LEGAL_CONSENT_KEY, "true");
+          localStorage.setItem("palu_legal_consent_time", new Date().toISOString());
+        } catch (e) {
+          console.warn("Could not save legal consent to localStorage:", e);
+        }
+      }
+
       function setupDisclaimerModal() {
         const modal = document.getElementById("modal-disclaimer");
         const closeBtn = document.getElementById("close-disclaimer-modal");
         const agreeBtn = document.getElementById("btn-agree-disclaimer");
         const menuBtn = document.getElementById("menu-btn-disclaimer");
         const welcomeBtn = document.getElementById("btn-open-disclaimer-welcome");
+        const mandatoryHint = document.getElementById("disclaimer-mandatory-hint");
 
-        const openDisclaimer = () => {
-          if (modal && typeof modal.showModal === "function") {
-            modal.showModal();
+        const openDisclaimer = (mandatory = false) => {
+          if (!modal || typeof modal.showModal !== "function") return;
+          if (modal.open) return;
+
+          if (mandatory) {
+            if (closeBtn) closeBtn.style.display = "none";
+            if (agreeBtn) agreeBtn.textContent = "✅ Saya Mengerti, Setuju & Buka Peta";
+            if (mandatoryHint) mandatoryHint.style.display = "block";
+          } else {
+            if (closeBtn) closeBtn.style.display = "";
+            if (agreeBtn) agreeBtn.textContent = "Tutup & Kembali ke Peta";
+            if (mandatoryHint) mandatoryHint.style.display = "none";
           }
+
+          modal.showModal();
         };
 
-        const closeDisclaimer = () => {
-          if (modal && typeof modal.close === "function") {
-            modal.close();
+        const closeDisclaimer = (force = false) => {
+          if (!modal || typeof modal.close !== "function") return;
+          if (!hasAgreedConsent() && !force) {
+            return;
           }
+          modal.close();
         };
+
+        // Jika belum pernah disetujui, wajibkan dialog disclaimer terbuka di awal
+        if (!hasAgreedConsent()) {
+          openDisclaimer(true);
+        }
 
         if (menuBtn) {
           menuBtn.addEventListener("click", () => {
             const menu = document.getElementById("mode-dropdown-menu");
             if (menu) menu.setAttribute("hidden", "");
-            openDisclaimer();
+            openDisclaimer(false);
           });
         }
 
         if (welcomeBtn) {
-          welcomeBtn.addEventListener("click", openDisclaimer);
+          welcomeBtn.addEventListener("click", () => {
+            openDisclaimer(false);
+          });
         }
 
-        if (closeBtn) closeBtn.addEventListener("click", closeDisclaimer);
-        if (agreeBtn) agreeBtn.addEventListener("click", closeDisclaimer);
+        if (closeBtn) {
+          closeBtn.addEventListener("click", () => {
+            closeDisclaimer(false);
+          });
+        }
+
+        if (agreeBtn) {
+          agreeBtn.addEventListener("click", () => {
+            setAgreedConsent();
+            closeDisclaimer(true);
+          });
+        }
 
         if (modal) {
+          // Blokir tombol Escape jika belum disetujui
+          modal.addEventListener("cancel", (e) => {
+            if (!hasAgreedConsent()) {
+              e.preventDefault();
+            }
+          });
+
+          // Klik backdrop di luar dialog
           modal.addEventListener("click", (e) => {
+            if (!hasAgreedConsent()) return;
             const rect = modal.getBoundingClientRect();
             const isInDialog = (
               rect.top <= e.clientY &&
@@ -11631,7 +11696,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
               e.clientX <= rect.left + rect.width
             );
             if (!isInDialog) {
-              closeDisclaimer();
+              closeDisclaimer(false);
             }
           });
         }
