@@ -4064,6 +4064,11 @@
         <div class="brand-info">
           <h1 id="app-brand-title">Peta Pemadaman Sulawesi Tengah</h1>
           <time id="wita-clock" aria-live="off">Memuat waktu WITA…</time>
+          <script>
+            try {
+              document.getElementById("wita-clock").textContent = "WITA · " + new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Makassar", dateStyle: "medium", timeStyle: "short" }).format(new Date());
+            } catch (e) {}
+          </script>
         </div>
       </div>
 
@@ -11540,18 +11545,28 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         await fetchMapLayers();
       }
 
-      setupModeSwitcher();
-      setupCulinaryControls();
-      setupPrintingControls();
-      setupHardwareControls();
-      setupRtrwControls();
-      setupContourControls();
-      setupSearchBar();
-      setupMyLocation();
-      setupShareModal();
-      setupWelcomeDashboard();
-      setupDisclaimerModal();
-      updateClock();
+      // --- Manajemen Persetujuan Hukum (Disclaimer Consent) ---
+      const LEGAL_CONSENT_KEY = "palu_legal_consent_v1";
+      let inMemoryConsent = false;
+
+      function hasAgreedConsent() {
+        if (inMemoryConsent) return true;
+        try {
+          return localStorage.getItem(LEGAL_CONSENT_KEY) === "true";
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function setAgreedConsent() {
+        inMemoryConsent = true;
+        try {
+          localStorage.setItem(LEGAL_CONSENT_KEY, "true");
+          localStorage.setItem("palu_legal_consent_time", new Date().toISOString());
+        } catch (e) {
+          console.warn("Could not save legal consent to localStorage:", e);
+        }
+      }
 
       function setupWelcomeDashboard() {
         const overlay = document.getElementById("welcome-dashboard-overlay");
@@ -11621,28 +11636,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
         // Freeze map on initial load
         document.body.classList.add("map-frozen");
-      }
-
-      const LEGAL_CONSENT_KEY = "palu_legal_consent_v1";
-      let inMemoryConsent = false;
-
-      function hasAgreedConsent() {
-        if (inMemoryConsent) return true;
-        try {
-          return localStorage.getItem(LEGAL_CONSENT_KEY) === "true";
-        } catch (e) {
-          return false;
-        }
-      }
-
-      function setAgreedConsent() {
-        inMemoryConsent = true;
-        try {
-          localStorage.setItem(LEGAL_CONSENT_KEY, "true");
-          localStorage.setItem("palu_legal_consent_time", new Date().toISOString());
-        } catch (e) {
-          console.warn("Could not save legal consent to localStorage:", e);
-        }
       }
 
       function setupDisclaimerModal() {
@@ -11776,6 +11769,21 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           });
         }
       }
+
+      // --- Inisialisasi Aplikasi Terpadu ---
+      updateClock();
+      setupModeSwitcher();
+      setupCulinaryControls();
+      setupPrintingControls();
+      setupHardwareControls();
+      setupRtrwControls();
+      setupContourControls();
+      setupSearchBar();
+      setupMyLocation();
+      setupShareModal();
+      setupWelcomeDashboard();
+      setupDisclaimerModal();
+
       initialLoadSchedule();
       startServerStatusPolling(true);
       setInterval(() => {
