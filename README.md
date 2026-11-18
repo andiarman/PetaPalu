@@ -1,134 +1,109 @@
-# ⚡ Peta Jadwal Pemadaman Listrik Palu
+# 🗺️ Peta Palu — Platform Pemetaan Terpadu Kota Palu
 
 <p align="center">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/Lisensi-MIT-blue.svg?style=for-the-badge" alt="Lisensi MIT" />
   </a>
-  <a href="https://andiarman.github.io/Pemadamanlistrikkotapalu/">
-    <img src="https://img.shields.io/badge/🌐_BUKA_PETA_PEMADAMAN-KLIK_DI_SINI-e11d48?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Website Peta" />
+  <a href="https://andiarman.github.io/PetaPalu/">
+    <img src="https://img.shields.io/badge/🌐_BUKA_PETA_PALU-KLIK_DI_SINI-0284c7?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Website Peta Palu" />
   </a>
-  <a href="https://andiarman.github.io/Pemadamanlistrikkotapalu/">
+  <a href="https://andiarman.github.io/PetaPalu/">
     <img src="https://img.shields.io/badge/Status-Live_GitHub_Pages-22c55e?style=for-the-badge&logo=githubpages&logoColor=white" alt="Status GitHub Pages" />
   </a>
-  <a href="https://www.threads.net/@andiarman___">
+  <a href="https://www.threads.com/@andiarman___">
     <img src="https://img.shields.io/badge/Threads-@andiarman___-000000?style=for-the-badge&logo=threads&logoColor=white" alt="Threads Profile" />
   </a>
-  <a href="https://andiarman.github.io/Pemadamanlistrikkotapalu/">
-    <img src="https://img.shields.io/badge/Waktu-WITA_(UTC%2B8)-facc15?style=for-the-badge&logo=clock&logoColor=black" alt="Zona Waktu WITA" />
+  <a href="https://andiarman.github.io/PetaPalu/">
+    <img src="https://img.shields.io/badge/Zona_Waktu-WITA_(UTC%2B8)-facc15?style=for-the-badge&logo=clock&logoColor=black" alt="Zona Waktu WITA" />
   </a>
 </p>
 
 <p align="center">
-  <b>Aplikasi peta interaktif jadwal pemadaman listrik di Sulawesi Tengah (Kota Palu dan sekitarnya).</b><br>
-  Memetakan ribuan titik jalan dan fasilitas umum terdampak pemadaman berdasarkan flyer resmi PLN secara real-time.
+  <b>Platform peta interaktif terpadu untuk masyarakat Kota Palu dan Sulawesi Tengah.</b><br>
+  Menyajikan informasi pemadaman listrik PLN secara langsung, direktori jujur 975+ coffeeshop & resto tanpa rating bias, 220+ layanan percetakan & fotocopy, serta rencana tata ruang wilayah (RTRW).
 </p>
 
 ---
 
-## 🎯 Tombol Cepat & Tautan Utama
+## 🎯 Navigasi Cepat
 
-| Tombol Navigasi | Deskripsi |
+| Tautan Langsung | Keterangan |
 | :--- | :--- |
-| 👉 [**Buka Website Peta Langsung**](https://andiarman.github.io/Pemadamanlistrikkotapalu/) | Akses visual peta real-time, filter sesi, dan hitung mundur status |
-| 📁 [**Lihat Data Jadwal Hari Ini**](./data/) | File JSON jadwal resmi harian (`data/YYYY-MM-DD.json`) |
-| 💬 [**Hubungi via Threads**](https://www.threads.net/@andiarman___) | Saran, masukan, dan pembaruan seputar peta |
+| 🌐 [**Website Resmi Peta Palu**](https://andiarman.github.io/PetaPalu/) | Akses seluruh layanan peta secara online |
+| ⚡ [**Peta Pemadaman Listrik**](https://andiarman.github.io/PetaPalu/?mode=outage) | Monitoring jadwal dan wilayah pemadaman PLN Sulteng |
+| ☕ [**Peta Coffeeshop & Resto**](https://andiarman.github.io/PetaPalu/?mode=culinary) | Peta kuliner tanpa rating, jam operasional live, dan filter brand |
+| 🖨️ [**Peta Fotocopy & Percetakan**](https://andiarman.github.io/PetaPalu/?mode=printing) | Direktori 220+ tempat fotocopy, digital printing, 3D print & jilid |
+| 🏛️ [**Peta RTRW Kota Palu**](https://andiarman.github.io/PetaPalu/?mode=rtrw) | Rencana Tata Ruang Wilayah 2021–2041 (Perda No. 2/2021) |
+| 💬 [**Threads Pengembang**](https://www.threads.com/@andiarman___) | Komunikasi, saran fitur, dan update seputar Kota Palu |
 
 ---
 
-## 📍 Panduan Kategori & Simbol Peta
+## 🗺️ Layanan & Mode Peta
 
-Status setiap titik lokasi dihitung otomatis menurut waktu lokal **WITA** dan dibedakan dengan bentuk visual serta warna kontras tinggi:
+### 1. ⚡ Peta Pemadaman Listrik PLN Sulteng
+- **Real-Time Monitoring**: Menghitung waktu lokal **WITA** untuk menentukan status pemadaman:
+  - 🛑 **Sedang Padam**: Warna merah dengan bar durasi pemadaman yang sedang berjalan.
+  - ⚠️ **Akan Padam**: Warna oranye dengan waktu hitung mundur menuju pemadaman.
+  - 🟢 **Sudah Menyala**: Warna hijau semi-transparan untuk lokasi yang telah selesai masa pemadamannya.
+- **Saring Menurut Sesi**: Kemudahan memfilter wilayah berdasarkan sesi jadwal padam (Sesi I – X).
+- **Cek Rumah Saya (GPS)**: Deteksi otomatis apakah koordinat posisi pengguna berada di dalam area pemadaman.
 
-| Simbol | Kategori Status | Arti & Ciri Khas Visual |
-| :---: | :--- | :--- |
-| 🛑 | **Sedang Padam** | **Oktagon merah** dengan tanda **✕** (disertai efek denyut cahaya pada desktop). |
-| ⚠️ | **Akan Padam** | **Segitiga kuning** dengan ikon **jam 🕒** + **Badge Jam Mulai (misal: 13.00)** di sisi kanan sesuai waktu jadwal pemadaman. |
-| ✅ | **Sudah Menyala** | **Lingkaran hijau** dengan tanda **✓** (tampil semi-transparan agar titik yang masih padam lebih menonjol). |
+### 2. ☕ Peta Coffeeshop & Resto Palu (Peta Jujur Tanpa Rating)
+- **Prinsip Universal & Setara**: Menampilkan **975+ titik kuliner** di Kota Palu tanpa indikator rating bintang, review, atau algoritma popularitas. Semua usaha lokal memiliki kesempatan tampil setara di pencarian.
+- **Filter Jam Buka Live**:
+  - 🟢 *Buka Sekarang*: Menghitung jam buka hari ini secara real-time menurut waktu WITA.
+  - ⚡ *Buka 24 Jam*: Tempat makan dan kedai yang buka nonstop.
+  - ⏰ *Jam Tertentu*: Tempat dengan jam operasional khusus.
+- **Filter Brand & Franchise**: Pencarian terisolasi untuk jaringan kedai populer (Sin Coffee, Kopi Arobi, Janji Jiwa, Kopi Kenangan, dll.) maupun UMKM independen.
+- **Thermal Heatmap**: Visualisasi peta panas sebaran kepadatan coffeeshop dan resto di setiap sudut Kota Palu.
+- **Formulir Pendaftaran Usaha**: Pengguna dan pemilik usaha dapat mendaftarkan kedai/restonya secara mandiri dengan penanda koordinat interaktif.
 
-> [!NOTE]
-> Titik pada peta merupakan representasi lokasi hasil geocoding nama jalan/tempat dari OpenStreetMap, bukan jaringan kabel fisik PLN. Garis area putus-putus merupakan perkiraan kluster terdekat.
+### 3. 🖨️ Peta Fotocopy & Percetakan Palu
+- **Direktori 220+ Titik**: Memetakan penyedia jasa percetakan dokumen, fotocopy kilat, digital printing spanduk/banner, 3D printing, hingga penjilidan skripsi/buku di Kota Palu.
+- **Kategori Layanan**: Filter cepat menurut jenis kebutuhan: *Fotocopy & ATK*, *Digital Printing*, *3D Print*, dan *Jilid*.
+- **Heatmap Percetakan**: Peta panas kepadatan sentra percetakan untuk mempermudah pelajar, mahasiswa, dan masyarakat menemukan layanan cetak terdekat.
 
----
-
-## ✨ Fitur Interaktif
-
-<details open>
-<summary><b>🔍 1. Filter Instan Multi-Dimensi (Status & Sesi)</b></summary>
-<br>
-
-- **Filter Status**: Klik tombol **Semua**, **Padam**, **Akan Padam**, atau **Menyala** di panel legenda untuk menyaring tampilan seketika tanpa memuat ulang peta.
-- **Filter Sesi (I – X)**: Jika jadwal memiliki lebih dari 1 sesi, panel filter sesi otomatis muncul (misal: Sesi I `09.00`, Sesi II `13.00`, dst.). Anda dapat mengisolasi satu sesi atau menggabungkannya dengan filter status.
-- **Performa 0ms**: Filter dijalankan melalui atribut dataset CSS murni, sehingga pergantian tampilan ratusan titik berlangsung instan bahkan di perangkat ponsel hemat daya.
-</details>
-
-<details open>
-<summary><b>⏱️ 2. Tooltip & Hitung Mundur Real-Time</b></summary>
-<br>
-
-- **Hover / Sentuh Titik**: Menampilkan kartu ringkas berisi nama jalan dan sisa waktu menuju padam/menyala.
-- **Klik Marker**: Membuka popup lengkap yang memuat nama ULP, rentang jam WITA, alamat spesifik, serta status hitung mundur detik demi detik.
-</details>
-
-<details>
-<summary><b>📱 3. Antarmuka Responsif (Desktop & Mobile)</b></summary>
-<br>
-
-- **Layar Ponsel**: Header dan panel filter tersusun sebagai kartu mengambang ramping. Efek bayangan berat dan animasi denyut dimatikan otomatis pada layar sentuh demi kehalusan *pan* dan *zoom*.
-- **Layar Desktop**: Panel kontrol 4 kolom yang lapang, tombol akses log aktivitas, dan dialog impor AI.
-</details>
-
-<details>
-<summary><b>🤖 4. Alur Impor Flyer dengan AI</b></summary>
-<br>
-
-1. Tekan tombol **+ Impor hasil AI** pada header peta (mode desktop).
-2. Salin *prompt* sistem yang disediakan, lalu unggah foto flyer pemadaman PLN ke Gemini atau AI pilihan Anda.
-3. Tempel hasil JSON ke kotak dialog impor.
-4. Sistem memvalidasi skema data (`schema_version: 1`), lalu mengirimkannya ke Cloudflare Worker untuk disimpan ke GitHub repo (`data/YYYY-MM-DD.json`).
-5. Geocoder melakukan pencocokan bertingkat:
-   - **Indeks Lokal OpenStreetMap**: Normalisasi nama jalan, singkatan (`Tg.`, `Jl.`, `M.`, `GN`), dan variasi ejaan secara offline.
-   - **Nominatim Terbatas**: Pencarian cadangan berjarak untuk nama yang belum terindeks.
-</details>
+### 4. 🏛️ Peta Rencana Tata Ruang Wilayah (RTRW)
+- Layer visualisasi resmi pola ruang dan struktur ruang Kota Palu 2021–2041 sesuai amanat **Peraturan Daerah (Perda) Kota Palu No. 2 Tahun 2021**.
 
 ---
 
-## 🛠️ Pengembangan & Deployment
+## 💻 Dashboard Awal (Welcome Experience)
 
-<details>
-<summary><b>💻 Menjalankan Secara Lokal</b></summary>
-<br>
+Saat pertama kali membuka website:
+- Background peta Kota Palu ditampilkan dalam kondisi **freeze** (latar kabur/dimming artistik).
+- Muncul kartu pop-up **Peta Palu** yang memuat kartu icon dari setiap proyek layanan kota.
+- Pengguna dapat langsung memilih layanan yang diinginkan untuk membuka peta secara instan, atau mengeklik *"Langsung Jelajahi Peta"*.
+- Dashboard ini dapat dibuka kembali kapan saja melalui header judul atau menu dropdown.
 
-Repositori ini adalah situs statis GitHub Pages murni (tanpa build step):
+---
 
-```powershell
-# Cukup buka index.html di browser atau gunakan server statis lokal
+## 🛠️ Arsitektur & Teknologi
+
+- **Frontend**: Single Page Application (SPA) murni dengan performa ultra-ringan tanpa *framework overhead*.
+- **Mapping Engine**: [Leaflet.js](https://leafletjs.com/), [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster), [Leaflet.heat](https://github.com/Leaflet/Leaflet.heat).
+- **Desain & Gaya**: Glassmorphism gelap responsif, optimal pada ponsel pintar (360px) hingga monitor layar lebar.
+- **Sumber Data Terbuka**: OpenStreetMap, batas administrasi kelurahan/kabupaten Sulawesi Tengah, dan integrasi Google Maps navigasi.
+- **Hosting & CI/CD**: Otomatisasi GitHub Actions melalui [.github/workflows/deploy.yml](.github/workflows/deploy.yml) dan hosting di GitHub Pages.
+
+---
+
+## 🚀 Menjalankan Proyek Secara Lokal
+
+```bash
+# 1. Clone repository
+git clone https://github.com/andiarman/PetaPalu.git
+cd PetaPalu
+
+# 2. Jalankan server lokal sederhana
 npx serve .
+# Atau cukup buka index.html langsung di browser Anda
 ```
-
-Leaflet dan dependensi telah dibundel secara lokal di `vendor/leaflet/`.
-
-Untuk repositori backend Worker (`outage-map-app`):
-```powershell
-npm install
-npm run typecheck
-npm run dev
-```
-</details>
-
-<details>
-<summary><b>🚀 Otomatisasi GitHub Actions</b></summary>
-<br>
-
-Setiap `git push` ke cabang `main` akan memicu workflow [.github/workflows/deploy.yml](.github/workflows/deploy.yml) yang secara otomatis memublikasikan versi terbaru ke GitHub Pages.
-</details>
 
 ---
 
-<p align="center">
-  <a href="https://andiarman.github.io/Pemadamanlistrikkotapalu/">
-    <img src="https://img.shields.io/badge/⚡_Buka_Peta_Sekarang-Klik_Tautan_Ini-0284c7?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Peta Sekarang" />
-  </a>
-</p>
-<p align="center">
-  Dikelola oleh <a href="https://github.com/andiarman"><b>@andiarman</b></a> · Lisensi <a href="LICENSE">MIT</a> · Menggunakan data terbuka <a href="https://www.openstreetmap.org">OpenStreetMap</a>
-</p>
+## 📄 Lisensi
+
+Proyek ini dirilis di bawah lisensi terbuka [MIT License](LICENSE).
+
+Hak Cipta © 2026 **Andi Arman** ([@andiarman](https://github.com/andiarman)).
