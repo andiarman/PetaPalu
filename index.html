@@ -101,6 +101,11 @@
         background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 55%, #4f46e5 100%);
         box-shadow: 0 4px 14px rgba(139, 92, 246, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
       }
+      .brand-icon.mode-facility,
+      .brand-icon.mode-spbu_ibadah {
+        background: linear-gradient(135deg, #059669 0%, #10b981 55%, #047857 100%);
+        box-shadow: 0 4px 14px rgba(16, 185, 129, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
+      }
       .brand-icon.mode-contour {
         background: linear-gradient(135deg, #059669 0%, #0d9488 55%, #0284c7 100%);
         box-shadow: 0 4px 14px rgba(13, 148, 136, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
@@ -242,6 +247,17 @@
         box-shadow: 0 2px 8px rgba(139, 92, 246, .35);
       }
       .mode-badge-icon.hardware svg {
+        width: 17px;
+        height: 17px;
+      }
+      .mode-badge-icon.facility,
+      .mode-badge-icon.spbu_ibadah {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, .35);
+      }
+      .mode-badge-icon.facility svg,
+      .mode-badge-icon.spbu_ibadah svg {
         width: 17px;
         height: 17px;
       }
@@ -507,7 +523,10 @@
       }
       
       /* Badge Marker Kuliner dengan Nama Tempat Langsung */
-      .culinary-marker-icon {
+      .culinary-marker-icon,
+      .printing-marker-icon,
+      .hardware-marker-icon,
+      .facility-marker-icon {
         width: auto !important;
         height: auto !important;
         margin-left: 0 !important;
@@ -517,7 +536,8 @@
       }
       .culinary-marker-icon .map-badge-marker,
       .printing-marker-icon .map-badge-marker,
-      .hardware-marker-icon .map-badge-marker {
+      .hardware-marker-icon .map-badge-marker,
+      .facility-marker-icon .map-badge-marker {
         min-width: 50px;
         max-width: 240px;
         width: max-content;
@@ -531,13 +551,15 @@
       }
       .culinary-marker-icon .map-badge-marker:hover,
       .printing-marker-icon .map-badge-marker:hover,
-      .hardware-marker-icon .map-badge-marker:hover {
+      .hardware-marker-icon .map-badge-marker:hover,
+      .facility-marker-icon .map-badge-marker:hover {
         max-width: 320px;
         z-index: 9999;
       }
       .culinary-marker-icon .badge-row,
       .printing-marker-icon .badge-row,
-      .hardware-marker-icon .badge-row {
+      .hardware-marker-icon .badge-row,
+      .facility-marker-icon .badge-row {
         display: flex;
         align-items: center;
         gap: .32rem;
@@ -545,7 +567,8 @@
       }
       .culinary-marker-icon .badge-time-text,
       .printing-marker-icon .badge-time-text,
-      .hardware-marker-icon .badge-time-text {
+      .hardware-marker-icon .badge-time-text,
+      .facility-marker-icon .badge-time-text {
         max-width: 205px;
         white-space: nowrap;
         overflow: hidden;
@@ -558,12 +581,14 @@
       }
       .culinary-marker-icon .map-badge-marker:hover .badge-time-text,
       .printing-marker-icon .map-badge-marker:hover .badge-time-text,
-      .hardware-marker-icon .map-badge-marker:hover .badge-time-text {
+      .hardware-marker-icon .map-badge-marker:hover .badge-time-text,
+      .facility-marker-icon .map-badge-marker:hover .badge-time-text {
         max-width: 285px;
       }
       .culinary-marker-icon .badge-glyph,
       .printing-marker-icon .badge-glyph,
-      .hardware-marker-icon .badge-glyph {
+      .hardware-marker-icon .badge-glyph,
+      .facility-marker-icon .badge-glyph {
         flex: 0 0 auto;
         display: inline-flex;
         align-items: center;
@@ -1018,6 +1043,140 @@
         border: 2px solid #6366f1;
         color: #c7d2fe;
         box-shadow: 0 0 12px rgba(99, 102, 241, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+
+      /* SPBU & Seluruh Tempat Ibadah Palu (spbu_ibadah) */
+      body:not([data-app-mode="spbu_ibadah"]) .facility-only-ui {
+        display: none !important;
+      }
+      #facility-legend {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      @media (min-width: 621px) and (max-width: 980px) {
+        #facility-legend {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          width: min(780px, calc(100vw - 80px));
+        }
+      }
+      @media (max-width: 620px) {
+        #facility-legend {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      #facility-legend .legend-item[data-cat="spbu"][aria-pressed="true"] {
+        border-color: rgba(16, 185, 129, .85);
+        background: rgba(16, 185, 129, .18);
+        color: #a7f3d0;
+        box-shadow: 0 0 14px rgba(16, 185, 129, .3);
+      }
+      #facility-legend .legend-item[data-cat="pertashop"][aria-pressed="true"] {
+        border-color: rgba(20, 184, 166, .85);
+        background: rgba(20, 184, 166, .18);
+        color: #99f6e4;
+        box-shadow: 0 0 14px rgba(20, 184, 166, .3);
+      }
+      #facility-legend .legend-item[data-cat="masjid"][aria-pressed="true"] {
+        border-color: rgba(34, 197, 94, .85);
+        background: rgba(34, 197, 94, .18);
+        color: #bbf7d0;
+        box-shadow: 0 0 14px rgba(34, 197, 94, .3);
+      }
+      #facility-legend .legend-item[data-cat="gereja"][aria-pressed="true"] {
+        border-color: rgba(56, 189, 248, .85);
+        background: rgba(56, 189, 248, .18);
+        color: #bae6fd;
+        box-shadow: 0 0 14px rgba(56, 189, 248, .3);
+      }
+      #facility-legend .legend-item[data-cat="pura"][aria-pressed="true"] {
+        border-color: rgba(245, 158, 11, .85);
+        background: rgba(245, 158, 11, .18);
+        color: #fde68a;
+        box-shadow: 0 0 14px rgba(245, 158, 11, .3);
+      }
+      #facility-legend .legend-item[data-cat="vihara"][aria-pressed="true"] {
+        border-color: rgba(244, 63, 94, .85);
+        background: rgba(244, 63, 94, .18);
+        color: #fecdd3;
+        box-shadow: 0 0 14px rgba(244, 63, 94, .3);
+      }
+
+      .map-badge-marker.status-spbu {
+        border: 1px solid #10b981;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-spbu .badge-glyph { color: #6ee7b7; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-spbu .badge-time-text { color: #ecfdf5; }
+      .map-badge-marker.status-spbu .badge-bar-fill { background: linear-gradient(90deg, #10b981, #34d399); }
+
+      .map-badge-marker.status-pertashop {
+        border: 1px solid #14b8a6;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-pertashop .badge-glyph { color: #5eead4; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-pertashop .badge-time-text { color: #f0fdfa; }
+      .map-badge-marker.status-pertashop .badge-bar-fill { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+
+      .map-badge-marker.status-masjid {
+        border: 1px solid #22c55e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-masjid .badge-glyph { color: #86efac; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-masjid .badge-time-text { color: #f0fdf4; }
+      .map-badge-marker.status-masjid .badge-bar-fill { background: linear-gradient(90deg, #22c55e, #4ade80); }
+
+      .map-badge-marker.status-gereja {
+        border: 1px solid #0284c7;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-gereja .badge-glyph { color: #38bdf8; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-gereja .badge-time-text { color: #e0f2fe; }
+      .map-badge-marker.status-gereja .badge-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+
+      .map-badge-marker.status-pura {
+        border: 1px solid #f59e0b;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-pura .badge-glyph { color: #fbbf24; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-pura .badge-time-text { color: #fef3c7; }
+      .map-badge-marker.status-pura .badge-bar-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+      .map-badge-marker.status-vihara {
+        border: 1px solid #f43f5e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-vihara .badge-glyph { color: #fb7185; font-size: 10px; line-height: 1; }
+      .map-badge-marker.status-vihara .badge-time-text { color: #ffe4e6; }
+      .map-badge-marker.status-vihara .badge-bar-fill { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+
+      .cluster-bubble.facility-spbu {
+        border: 2px solid #10b981;
+        color: #a7f3d0;
+        box-shadow: 0 0 12px rgba(16, 185, 129, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.facility-pertashop {
+        border: 2px solid #14b8a6;
+        color: #99f6e4;
+        box-shadow: 0 0 12px rgba(20, 184, 166, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.facility-masjid {
+        border: 2px solid #22c55e;
+        color: #bbf7d0;
+        box-shadow: 0 0 12px rgba(34, 197, 94, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.facility-gereja {
+        border: 2px solid #0284c7;
+        color: #bae6fd;
+        box-shadow: 0 0 12px rgba(2, 132, 199, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.facility-pura {
+        border: 2px solid #f59e0b;
+        color: #fef08a;
+        box-shadow: 0 0 12px rgba(245, 158, 11, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.facility-vihara {
+        border: 2px solid #f43f5e;
+        color: #fecdd3;
+        box-shadow: 0 0 12px rgba(244, 63, 94, .5), 0 3px 8px rgba(0, 0, 0, .5);
       }
 
       .culinary-legend {
@@ -3808,6 +3967,11 @@
         background: rgba(139, 92, 246, 0.08);
         box-shadow: 0 10px 28px rgba(139, 92, 246, 0.2);
       }
+      .welcome-card-item.item-facility:hover {
+        border-color: rgba(16, 185, 129, 0.6);
+        background: rgba(16, 185, 129, 0.08);
+        box-shadow: 0 10px 28px rgba(16, 185, 129, 0.2);
+      }
       .welcome-card-item.item-rtrw:hover {
         border-color: rgba(129, 140, 248, 0.6);
         background: rgba(129, 140, 248, 0.08);
@@ -3831,6 +3995,7 @@
       .icon-culinary { background: linear-gradient(135deg, #f97316, #c2410c); color: #fff; }
       .icon-printing { background: linear-gradient(135deg, #06b6d4, #0284c7); color: #fff; }
       .icon-hardware { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; }
+      .icon-facility { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
       .icon-rtrw { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
 
       .welcome-item-body {
@@ -4031,18 +4196,18 @@
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
 
-            <div class="mode-dropdown-header">Mode Perencanaan (Kosong)</div>
-
-            <button type="button" class="mode-dropdown-item" data-mode="empty-5" role="menuitem">
-              <span class="mode-badge-icon empty">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="4" stroke-dasharray="3 3"></rect>
-                  <text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor" stroke="none">5</text>
+            <button type="button" class="mode-dropdown-item" data-mode="spbu_ibadah" role="menuitem">
+              <span class="mode-badge-icon facility">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 22h12"></path>
+                  <path d="M4 9h10"></path>
+                  <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"></path>
+                  <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"></path>
                 </svg>
               </span>
               <div class="mode-item-text">
-                <span class="mode-item-title">Mode Kosong 5</span>
-                <span class="mode-item-subtitle">Slot perencanaan peta #5</span>
+                <span class="mode-item-title">Peta SPBU &amp; Tempat Ibadah Palu</span>
+                <span class="mode-item-subtitle">Pom Bensin, Masjid, Gereja, Pura &amp; Vihara</span>
               </div>
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
@@ -4146,6 +4311,7 @@
         <button id="open-submit-place" class="culinary-only-ui btn-submit-place" type="button" title="Daftarkan coffeeshop atau resto Anda ke peta">➕ Daftarkan Usaha</button>
         <button id="open-submit-print" class="printing-only-ui btn-submit-place" type="button" title="Daftarkan fotocopy atau percetakan Anda ke peta">➕ Daftarkan Usaha</button>
         <button id="open-submit-hardware" class="hardware-only-ui btn-submit-place" type="button" title="Daftarkan toko hardware atau servis Anda ke peta">➕ Daftarkan Usaha</button>
+        <button id="open-submit-facility" class="facility-only-ui btn-submit-place" type="button" title="Daftarkan SPBU atau tempat ibadah Anda ke peta">➕ Daftarkan Lokasi</button>
       </div>
     </header>
 
@@ -4554,6 +4720,114 @@
         </div>
       </div>
 
+      <!-- Legenda dan filter SPBU & Seluruh Tempat Ibadah Palu -->
+      <div id="facility-legend" class="map-legend facility-only-ui" aria-label="Legenda dan filter SPBU dan tempat ibadah">
+        <div class="legend-head">
+          <span class="legend-label">Filter SPBU &amp; Rumah Ibadah</span>
+          <div class="legend-head-actions">
+            <button type="button" id="facility-heat-toggle-btn" class="boundary-toggle-btn heat-toggle-btn" aria-pressed="false" title="Tampilkan/Sembunyikan heatmap sebaran SPBU &amp; tempat ibadah di Palu (Default: Nonaktif)">
+              <span class="boundary-btn-icon">🔥</span>
+              <span id="facility-heat-toggle-text"><span class="txt-full">Heatmap</span><span class="txt-short">Heat</span></span>
+            </button>
+            <button type="button" id="facility-boundary-toggle-btn" class="boundary-toggle-btn" aria-pressed="true" title="Tampilkan/Sembunyikan batas administrasi kelurahan">
+              <span class="boundary-btn-icon">🏛️</span>
+              <span id="facility-boundary-toggle-text"><span class="txt-full">Batas Kelurahan</span><span class="txt-short">Batas</span></span>
+            </button>
+            <button type="button" id="facility-add-btn" class="legend-toggle-btn" style="border-color:rgba(16,185,129,0.4); background:rgba(16,185,129,0.12); color:#a7f3d0;" title="Daftarkan SPBU atau tempat ibadah Anda">
+              <span>➕ <span class="txt-full">Daftarkan</span><span class="txt-short">Daftar</span></span>
+            </button>
+            <button type="button" id="facility-legend-toggle-btn" class="legend-toggle-btn" aria-label="Sembunyikan atau tampilkan filter" title="Sembunyikan/Tampilkan filter">
+              <span id="facility-legend-toggle-text" class="txt-full">Ciutkan</span>
+              <span id="facility-legend-toggle-icon" aria-hidden="true">▾</span>
+            </button>
+            <a
+              class="threads-link"
+              href="https://www.threads.com/@andiarman___"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Buka akun Threads @andiarman___ di tab baru"
+              title="Threads @andiarman___"
+            >
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
+              </svg>
+              <span>@andiarman___</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 1: Kategori Filter Utama -->
+        <button class="legend-item facility-cat-btn" type="button" data-cat="all" aria-pressed="true">
+          <i class="legend-icon legend-icon-all" aria-hidden="true"></i>
+          <span>Semua <b id="fac-count-all">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="spbu" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">⛽</i>
+          <span>SPBU Pertamina <b id="fac-count-spbu">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="pertashop" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🛢️</i>
+          <span>Pertashop <b id="fac-count-pertashop">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="masjid" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🕌</i>
+          <span>Masjid &amp; Musholla <b id="fac-count-masjid">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="gereja" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">⛪</i>
+          <span>Gereja <b id="fac-count-gereja">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="pura" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🛕</i>
+          <span>Pura Hindu <b id="fac-count-pura">0</b></span>
+        </button>
+        <button class="legend-item facility-cat-btn" type="button" data-cat="vihara" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🪷</i>
+          <span>Vihara &amp; Klenteng <b id="fac-count-vihara">0</b></span>
+        </button>
+
+        <!-- Row 2: Jam Buka -->
+        <div class="session-filter" id="facility-session-filter">
+          <span class="legend-label">Jam Buka</span>
+          <div class="session-list" id="facility-session-list" role="group" aria-label="Saring menurut jam operasional">
+            <button class="session-item facility-time-btn active" type="button" data-time="all" aria-pressed="true">
+              <b>Semua</b>
+            </button>
+            <button class="session-item facility-time-btn" type="button" data-time="open-now" aria-pressed="false">
+              <span>🟢 Buka Sekarang <b id="fac-chip-opennow" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item facility-time-btn" type="button" data-time="24h" aria-pressed="false">
+              <span>⚡ Buka 24 Jam <b id="fac-chip-24h" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item facility-time-btn" type="button" data-time="scheduled" aria-pressed="false">
+              <span>⏰ Jam Tertentu <b id="fac-chip-scheduled" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+          </div>
+        </div>
+
+        <span class="legend-note">⛽ Emerald = SPBU Pertamina · 🛢️ Teal = Pertashop · 🕌 Hijau = Masjid &amp; Musholla · ⛪ Biru = Gereja Kristen &amp; Katolik · 🛕 Amber = Pura Hindu · 🪷 Rose = Vihara &amp; Klenteng · 🟢 Hijau = Buka sekarang (Live WITA).</span>
+      </div>
+
+      <!-- Mini Floating Legend Heatmap Kepadatan SPBU & Tempat Ibadah -->
+      <div id="facility-heat-legend" class="culinary-heat-legend" style="display:none;" aria-label="Legenda Peta Panas Kepadatan SPBU dan Tempat Ibadah">
+        <div class="heat-legend-head">
+          <span style="color:#6ee7b7;">🔥 Sebaran SPBU &amp; Tempat Ibadah</span>
+          <span class="heat-legend-sub">Heatmap</span>
+        </div>
+        <div class="heat-legend-bar" style="background:linear-gradient(to right, #059669, #10b981, #38bdf8, #f59e0b, #ef4444);"></div>
+        <div class="heat-legend-labels">
+          <span>Rendah</span>
+          <span>Sedang</span>
+          <span>Padat</span>
+        </div>
+        <div class="heat-legend-toggle-row">
+          <button type="button" id="btn-toggle-fac-heat-markers" class="heat-marker-toggle-btn" aria-pressed="true" title="Sembunyikan atau tampilkan ikon titik saat melihat heatmap">
+            <span>📍</span>
+            <span id="text-toggle-fac-heat-markers">Ikon Titik: Aktif</span>
+          </button>
+        </div>
+      </div>
+
       <div id="rtrw-legend" class="rtrw-legend" aria-label="Legenda RTRW Kota Palu">
         <div class="rtrw-legend-head">
           <span>🏛️ RTRW Kota Palu (Perda 2/2021)</span>
@@ -4640,6 +4914,12 @@
                 <option value="servis_hp">📲 Servis HP & Smartphone</option>
                 <option value="servis_elektronik">🔧 Servis Elektronik & AC/TV</option>
                 <option value="official_service">🏢 Service Center Resmi Brand</option>
+                <option value="spbu">⛽ SPBU Pertamina</option>
+                <option value="pertashop">🛢️ Pertashop</option>
+                <option value="masjid">🕌 Masjid &amp; Musholla</option>
+                <option value="gereja">⛪ Gereja (Kristen/Katolik)</option>
+                <option value="pura">🛕 Pura Hindu</option>
+                <option value="vihara">🪷 Vihara &amp; Klenteng</option>
               </select>
             </div>
             <div class="submit-form-group">
@@ -4974,7 +5254,21 @@
             </div>
           </div>
 
-          <!-- 5. Peta RTRW Kota Palu -->
+          <!-- 5. Peta SPBU & Tempat Ibadah -->
+          <div class="welcome-card-item item-facility" data-choose-mode="spbu_ibadah" role="button" tabindex="0">
+            <div class="welcome-icon-box icon-facility">
+              <span>⛽</span>
+            </div>
+            <div class="welcome-item-body">
+              <div class="welcome-item-title-row">
+                <span class="welcome-item-title">SPBU &amp; Tempat Ibadah</span>
+                <span class="welcome-item-badge" style="color:#6ee7b7;">447 Titik</span>
+              </div>
+              <span class="welcome-item-desc">Pom bensin Pertamina, masjid, gereja, pura &amp; vihara se-Kota Palu.</span>
+            </div>
+          </div>
+
+          <!-- 6. Peta RTRW Kota Palu -->
           <div class="welcome-card-item item-rtrw" data-choose-mode="rtrw" role="button" tabindex="0">
             <div class="welcome-icon-box icon-rtrw">
               <span>🏛️</span>
@@ -5734,6 +6028,11 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
           if (titleEl) titleEl.textContent = "💻 Daftarkan Toko / Jasa Servis Anda";
           if (catSelect && !['komputer', 'hp', 'elektronik', 'servis_komputer', 'servis_hp', 'servis_elektronik', 'official_service'].includes(catSelect.value)) {
             catSelect.value = "komputer";
+          }
+        } else if (currentAppMode === "spbu_ibadah") {
+          if (titleEl) titleEl.textContent = "⛽ Daftarkan SPBU / Tempat Ibadah Anda";
+          if (catSelect && !['spbu', 'pertashop', 'masjid', 'gereja', 'pura', 'vihara'].includes(catSelect.value)) {
+            catSelect.value = "spbu";
           }
         } else {
           if (titleEl) titleEl.textContent = "☕ Daftarkan Coffeeshop / Resto Anda";
@@ -7043,6 +7342,516 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       }
 
       // ==========================================
+      // Mode 5: Peta SPBU & Tempat Ibadah Palu (Google Maps)
+      // ==========================================
+      const facilityLayers = {
+        allPlaces: [],
+        allMarkers: [],
+        clusterGroup: null,
+        loaded: false
+      };
+
+      const facilityFilterState = {
+        category: "all",
+        time: "all",
+        search: ""
+      };
+
+      let facilityHeatmapEnabled = false;
+      let facilityHeatmapLayer = null;
+      let facilityMarkersVisible = true;
+
+      function matchesFacilityFilter(p) {
+        if (!p) return false;
+
+        if (facilityFilterState.category !== "all") {
+          if (p.category !== facilityFilterState.category) return false;
+        }
+
+        if (facilityFilterState.time === "open-now") {
+          if (!isPlaceOpenNow(p)) return false;
+        } else if (facilityFilterState.time === "24h") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (!is24) return false;
+        } else if (facilityFilterState.time === "scheduled") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (is24) return false;
+        }
+
+        return true;
+      }
+
+      function buildFacilityBadgeHtml(p) {
+        const cat = p.category || "spbu";
+        let catClass = `status-${cat}`;
+        let barColor = "#10b981";
+        let glyphIcon = p.icon || "⛽";
+
+        if (cat === "pertashop") {
+          barColor = "#14b8a6";
+        } else if (cat === "masjid") {
+          barColor = "#22c55e";
+        } else if (cat === "gereja") {
+          barColor = "#0284c7";
+        } else if (cat === "pura") {
+          barColor = "#f59e0b";
+        } else if (cat === "vihara") {
+          barColor = "#f43f5e";
+        }
+
+        const labelText = p.name || p.categoryLabel;
+
+        return `
+          <div class="map-badge-marker ${catClass}" title="${escapeHtml(p.name)}: ${escapeHtml(p.address)}">
+            <div class="badge-row">
+              <span class="badge-glyph" aria-hidden="true" style="font-size:11px; line-height:1;">${glyphIcon}</span>
+              <span class="badge-time-text">${escapeHtml(labelText)}</span>
+            </div>
+            <div class="badge-bar-track" aria-hidden="true">
+              <div class="badge-bar-fill" style="width: 100%; background: ${barColor};"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function updateFacilityCounts() {
+        if (!facilityLayers.allPlaces || !facilityLayers.allPlaces.length) return;
+
+        let totalPlaces = facilityLayers.allPlaces.length;
+        let totalSpbu = 0;
+        let totalPertashop = 0;
+        let totalMasjid = 0;
+        let totalGereja = 0;
+        let totalPura = 0;
+        let totalVihara = 0;
+
+        let totalOpenNow = 0;
+        let total24h = 0;
+        let totalScheduled = 0;
+
+        for (const p of facilityLayers.allPlaces) {
+          if (p.category === "spbu") totalSpbu++;
+          else if (p.category === "pertashop") totalPertashop++;
+          else if (p.category === "masjid") totalMasjid++;
+          else if (p.category === "gereja") totalGereja++;
+          else if (p.category === "pura") totalPura++;
+          else if (p.category === "vihara") totalVihara++;
+
+          if (isPlaceOpenNow(p)) totalOpenNow++;
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (is24) total24h++;
+          else totalScheduled++;
+        }
+
+        const setTxt = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val;
+        };
+
+        setTxt("fac-count-all", totalPlaces);
+        setTxt("fac-count-spbu", totalSpbu);
+        setTxt("fac-count-pertashop", totalPertashop);
+        setTxt("fac-count-masjid", totalMasjid);
+        setTxt("fac-count-gereja", totalGereja);
+        setTxt("fac-count-pura", totalPura);
+        setTxt("fac-count-vihara", totalVihara);
+
+        setTxt("fac-chip-opennow", `(${totalOpenNow})`);
+        setTxt("fac-chip-24h", `(${total24h})`);
+        setTxt("fac-chip-scheduled", `(${totalScheduled})`);
+      }
+
+      function applyFacilityFilter() {
+        if (!facilityLayers.clusterGroup) return;
+
+        facilityLayers.clusterGroup.clearLayers();
+        const visible = facilityLayers.allMarkers.filter(m => matchesFacilityFilter(m.feature.properties));
+        facilityLayers.clusterGroup.addLayers(visible);
+        updateFacilityCounts();
+
+        if (facilityHeatmapEnabled) {
+          syncFacilityHeatmap();
+        }
+      }
+
+      async function loadFacilityLayers() {
+        if (facilityLayers.loaded) {
+          if (facilityLayers.clusterGroup && !map.hasLayer(facilityLayers.clusterGroup)) {
+            map.addLayer(facilityLayers.clusterGroup);
+            applyFacilityFilter();
+          }
+          if (facilityHeatmapEnabled) {
+            syncFacilityHeatmap();
+          }
+          return;
+        }
+
+        try {
+          const res = await fetch("data/places/palu-spbu-ibadah.json");
+          if (!res.ok) throw new Error("Gagal mengambil data SPBU & tempat ibadah Palu");
+          const places = await res.json();
+          facilityLayers.allPlaces = places;
+
+          if (typeof L.markerClusterGroup === "function") {
+            facilityLayers.clusterGroup = L.markerClusterGroup({
+              maxClusterRadius: 42,
+              spiderfyOnMaxZoom: true,
+              showCoverageOnHover: false,
+              zoomToBoundsOnClick: true,
+              disableClusteringAtZoom: 16,
+              animate: true,
+              animateAddingMarkers: false,
+              iconCreateFunction: (cluster) => {
+                const children = cluster.getAllChildMarkers();
+                let spbuCount = 0;
+                let pertashopCount = 0;
+                let masjidCount = 0;
+                let gerejaCount = 0;
+                let puraCount = 0;
+                let viharaCount = 0;
+                for (const m of children) {
+                  const cat = m.feature?.properties?.category;
+                  if (cat === "spbu") spbuCount++;
+                  else if (cat === "pertashop") pertashopCount++;
+                  else if (cat === "masjid") masjidCount++;
+                  else if (cat === "gereja") gerejaCount++;
+                  else if (cat === "pura") puraCount++;
+                  else if (cat === "vihara") viharaCount++;
+                }
+                let type = "facility-spbu";
+                const maxVal = Math.max(spbuCount, pertashopCount, masjidCount, gerejaCount, puraCount, viharaCount);
+                if (maxVal === masjidCount) type = "facility-masjid";
+                else if (maxVal === gerejaCount) type = "facility-gereja";
+                else if (maxVal === spbuCount) type = "facility-spbu";
+                else if (maxVal === pertashopCount) type = "facility-pertashop";
+                else if (maxVal === puraCount) type = "facility-pura";
+                else if (maxVal === viharaCount) type = "facility-vihara";
+
+                const count = cluster.getChildCount();
+                return L.divIcon({
+                  html: `<div class="cluster-bubble ${type}"><span>${count}</span></div>`,
+                  className: `custom-cluster-wrapper cluster-${type}`,
+                  iconSize: [36, 36],
+                  iconAnchor: [18, 18]
+                });
+              }
+            });
+          } else {
+            facilityLayers.clusterGroup = L.featureGroup();
+          }
+
+          const markers = [];
+
+          for (const p of places) {
+            const marker = L.marker([p.lat, p.lon], {
+              icon: L.divIcon({
+                className: `street-marker-icon facility-marker-icon`,
+                html: buildFacilityBadgeHtml(p),
+                iconSize: null
+              }),
+              keyboard: true
+            });
+
+            marker.feature = { properties: p };
+
+            marker.bindTooltip(`<b>${escapeHtml(p.name)}</b><br><small style="color:#94a3b8;">${escapeHtml(p.categoryLabel)} · 📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</small>`, {
+              permanent: false,
+              direction: "top",
+              className: "street-tooltip-shell",
+              offset: [0, -10]
+            });
+
+            const featuresHtml = (p.features && p.features.length > 0)
+              ? p.features.map(feat => `<span class="culinary-chip">${escapeHtml(feat)}</span>`).join("")
+              : "";
+            const gmapsUrl = p.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name + ' ' + p.address)}`;
+
+            // Jam Operasional & Status WITA
+            const is24h = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+            const hoursBadge = is24h
+              ? `<span style="background:rgba(16,185,129,0.2); color:#6ee7b7; font-weight:700; padding:1px 6px; border-radius:4px; font-size:0.68rem; border:1px solid rgba(16,185,129,0.35);">⚡ BUKA 24 JAM PENUH</span>`
+              : (p.operatingHours?.hoursText ? `<span><b>${escapeHtml(p.operatingHours.hoursText)} WITA</b></span>` : `<span>Jam operasional reguler</span>`);
+
+            const isOpen = isPlaceOpenNow(p);
+            const statusBadge = isOpen
+              ? `<span class="culinary-status-pill open">🟢 BUKA SEKARANG</span>`
+              : `<span class="culinary-status-pill closed">🔴 SEDANG TUTUP</span>`;
+
+            // No telepon jika ada
+            const phoneHtml = p.phone ? `
+              <div class="culinary-field-row">
+                <span class="culinary-field-icon">📞</span>
+                <div class="culinary-field-content">
+                  <span class="culinary-field-label">Kontak / Telepon</span>
+                  <div class="culinary-field-val"><a href="tel:${escapeHtml(p.phone)}" style="color:#38bdf8; text-decoration:none; font-weight:600;">${escapeHtml(p.phone)}</a></div>
+                </div>
+              </div>
+            ` : '';
+
+            marker.bindPopup(`
+              <div class="culinary-popup">
+                <div class="culinary-popup-header">
+                  <div class="culinary-popup-title">${p.icon || '⛽'} ${escapeHtml(p.name)}</div>
+                </div>
+
+                <div class="culinary-popup-badges">
+                  <span class="culinary-badge-cat" style="background:rgba(16,185,129,0.16); color:#a7f3d0; border-color:rgba(16,185,129,0.35);">
+                    ${escapeHtml(p.categoryLabel)}
+                  </span>
+                  <span class="culinary-tag-local">
+                    <span>📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</span>
+                  </span>
+                </div>
+
+                <div class="culinary-popup-fields">
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">📍</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Alamat Lengkap</span>
+                      <div class="culinary-field-val">${escapeHtml(p.address)}</div>
+                    </div>
+                  </div>
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">⏰</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Jam Operasional (WITA)</span>
+                      <div class="culinary-field-val" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:2px;">
+                        ${hoursBadge}
+                        ${statusBadge}
+                      </div>
+                    </div>
+                  </div>
+
+                  ${phoneHtml}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">ℹ️</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Info Fasilitas</span>
+                      <div class="culinary-field-val" style="color:#6ee7b7; font-weight:600;">${escapeHtml(p.priceRange || 'Terbuka Untuk Umum')}</div>
+                    </div>
+                  </div>
+
+                  ${featuresHtml ? `
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">✨</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Fasilitas &amp; Layanan</span>
+                      <div class="culinary-features" style="margin-top:3px;">
+                        ${featuresHtml}
+                      </div>
+                    </div>
+                  </div>
+                  ` : ''}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">🧭</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Koordinat Presisi</span>
+                      <div class="culinary-field-val" style="font-family:monospace; font-size:0.75rem; color:#94a3b8;">${Number(p.lat).toFixed(5)}, ${Number(p.lon).toFixed(5)}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="culinary-popup-actions">
+                  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="culinary-btn-route">
+                    <span>🗺️ Buka di Google Maps</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+              </div>
+            `, {
+              maxWidth: 340,
+              minWidth: 260,
+              className: "culinary-popup-wrapper"
+            });
+
+            markers.push(marker);
+          }
+
+          facilityLayers.allMarkers = markers;
+          updateFacilityCounts();
+
+          if (currentAppMode === "spbu_ibadah") {
+            applyFacilityFilter();
+            map.addLayer(facilityLayers.clusterGroup);
+          }
+          facilityLayers.loaded = true;
+
+          if (facilityHeatmapEnabled) {
+            syncFacilityHeatmap();
+          }
+        } catch (err) {
+          console.error("Gagal memuat data SPBU & tempat ibadah Palu:", err);
+        }
+      }
+
+      function hideFacilityLayers() {
+        if (facilityLayers.clusterGroup && map.hasLayer(facilityLayers.clusterGroup)) {
+          map.removeLayer(facilityLayers.clusterGroup);
+        }
+        if (facilityHeatmapLayer && map.hasLayer(facilityHeatmapLayer)) {
+          map.removeLayer(facilityHeatmapLayer);
+        }
+        const heatLegend = document.getElementById("facility-heat-legend");
+        if (heatLegend) heatLegend.style.display = "none";
+      }
+
+      function syncFacilityHeatmap() {
+        if (!facilityHeatmapEnabled) {
+          if (facilityHeatmapLayer && map.hasLayer(facilityHeatmapLayer)) {
+            map.removeLayer(facilityHeatmapLayer);
+          }
+          return;
+        }
+
+        if (!facilityLayers.allPlaces || !facilityLayers.allPlaces.length) return;
+
+        const activePlaces = facilityLayers.allPlaces.filter(matchesFacilityFilter);
+        const heatPoints = activePlaces.map((p) => {
+          let weight = 1.0;
+          if (p.category === "spbu") weight = 1.4;
+          else if (p.category === "masjid") weight = 1.1;
+          else if (p.category === "gereja") weight = 1.2;
+          return [p.lat, p.lon, weight];
+        });
+
+        if (facilityHeatmapLayer && map.hasLayer(facilityHeatmapLayer)) {
+          map.removeLayer(facilityHeatmapLayer);
+        }
+
+        if (typeof L.heatLayer === "function") {
+          facilityHeatmapLayer = L.heatLayer(heatPoints, {
+            radius: 28,
+            blur: 20,
+            maxZoom: 16,
+            max: 2.0,
+            gradient: {
+              0.2: "#059669",
+              0.4: "#10b981",
+              0.6: "#38bdf8",
+              0.8: "#f59e0b",
+              1.0: "#ef4444"
+            }
+          });
+          map.addLayer(facilityHeatmapLayer);
+        }
+      }
+
+      function toggleFacilityHeatmap() {
+        facilityHeatmapEnabled = !facilityHeatmapEnabled;
+        const btn = document.getElementById("facility-heat-toggle-btn");
+        const txt = document.getElementById("facility-heat-toggle-text");
+        const heatLegend = document.getElementById("facility-heat-legend");
+
+        if (btn) btn.setAttribute("aria-pressed", facilityHeatmapEnabled ? "true" : "false");
+        if (txt) {
+          txt.innerHTML = facilityHeatmapEnabled
+            ? `<span class="txt-full">Heatmap Aktif</span><span class="txt-short">Heat On</span>`
+            : `<span class="txt-full">Heatmap</span><span class="txt-short">Heat</span>`;
+        }
+
+        if (heatLegend) {
+          heatLegend.style.display = facilityHeatmapEnabled ? "block" : "none";
+        }
+
+        syncFacilityHeatmap();
+      }
+
+      function toggleFacilityMarkers() {
+        facilityMarkersVisible = !facilityMarkersVisible;
+        const btn = document.getElementById("btn-toggle-fac-heat-markers");
+        const txt = document.getElementById("text-toggle-fac-heat-markers");
+        if (btn) btn.setAttribute("aria-pressed", facilityMarkersVisible ? "true" : "false");
+        if (txt) txt.textContent = facilityMarkersVisible ? "Ikon Titik: Aktif" : "Ikon Titik: Tersembunyi";
+
+        if (facilityLayers.clusterGroup) {
+          if (facilityMarkersVisible) {
+            if (!map.hasLayer(facilityLayers.clusterGroup)) map.addLayer(facilityLayers.clusterGroup);
+          } else {
+            if (map.hasLayer(facilityLayers.clusterGroup)) map.removeLayer(facilityLayers.clusterGroup);
+          }
+        }
+      }
+
+      function setupFacilityControls() {
+        // 1. Kategori Buttons
+        const catBtns = document.querySelectorAll(".facility-cat-btn");
+        catBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            catBtns.forEach(b => b.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            facilityFilterState.category = btn.dataset.cat || "all";
+            applyFacilityFilter();
+          });
+        });
+
+        // 2. Jam Buka Buttons
+        const timeBtns = document.querySelectorAll(".facility-time-btn");
+        timeBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            timeBtns.forEach(b => {
+              b.setAttribute("aria-pressed", "false");
+              b.classList.remove("active");
+            });
+            btn.setAttribute("aria-pressed", "true");
+            btn.classList.add("active");
+            facilityFilterState.time = btn.dataset.time || "all";
+            applyFacilityFilter();
+          });
+        });
+
+        // 3. Heatmap Toggle
+        const facHeatBtn = document.getElementById("facility-heat-toggle-btn");
+        if (facHeatBtn) {
+          facHeatBtn.addEventListener("click", toggleFacilityHeatmap);
+        }
+
+        const facHeatMarkerBtn = document.getElementById("btn-toggle-fac-heat-markers");
+        if (facHeatMarkerBtn) {
+          facHeatMarkerBtn.addEventListener("click", toggleFacilityMarkers);
+        }
+
+        // 4. Batas Kelurahan Toggle
+        const boundaryBtn = document.getElementById("facility-boundary-toggle-btn");
+        if (boundaryBtn) {
+          boundaryBtn.addEventListener("click", () => {
+            isBoundaryActive = !isBoundaryActive;
+            boundaryBtn.setAttribute("aria-pressed", isBoundaryActive ? "true" : "false");
+            const txt = document.getElementById("facility-boundary-toggle-text");
+            if (txt) txt.textContent = isBoundaryActive ? "Batas Kelurahan" : "Batas: Nonaktif";
+            for (const layer of boundaryLayersByRegency.values()) {
+              if (isBoundaryActive) {
+                if (!map.hasLayer(layer)) map.addLayer(layer);
+              } else {
+                if (map.hasLayer(layer)) map.removeLayer(layer);
+              }
+            }
+          });
+        }
+
+        // 5. Daftarkan Lokasi Button
+        const addBtn1 = document.getElementById("facility-add-btn");
+        const addBtn2 = document.getElementById("open-submit-facility");
+        if (addBtn1) addBtn1.addEventListener("click", openSubmitModal);
+        if (addBtn2) addBtn2.addEventListener("click", openSubmitModal);
+
+        // 6. Collapse Toggle
+        const toggleBtn = document.getElementById("facility-legend-toggle-btn");
+        const panel = document.getElementById("facility-legend");
+        if (toggleBtn && panel) {
+          toggleBtn.addEventListener("click", () => {
+            const isCol = panel.classList.toggle("is-collapsed");
+            const txt = document.getElementById("facility-legend-toggle-text");
+            if (txt) txt.textContent = isCol ? "Buka" : "Ciutkan";
+            if (typeof syncLegendHeight === "function") syncLegendHeight();
+          });
+          stopMapEventInterference(panel);
+        }
+      }
+
+      // ==========================================
       // Mode RTRW Kota Palu 2021-2041 (Perda 2/2021)
       // ==========================================
       const rtrwLayers = {
@@ -7814,6 +8623,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideCulinaryLayers();
             hidePrintingLayers();
             hideHardwareLayers();
+            hideFacilityLayers();
             hideRtrwLayers();
             hideContourLayers();
             modeBtn.className = "brand-icon mode-selector-btn mode-outage";
@@ -7828,6 +8638,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           } else if (mode === "culinary") {
             hidePrintingLayers();
             hideHardwareLayers();
+            hideFacilityLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -7866,6 +8677,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           } else if (mode === "printing" || mode === "contour") {
             hideCulinaryLayers();
             hideHardwareLayers();
+            hideFacilityLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -7902,6 +8714,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           } else if (mode === "hardware") {
             hideCulinaryLayers();
             hidePrintingLayers();
+            hideFacilityLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -7935,10 +8748,49 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideStatusCard();
             if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
             map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
+          } else if (mode === "spbu_ibadah") {
+            hideCulinaryLayers();
+            hidePrintingLayers();
+            hideHardwareLayers();
+            hideRtrwLayers();
+            hideContourLayers();
+            if (geoJsonLayer) {
+              map.removeLayer(geoJsonLayer);
+              geoJsonLayer = null;
+            }
+            if (markerClusterGroup) {
+              map.removeLayer(markerClusterGroup);
+              markerClusterGroup = null;
+            }
+            allPointMarkers = [];
+
+            modeBtn.className = "brand-icon mode-selector-btn mode-facility";
+            modeBtn.title = "Mode: SPBU & Tempat Ibadah Palu (Google Maps)";
+            currentModeIcon.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M3 22h12"></path>
+                <path d="M4 9h10"></path>
+                <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"></path>
+                <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"></path>
+              </svg>
+            `;
+            if (brandTitle) brandTitle.textContent = "Peta SPBU & Tempat Ibadah — Kota Palu";
+            if (searchInput) {
+              searchInput.placeholder = window.innerWidth <= 620
+                ? "Cari SPBU, masjid, gereja..."
+                : "Cari SPBU Pertamina, masjid, gereja, pura, vihara...";
+            }
+
+            loadFacilityLayers();
+            updateBoundaryStyles();
+            hideStatusCard();
+            if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
+            map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
           } else if (mode === "rtrw") {
             hideCulinaryLayers();
             hidePrintingLayers();
             hideHardwareLayers();
+            hideFacilityLayers();
             hideContourLayers();
             if (geoJsonLayer) {
               map.removeLayer(geoJsonLayer);
@@ -7968,6 +8820,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideCulinaryLayers();
             hidePrintingLayers();
             hideHardwareLayers();
+            hideFacilityLayers();
             hideRtrwLayers();
             hideContourLayers();
             const emptyNum = mode.replace(/^empty-?/, "") || "2";
@@ -9408,6 +10261,20 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
+          const facilityMatches = [];
+          if (currentAppMode === "spbu_ibadah" && facilityLayers.allPlaces.length) {
+            for (const pt of facilityLayers.allPlaces) {
+              const nameLower = pt.name.toLowerCase();
+              const addrLower = (pt.address || "").toLowerCase();
+              const catLower = (pt.categoryLabel || "").toLowerCase();
+              const featLower = (pt.features || []).join(" ").toLowerCase();
+              if (nameLower.includes(term) || addrLower.includes(term) || catLower.includes(term) || featLower.includes(term)) {
+                facilityMatches.push(pt);
+                if (facilityMatches.length >= 25) break;
+              }
+            }
+          }
+
           for (const marker of allPointMarkers) {
             const props = marker.feature?.properties || {};
             const loc = (props.location || "").toLowerCase();
@@ -9439,13 +10306,53 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
-          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length && !hardwareMatches.length) {
+          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length && !hardwareMatches.length && !facilityMatches.length) {
             resultsContainer.innerHTML = `<div class="search-no-results">Tidak ada lokasi yang cocok dengan "<b>${escapeHtml(query)}</b>"</div>`;
             resultsContainer.hidden = false;
             return;
           }
 
           resultsContainer.innerHTML = "";
+
+          for (const pt of facilityMatches) {
+            const iconEmoji = pt.icon || "⛽";
+            const badgeText = pt.categoryLabel || "SPBU & Ibadah";
+            const item = document.createElement("div");
+            item.className = "search-result-item";
+            item.tabIndex = 0;
+            item.setAttribute("role", "option");
+            item.innerHTML = `
+              <div class="search-result-name">${iconEmoji} ${escapeHtml(pt.name)}</div>
+              <div class="search-result-meta">
+                <span class="search-result-area">${escapeHtml(pt.address)}</span>
+                <span class="search-result-badge safe" style="background:rgba(16,185,129,0.18); color:#6ee7b7; border:1px solid rgba(16,185,129,0.4);">${badgeText}</span>
+              </div>
+            `;
+            const selectFacility = () => {
+              resultsContainer.hidden = true;
+              const targetMarker = facilityLayers.allMarkers.find(m => {
+                const ll = m.getLatLng();
+                return Math.abs(ll.lat - pt.lat) < 0.0001 && Math.abs(ll.lng - pt.lon) < 0.0001;
+              });
+
+              if (targetMarker && facilityLayers.clusterGroup && typeof facilityLayers.clusterGroup.zoomToShowLayer === "function") {
+                facilityLayers.clusterGroup.zoomToShowLayer(targetMarker, () => {
+                  targetMarker.openPopup();
+                });
+              } else {
+                map.flyTo([pt.lat, pt.lon], 16, { duration: 1.1 });
+                if (targetMarker) setTimeout(() => targetMarker.openPopup(), 1200);
+              }
+            };
+            item.addEventListener("click", selectFacility);
+            item.addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectFacility();
+              }
+            });
+            resultsContainer.appendChild(item);
+          }
 
           for (const pt of hardwareMatches) {
             const iconEmoji = pt.icon || "💻";
@@ -11776,6 +12683,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       setupCulinaryControls();
       setupPrintingControls();
       setupHardwareControls();
+      setupFacilityControls();
       setupRtrwControls();
       setupContourControls();
       setupSearchBar();
