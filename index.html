@@ -2039,21 +2039,7 @@
         box-shadow: 0 0 12px rgba(245, 158, 11, .5) !important;
       }
       .culinary-heat-legend {
-        position: absolute;
-        bottom: 84px;
-        right: 14px;
-        z-index: 1000;
-        background: rgba(15, 23, 42, 0.94);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border: 1px solid rgba(245, 158, 11, 0.4);
-        border-radius: 12px;
-        padding: 8px 12px;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
-        font-size: 0.68rem;
-        color: #f8fafc;
-        pointer-events: auto;
-        min-width: 175px;
+        display: none !important; /* Dipindahkan ke dock heatmap kanan atas secara vertikal */
       }
       .heat-legend-head {
         display: flex;
@@ -3015,6 +3001,253 @@
         .dock-mode-btn svg {
           width: 15px;
           height: 15px;
+        }
+      }
+
+      /* Floating Heatmap Control & Vertical Legend Dock (Upper-Right) */
+      .map-heat-dock {
+        position: fixed;
+        right: 16px;
+        top: calc(env(safe-area-inset-top, 0px) + 84px);
+        z-index: 1050;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.94) 0%, rgba(20, 30, 48, 0.92) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 4px 4px 6px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        user-select: none;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        min-width: 44px;
+      }
+      .heat-dock-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 2px 0 3px;
+        margin-bottom: 3px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .heat-dock-header span {
+        font-size: 0.52rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        color: #94a3b8;
+        text-transform: uppercase;
+      }
+      .heat-dock-toggle-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        background: rgba(245, 158, 11, 0.12);
+        color: #f59e0b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        padding: 0;
+        outline: none;
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .heat-dock-toggle-btn .heat-icon {
+        font-size: 15px;
+        line-height: 1;
+        transition: transform 0.18s ease;
+      }
+      .heat-dock-toggle-btn .heat-state-text {
+        font-size: 0.48rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        margin-top: 2px;
+        text-transform: uppercase;
+        color: #94a3b8;
+      }
+      .heat-dock-toggle-btn:hover {
+        transform: translateY(-1px) scale(1.06);
+        border-color: rgba(245, 158, 11, 0.6);
+        background: rgba(245, 158, 11, 0.22);
+        color: #fef08a;
+      }
+      .heat-dock-toggle-btn:active {
+        transform: scale(0.96);
+      }
+      .heat-dock-toggle-btn.active,
+      .heat-dock-toggle-btn[aria-pressed="true"] {
+        background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%);
+        color: #ffffff;
+        border-color: #fef08a;
+        box-shadow: 0 0 14px rgba(245, 158, 11, 0.65), 0 2px 8px rgba(239, 68, 68, 0.5);
+      }
+      .heat-dock-toggle-btn.active .heat-state-text,
+      .heat-dock-toggle-btn[aria-pressed="true"] .heat-state-text {
+        color: #ffffff;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      }
+      .heat-dock-toggle-btn.active .heat-icon {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(254, 240, 138, 0.8));
+      }
+
+      .heat-dock-legend-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        gap: 5px;
+        animation: heatDockFadeIn 0.2s ease-out;
+      }
+      @keyframes heatDockFadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .heat-dock-vertical-scale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 2px 0;
+      }
+      .heat-dock-bar {
+        width: 6px;
+        height: 60px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #ef4444 0%, #f59e0b 50%, #38bdf8 100%);
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      }
+      .heat-dock-labels {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 60px;
+        font-size: 0.50rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .heat-dock-labels .lbl-padat { color: #f87171; }
+      .heat-dock-labels .lbl-sedang { color: #fcd34d; }
+      .heat-dock-labels .lbl-rendah { color: #7dd3fc; }
+
+      .heat-dock-marker-btn {
+        width: 34px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        background: rgba(14, 165, 233, 0.15);
+        color: #38bdf8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        outline: none;
+        transition: all 0.16s ease;
+      }
+      .heat-dock-marker-btn span {
+        font-size: 13px;
+        line-height: 1;
+      }
+      .heat-dock-marker-btn .marker-sub {
+        font-size: 0.46rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        margin-top: 1px;
+      }
+      .heat-dock-marker-btn:hover {
+        background: rgba(14, 165, 233, 0.3);
+        border-color: rgba(56, 189, 248, 0.6);
+        color: #ffffff;
+      }
+      .heat-dock-marker-btn.is-off {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        opacity: 0.7;
+      }
+
+      /* Desktop tooltips pointing left */
+      @media (hover: hover) and (pointer: fine) {
+        .heat-dock-toggle-btn::after,
+        .heat-dock-marker-btn::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          right: calc(100% + 9px);
+          top: 50%;
+          transform: translateY(-50%) translateX(4px);
+          background: rgba(15, 23, 42, 0.96);
+          color: #f8fafc;
+          font-size: 0.71rem;
+          font-weight: 700;
+          white-space: nowrap;
+          padding: 4px 8px;
+          border-radius: 6px;
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.16s ease, transform 0.16s ease;
+          z-index: 1200;
+        }
+        .heat-dock-toggle-btn:hover::after,
+        .heat-dock-marker-btn:hover::after {
+          opacity: 1;
+          transform: translateY(-50%) translateX(0);
+        }
+      }
+
+      /* Mobile adjustment */
+      @media (max-width: 620px) {
+        .map-heat-dock {
+          right: 8px;
+          top: calc(env(safe-area-inset-top, 0px) + 104px);
+          padding: 3px 3px 4px;
+          border-radius: 11px;
+          min-width: 38px;
+        }
+        .heat-dock-header span {
+          font-size: 0.48rem;
+        }
+        .heat-dock-toggle-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+        }
+        .heat-dock-toggle-btn .heat-icon {
+          font-size: 14px;
+        }
+        .heat-dock-toggle-btn .heat-state-text {
+          font-size: 0.44rem;
+        }
+        .heat-dock-bar {
+          width: 5px;
+          height: 50px;
+        }
+        .heat-dock-labels {
+          height: 50px;
+          font-size: 0.46rem;
+        }
+        .heat-dock-marker-btn {
+          width: 30px;
+          height: 27px;
+          border-radius: 7px;
+        }
+        .heat-dock-marker-btn span {
+          font-size: 12px;
+        }
+        .heat-dock-marker-btn .marker-sub {
+          font-size: 0.42rem;
         }
       }
 
@@ -4558,6 +4791,35 @@
         </button>
       </div>
     </nav>
+
+    <!-- Floating Heatmap Controls Dock (Upper-Right) -->
+    <aside id="map-heat-dock" class="map-heat-dock" style="display:none;" aria-label="Kontrol Heatmap Kepadatan Palu">
+      <div class="heat-dock-header" title="Kontrol Heatmap Kepadatan">
+        <span>HEAT</span>
+      </div>
+      <!-- Master On/Off Toggle Button -->
+      <button type="button" id="dock-heat-btn" class="heat-dock-toggle-btn" aria-pressed="false" data-tooltip="Nyalakan/Matikan Heatmap" aria-label="Nyalakan atau matikan heatmap">
+        <span class="heat-icon">🔥</span>
+        <span id="dock-heat-status-text" class="heat-state-text">OFF</span>
+      </button>
+
+      <!-- Vertical Scale & Marker Controls (Tampil saat Heatmap ON) -->
+      <div id="dock-heat-body" class="heat-dock-legend-body" style="display:none;">
+        <div class="heat-dock-vertical-scale" title="Skala Kepadatan Titik (Padat -> Rendah)">
+          <div id="dock-heat-bar" class="heat-dock-bar"></div>
+          <div class="heat-dock-labels">
+            <span class="lbl-padat">Padat</span>
+            <span class="lbl-sedang">Sedang</span>
+            <span class="lbl-rendah">Rendah</span>
+          </div>
+        </div>
+        <!-- Marker point visibility toggle button -->
+        <button type="button" id="dock-heat-marker-btn" class="heat-dock-marker-btn" aria-pressed="true" data-tooltip="Sembunyikan/Tampilkan Titik" aria-label="Sembunyikan atau tampilkan ikon titik">
+          <span>📍</span>
+          <span class="marker-sub">TITIK</span>
+        </button>
+      </div>
+    </aside>
 
     <main id="map" aria-label="Peta realtime jadwal pemadaman listrik">
       <div id="empty-state" class="outage-only-ui" hidden>Belum ada jadwal pemadaman untuk hari ini.</div>
@@ -6156,6 +6418,7 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
         if (txtFloating) {
           txtFloating.textContent = visible ? "Ikon Titik: Aktif" : "Ikon Titik: Nonaktif";
         }
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
 
         if (!culinaryLayers.clusterGroup) return;
 
@@ -6235,9 +6498,10 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
         }
 
         syncCulinaryHeatmap();
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
 
         if (culinaryHeatmapEnabled) {
-          showGpsToast("🔥 Heatmap Kepadatan Aktif: Gunakan tombol di kartu bawah untuk sembunyikan/tampilkan titik", 4000);
+          showGpsToast("🔥 Heatmap Kepadatan Aktif: Gunakan tombol dock kanan atas untuk sembunyikan/tampilkan titik", 4000);
         } else {
           // Ketika heatmap dimatikan, pastikan marker kembali tampil seperti semula
           setCulinaryMarkersVisible(true);
@@ -6926,6 +7190,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         if (txtFloating) {
           txtFloating.textContent = visible ? "Ikon Titik: Aktif" : "Ikon Titik: Nonaktif";
         }
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
 
         if (!printingLayers.clusterGroup) return;
 
@@ -7000,6 +7265,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           heatBtn.classList.toggle("active", printingHeatmapEnabled);
         }
         syncPrintingHeatmap();
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
       }
 
       function setupPrintingControls() {
@@ -7480,6 +7746,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           heatBtn.classList.toggle("active", hardwareHeatmapEnabled);
         }
         syncHardwareHeatmap();
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
       }
 
       function toggleHardwareMarkers() {
@@ -7488,6 +7755,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const txt = document.getElementById("text-toggle-hw-heat-markers");
         if (btn) btn.setAttribute("aria-pressed", hardwareMarkersVisible ? "true" : "false");
         if (txt) txt.textContent = hardwareMarkersVisible ? "Ikon Titik: Aktif" : "Ikon Titik: Tersembunyi";
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
 
         if (hardwareLayers.clusterGroup) {
           if (hardwareMarkersVisible) {
@@ -7990,6 +8258,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
 
         syncFacilityHeatmap();
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
       }
 
       function toggleFacilityMarkers() {
@@ -7998,6 +8267,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const txt = document.getElementById("text-toggle-fac-heat-markers");
         if (btn) btn.setAttribute("aria-pressed", facilityMarkersVisible ? "true" : "false");
         if (txt) txt.textContent = facilityMarkersVisible ? "Ikon Titik: Aktif" : "Ikon Titik: Tersembunyi";
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
 
         if (facilityLayers.clusterGroup) {
           if (facilityMarkersVisible) {
@@ -8854,6 +9124,112 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           });
         }
 
+        // Floating Heatmap Dock (Upper-Right)
+        const heatDockEl = document.getElementById("map-heat-dock");
+        if (heatDockEl) {
+          stopMapEventInterference(heatDockEl);
+          const heatToggleBtn = document.getElementById("dock-heat-btn");
+          if (heatToggleBtn) {
+            heatToggleBtn.addEventListener("click", toggleCurrentModeHeatmap);
+          }
+          const heatMarkerBtn = document.getElementById("dock-heat-marker-btn");
+          if (heatMarkerBtn) {
+            heatMarkerBtn.addEventListener("click", toggleCurrentModeMarkers);
+          }
+        }
+
+        function updateHeatDockUI() {
+          const dock = document.getElementById("map-heat-dock");
+          const btn = document.getElementById("dock-heat-btn");
+          const statusTxt = document.getElementById("dock-heat-status-text");
+          const body = document.getElementById("dock-heat-body");
+          const bar = document.getElementById("dock-heat-bar");
+          const markerBtn = document.getElementById("dock-heat-marker-btn");
+          if (!dock || !btn) return;
+
+          const mode = currentAppMode;
+          // Hanya tampil di 4 mode titik: kuliner, percetakan, hardware/servis, dan spbu/ibadah
+          if (mode !== "culinary" && mode !== "printing" && mode !== "hardware" && mode !== "spbu_ibadah") {
+            dock.style.display = "none";
+            return;
+          }
+          dock.style.display = "flex";
+
+          let isHeatActive = false;
+          let isMarkersActive = true;
+          let gradientCss = "";
+
+          if (mode === "culinary") {
+            isHeatActive = !!culinaryHeatmapEnabled;
+            isMarkersActive = !!culinaryMarkersVisible;
+            gradientCss = "linear-gradient(180deg, #fef08a 0%, #f43f5e 30%, #ef4444 60%, #f59e0b 80%, rgba(56, 189, 248, 0.6) 100%)";
+          } else if (mode === "printing") {
+            isHeatActive = !!printingHeatmapEnabled;
+            isMarkersActive = !!printingMarkersVisible;
+            gradientCss = "linear-gradient(180deg, #ef4444 0%, #eab308 30%, #10b981 60%, #06b6d4 80%, #0284c7 100%)";
+          } else if (mode === "hardware") {
+            isHeatActive = !!hardwareHeatmapEnabled;
+            isMarkersActive = !!hardwareMarkersVisible;
+            gradientCss = "linear-gradient(180deg, #ef4444 0%, #f59e0b 25%, #10b981 50%, #06b6d4 75%, #8b5cf6 100%)";
+          } else if (mode === "spbu_ibadah") {
+            isHeatActive = !!facilityHeatmapEnabled;
+            isMarkersActive = !!facilityMarkersVisible;
+            gradientCss = "linear-gradient(180deg, #ef4444 0%, #f59e0b 25%, #38bdf8 50%, #10b981 75%, #059669 100%)";
+          }
+
+          // Master on/off toggle button
+          btn.setAttribute("aria-pressed", isHeatActive ? "true" : "false");
+          btn.classList.toggle("active", isHeatActive);
+          if (statusTxt) statusTxt.textContent = isHeatActive ? "ON" : "OFF";
+          btn.setAttribute("data-tooltip", isHeatActive ? "Matikan Heatmap (ON)" : "Nyalakan Heatmap (OFF)");
+          btn.title = isHeatActive ? "Matikan Heatmap Kepadatan (Saat ini AKTIF)" : "Nyalakan Heatmap Kepadatan (Saat ini NONAKTIF)";
+
+          // Vertical legend scale & markers body
+          if (body) {
+            body.style.display = isHeatActive ? "flex" : "none";
+          }
+          if (bar && gradientCss) {
+            bar.style.background = gradientCss;
+          }
+          if (markerBtn) {
+            markerBtn.setAttribute("aria-pressed", isMarkersActive ? "true" : "false");
+            markerBtn.classList.toggle("is-off", !isMarkersActive);
+            markerBtn.setAttribute("data-tooltip", isMarkersActive ? "Sembunyikan Titik" : "Tampilkan Titik");
+            markerBtn.title = isMarkersActive ? "Sembunyikan ikon titik (Hanya tampilkan gradasi panas)" : "Tampilkan ikon titik bersama heatmap";
+          }
+        }
+        window.updateHeatDockUI = updateHeatDockUI;
+
+        function toggleCurrentModeHeatmap() {
+          const mode = currentAppMode;
+          if (mode === "culinary") {
+            if (typeof toggleCulinaryHeatmap === "function") toggleCulinaryHeatmap();
+          } else if (mode === "printing") {
+            if (typeof togglePrintingHeatmap === "function") togglePrintingHeatmap();
+          } else if (mode === "hardware") {
+            if (typeof toggleHardwareHeatmap === "function") toggleHardwareHeatmap();
+          } else if (mode === "spbu_ibadah") {
+            if (typeof toggleFacilityHeatmap === "function") toggleFacilityHeatmap();
+          }
+          updateHeatDockUI();
+        }
+        window.toggleCurrentModeHeatmap = toggleCurrentModeHeatmap;
+
+        function toggleCurrentModeMarkers() {
+          const mode = currentAppMode;
+          if (mode === "culinary") {
+            if (typeof toggleCulinaryMarkers === "function") toggleCulinaryMarkers();
+          } else if (mode === "printing") {
+            if (typeof togglePrintingMarkers === "function") togglePrintingMarkers();
+          } else if (mode === "hardware") {
+            if (typeof toggleHardwareMarkers === "function") toggleHardwareMarkers();
+          } else if (mode === "spbu_ibadah") {
+            if (typeof toggleFacilityMarkers === "function") toggleFacilityMarkers();
+          }
+          updateHeatDockUI();
+        }
+        window.toggleCurrentModeMarkers = toggleCurrentModeMarkers;
+
         window.setAppMode = function(mode) {
           if (mode === currentAppMode && document.body.dataset.appMode === mode) return;
           currentAppMode = mode;
@@ -9106,6 +9482,10 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
             updateBoundaryStyles();
             hideStatusCard();
+          }
+
+          if (typeof updateHeatDockUI === "function") {
+            updateHeatDockUI();
           }
         };
       }
