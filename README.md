@@ -114,6 +114,17 @@ npx serve .
 
 ---
 
+## ⚖️ Penafian Hukum & Batasan Tanggung Jawab (Disclaimer)
+
+1. **Sifat Proyek Open Source & Komunitas**: Peta Palu adalah proyek sumber terbuka independen berbasis komunitas yang dikembangkan secara sukarela untuk kepentingan publik dan kemudahan akses informasi masyarakat. Proyek ini tidak memiliki afiliasi resmi dengan PT PLN (Persero), instansi pemerintah manapun, atau pemilik usaha/toko yang terdata.
+2. **Data "Sebagaimana Adanya" (*AS IS*)**: Seluruh informasi (koordinat, alamat, kontak, jam operasional, estimasi tarif, dan jadwal pemadaman) disajikan apa adanya tanpa jaminan keakuratan mutlak. Jadwal pemadaman atau jam buka tempat fisik dapat berubah sewaktu-waktu di luar kendali pengembang.
+3. **Pembatasan Tanggung Jawab (*Limitation of Liability*)**: Pengembang, kontributor, dan pemilik repositori **TIDAK BERTANGGUNG JAWAB** atas segala bentuk kerugian langsung maupun tidak langsung, kerusakan, kecelakaan, biaya yang timbul, perselisihan hukum, atau konsekuensi apa pun yang dialami pengguna akibat pemanfaatan data atau kunjungan ke titik lokasi yang tertera di peta ini. Pengguna bertanggung jawab penuh secara mandiri atas segala tindakan yang diambil.
+4. **Kebijakan Koreksi & Penghapusan Data (*Notice and Takedown Policy*)**: Pemilik usaha atau pihak berkepentingan yang berkeberatan atas pencantuman data lokasinya, atau ingin memperbarui informasi, dapat mengajukan permohonan penghapusan/koreksi data kapan saja melalui [GitHub Issues](https://github.com/andiarman/PetaPalu/issues) atau Threads [@andiarman___](https://www.threads.com/@andiarman___). Permohonan akan diproses dengan cepat tanpa pungutan biaya.
+
+Dokumen penafian hukum lengkap dapat dibaca pada [DISCLAIMER.md](DISCLAIMER.md).
+
+---
+
 ## 📄 Lisensi
 
 Proyek ini dirilis di bawah lisensi terbuka [MIT License](LICENSE).

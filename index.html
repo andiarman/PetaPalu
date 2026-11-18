@@ -319,7 +319,8 @@
         color: #ffffff;
         box-shadow: 0 0 14px rgba(168, 85, 247, .4);
       }
-      #modal-submit-place {
+      #modal-submit-place,
+      #modal-disclaimer {
         border: 1px solid rgba(255, 255, 255, .15);
         border-top: 1px solid rgba(255, 255, 255, .25);
         border-radius: 20px;
@@ -334,7 +335,8 @@
         max-height: calc(100dvh - 40px);
         overflow: hidden;
       }
-      #modal-submit-place::backdrop {
+      #modal-submit-place::backdrop,
+      #modal-disclaimer::backdrop {
         background: rgba(3, 7, 18, .75);
         backdrop-filter: blur(6px);
       }
@@ -4021,6 +4023,18 @@
               </div>
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
+
+            <div class="mode-dropdown-header">Informasi & Hukum</div>
+
+            <button type="button" class="mode-dropdown-item" id="menu-btn-disclaimer" role="menuitem">
+              <span class="mode-badge-icon" style="background:rgba(255, 255, 255, 0.08); color:#fde047; font-size:11px; display:flex; align-items:center; justify-content:center;">
+                ⚖️
+              </span>
+              <div class="mode-item-text">
+                <span class="mode-item-title">Penafian Hukum & Disclaimer</span>
+                <span class="mode-item-subtitle">Bebas tuntutan opensource, batasan tanggung jawab & takedown</span>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -4591,6 +4605,13 @@
                 <option value="cafe">☕ Coffeeshop & Cafe</option>
                 <option value="resto">🍽️ Restoran & Rumah Makan</option>
                 <option value="warkop">🥪 Warkop / Kedai Santai</option>
+                <option value="komputer">💻 Toko Komputer & Laptop</option>
+                <option value="hp">📱 Toko HP & Smartphone</option>
+                <option value="elektronik">🔌 Toko Alat Elektronik</option>
+                <option value="servis_komputer">🛠️ Servis Laptop & Komputer</option>
+                <option value="servis_hp">📲 Servis HP & Smartphone</option>
+                <option value="servis_elektronik">🔧 Servis Elektronik & AC/TV</option>
+                <option value="official_service">🏢 Service Center Resmi Brand</option>
               </select>
             </div>
             <div class="submit-form-group">
@@ -4671,11 +4692,64 @@
             <input type="url" id="sub-gmaps" class="submit-form-input" placeholder="https://maps.app.goo.gl/..." />
           </div>
 
+          <div class="submit-disclaimer-box" style="margin-top:10px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:8px; padding:10px 12px; font-size:0.71rem; color:#cbd5e1; line-height:1.45;">
+            <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer;">
+              <input type="checkbox" id="sub-agreement" required style="margin-top:2px; accent-color:#38bdf8; cursor:pointer;" />
+              <span>
+                <strong style="color:#f87171;">Penafian & Pernyataan Hukum:</strong> Saya memahami bahwa Peta Palu adalah proyek komunitas open-source nirlaba. Seluruh data titik bersifat informasi umum ("sebagaimana adanya"). Saya menyatakan bahwa data ini adalah informasi publik yang sah, dan saya membebaskan penuh pengembang dan pengelola Peta Palu dari segala bentuk tuntutan hukum, klaim kerugian, atau sengketa pihak ketiga atas data yang diusulkan.
+              </span>
+            </label>
+          </div>
+
           <div class="submit-modal-footer">
             <button type="button" id="btn-cancel-submit" style="background:transparent; border:none; color:#94a3b8; font-size:0.75rem; cursor:pointer;">Batal</button>
             <button type="submit" class="btn-submit-action">🚀 Kirim Usulan Titik</button>
           </div>
         </form>
+      </div>
+    </dialog>
+
+    <!-- Dialog Penafian Hukum & Disclaimer Peta Palu -->
+    <dialog id="modal-disclaimer" class="legal-disclaimer-dialog" aria-labelledby="disclaimer-dialog-title">
+      <div class="submit-modal-layout">
+        <div class="submit-modal-header" style="background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(15,23,42,0.6));">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.4rem;">⚖️</span>
+            <div>
+              <h2 id="disclaimer-dialog-title" style="margin:0; font-size:1.05rem; font-weight:800; color:#fff;">Penafian Hukum & Batasan Tanggung Jawab</h2>
+              <span style="font-size:0.71rem; color:#94a3b8;">Disclaimer & Limitation of Liability — Proyek Open Source Peta Palu</span>
+            </div>
+          </div>
+          <button id="close-disclaimer-modal" class="share-close-btn" type="button" aria-label="Tutup">×</button>
+        </div>
+
+        <div class="submit-modal-body" style="padding:16px 18px; max-height:65vh; overflow-y:auto; font-size:0.78rem; line-height:1.6; color:#cbd5e1;">
+          <div style="background:rgba(239,68,68,0.1); border-left:4px solid #ef4444; padding:10px 12px; border-radius:6px; margin-bottom:12px; color:#fca5a5;">
+            <strong>PENTING DIBACA:</strong> Seluruh titik lokasi, jadwal pemadaman listrik, jam operasional, kontak, dan informasi yang ditampilkan pada platform Peta Palu disediakan semata-mata untuk tujuan informasi umum dan agregasi publik. Pengembang, kontributor, dan pemilik repositori dibebaskan mutlak dari segala bentuk tanggung jawab dan tuntutan hukum.
+          </div>
+
+          <h3 style="color:#f8fafc; font-size:0.86rem; margin:10px 0 4px; font-weight:700;">1. Sifat Proyek Komunitas Open Source & Non-Komersial</h3>
+          <p style="margin:0 0 8px;">Peta Palu adalah perangkat lunak sumber terbuka (open-source) nirlaba yang dikembangkan secara sukarela untuk kepentingan publik. Proyek ini <strong>BUKAN</strong> perwakilan resmi dari, dan tidak memiliki afiliasi hukum dengan PT PLN (Persero), Pemerintah Kota Palu, instansi pemerintah manapun, maupun pemilik usaha/toko yang tertera di peta.</p>
+
+          <h3 style="color:#f8fafc; font-size:0.86rem; margin:10px 0 4px; font-weight:700;">2. Penyediaan Data "Sebagaimana Adanya" (AS IS)</h3>
+          <p style="margin:0 0 8px;">Semua data titik disajikan tanpa jaminan dalam bentuk apa pun, baik tersurat maupun tersirat. Kami tidak menjamin keakuratan mutlak koordinat GPS, ketepatan jadwal padam yang dapat berubah sewaktu-waktu akibat kondisi darurat jaringan (force majeure), jam buka riil tempat fisik, ketersediaan layanan, maupun tarif harga.</p>
+
+          <h3 style="color:#f8fafc; font-size:0.86rem; margin:10px 0 4px; font-weight:700;">3. Pembatasan Mutlak Tanggung Jawab (Limitation of Liability)</h3>
+          <p style="margin:0 0 8px;">Pengembang, pembuat kode, dan kontributor Peta Palu <strong>TIDAK BERTANGGUNG JAWAB SECARA HUKUM</strong> atas segala bentuk kerugian materiil maupun immateriil, kerusakan perangkat, cedera fisik, kecelakaan perjalanan, kekecewaan layanan, biaya yang timbul, atau perselisihan hukum antara pengguna dengan pihak ketiga yang terjadi akibat penggunaan situs web ini atau kunjungan fisik ke lokasi yang tertera. Pengguna bertanggung jawab penuh atas segala tindakan dan verifikasi mandiri.</p>
+
+          <h3 style="color:#f8fafc; font-size:0.86rem; margin:10px 0 4px; font-weight:700;">4. Hak Pemilik Tempat & Kebijakan Takedown Cepat (Notice & Takedown)</h3>
+          <p style="margin:0 0 8px;">Kami sangat menghormati privasi, hak kepemilikan, dan kenyamanan para pemilik usaha serta warga masyarakat. Jika Anda adalah pemilik sah atau perwakilan resmi suatu usaha/lokasi dan berkeberatan atas pencantuman data tersebut, atau ingin memperbarui informasi titik Anda, kami menyediakan saluran penghapusan (takedown) atau koreksi yang cepat dan 100% bebas biaya:</p>
+          <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:10px 12px; margin-top:6px; font-size:0.74rem; display:flex; flex-direction:column; gap:4px;">
+            <div>📧 <strong>Email Terbuka:</strong> <a href="mailto:andiarman.in@gmail.com" style="color:#38bdf8; text-decoration:none;">andiarman.in@gmail.com</a></div>
+            <div>💬 <strong>Threads Resmi:</strong> <a href="https://www.threads.com/@andiarman___" target="_blank" rel="noopener noreferrer" style="color:#38bdf8; text-decoration:none;">@andiarman___</a></div>
+            <div>🐙 <strong>GitHub Issues:</strong> <a href="https://github.com/andiarman/PetaPalu/issues" target="_blank" rel="noopener noreferrer" style="color:#38bdf8; text-decoration:none;">github.com/andiarman/PetaPalu/issues</a></div>
+          </div>
+        </div>
+
+        <div style="padding:12px 18px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; background:rgba(15,23,42,0.8);">
+          <a href="https://github.com/andiarman/PetaPalu/blob/main/DISCLAIMER.md" target="_blank" rel="noopener noreferrer" style="font-size:0.72rem; color:#94a3b8; text-decoration:none;">Baca Dokumen Hukum Lengkap (DISCLAIMER.md) ↗</a>
+          <button type="button" id="btn-agree-disclaimer" class="btn-submit-action" style="padding:6px 16px; font-size:0.75rem;">Saya Mengerti &amp; Setuju</button>
+        </div>
       </div>
     </dialog>
 
@@ -4875,12 +4949,15 @@
         </div>
 
         <div class="welcome-footer">
-          <a class="threads-link" href="https://www.threads.com/@andiarman___" target="_blank" rel="noopener noreferrer" style="border:none; background:transparent; padding:0; color:#64748b;">
-            <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false" style="width:13px; height:13px; fill:currentColor;">
-              <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
-            </svg>
-            <span style="font-size:0.72rem; color:#64748b;">@andiarman___</span>
-          </a>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <a class="threads-link" href="https://www.threads.com/@andiarman___" target="_blank" rel="noopener noreferrer" style="border:none; background:transparent; padding:0; color:#64748b;">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false" style="width:13px; height:13px; fill:currentColor;">
+                <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
+              </svg>
+              <span style="font-size:0.72rem; color:#64748b;">@andiarman___</span>
+            </a>
+            <button type="button" id="btn-open-disclaimer-welcome" style="background:none; border:none; color:#94a3b8; font-size:0.72rem; cursor:pointer; text-decoration:underline; padding:0;">⚖️ Penafian &amp; Disclaimer</button>
+          </div>
 
           <button type="button" id="btn-explore-direct" class="welcome-direct-btn">
             <span>Langsung Jelajahi Peta</span>
@@ -5612,9 +5689,14 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
           if (catSelect && !['fotocopy', 'percetakan', '3d_print', 'jilid'].includes(catSelect.value)) {
             catSelect.value = "fotocopy";
           }
+        } else if (currentAppMode === "hardware") {
+          if (titleEl) titleEl.textContent = "💻 Daftarkan Toko / Jasa Servis Anda";
+          if (catSelect && !['komputer', 'hp', 'elektronik', 'servis_komputer', 'servis_hp', 'servis_elektronik', 'official_service'].includes(catSelect.value)) {
+            catSelect.value = "komputer";
+          }
         } else {
           if (titleEl) titleEl.textContent = "☕ Daftarkan Coffeeshop / Resto Anda";
-          if (catSelect && ['fotocopy', 'percetakan', '3d_print', 'jilid'].includes(catSelect.value)) {
+          if (catSelect && ['fotocopy', 'percetakan', '3d_print', 'jilid', 'komputer', 'hp', 'elektronik', 'servis_komputer', 'servis_hp', 'servis_elektronik', 'official_service'].includes(catSelect.value)) {
             catSelect.value = "cafe";
           }
         }
@@ -5754,7 +5836,7 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
             const hoursText = is24h ? "Buka 24 Jam" : `${openTime} - ${closeTime}`;
 
             let catKey = category;
-            let catLabel = "Fotocopy & ATK";
+            let catLabel = "Tempat Usaha";
             if (category === "resto") catLabel = "Restoran & Rumah Makan";
             else if (category === "cafe") catLabel = "Coffeeshop & Cafe";
             else if (category === "warkop") catLabel = "Warkop / Kedai Santai";
@@ -5762,6 +5844,13 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
             else if (category === "3d_print") catLabel = "3D Printing & Prototipe";
             else if (category === "jilid") catLabel = "Jilid Skripsi & Pengetikan";
             else if (category === "fotocopy") catLabel = "Fotocopy & ATK";
+            else if (category === "komputer") catLabel = "Toko Komputer & Laptop";
+            else if (category === "hp") catLabel = "Toko HP & Smartphone";
+            else if (category === "elektronik") catLabel = "Toko Alat Elektronik";
+            else if (category === "servis_komputer") catLabel = "Servis Laptop & Komputer";
+            else if (category === "servis_hp") catLabel = "Servis HP & Smartphone";
+            else if (category === "servis_elektronik") catLabel = "Servis Elektronik & AC/TV";
+            else if (category === "official_service") catLabel = "Service Center Resmi Brand";
 
             const submissionObj = {
               id: "submit-" + Date.now(),
@@ -11425,6 +11514,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       setupMyLocation();
       setupShareModal();
       setupWelcomeDashboard();
+      setupDisclaimerModal();
       updateClock();
 
       function setupWelcomeDashboard() {
@@ -11495,6 +11585,56 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
         // Freeze map on initial load
         document.body.classList.add("map-frozen");
+      }
+
+      function setupDisclaimerModal() {
+        const modal = document.getElementById("modal-disclaimer");
+        const closeBtn = document.getElementById("close-disclaimer-modal");
+        const agreeBtn = document.getElementById("btn-agree-disclaimer");
+        const menuBtn = document.getElementById("menu-btn-disclaimer");
+        const welcomeBtn = document.getElementById("btn-open-disclaimer-welcome");
+
+        const openDisclaimer = () => {
+          if (modal && typeof modal.showModal === "function") {
+            modal.showModal();
+          }
+        };
+
+        const closeDisclaimer = () => {
+          if (modal && typeof modal.close === "function") {
+            modal.close();
+          }
+        };
+
+        if (menuBtn) {
+          menuBtn.addEventListener("click", () => {
+            const menu = document.getElementById("mode-dropdown-menu");
+            if (menu) menu.setAttribute("hidden", "");
+            openDisclaimer();
+          });
+        }
+
+        if (welcomeBtn) {
+          welcomeBtn.addEventListener("click", openDisclaimer);
+        }
+
+        if (closeBtn) closeBtn.addEventListener("click", closeDisclaimer);
+        if (agreeBtn) agreeBtn.addEventListener("click", closeDisclaimer);
+
+        if (modal) {
+          modal.addEventListener("click", (e) => {
+            const rect = modal.getBoundingClientRect();
+            const isInDialog = (
+              rect.top <= e.clientY &&
+              e.clientY <= rect.top + rect.height &&
+              rect.left <= e.clientX &&
+              e.clientX <= rect.left + rect.width
+            );
+            if (!isInDialog) {
+              closeDisclaimer();
+            }
+          });
+        }
       }
       initialLoadSchedule();
       startServerStatusPolling(true);
