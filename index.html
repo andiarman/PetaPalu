@@ -335,10 +335,33 @@
         max-height: calc(100dvh - 40px);
         overflow: hidden;
       }
-      #modal-submit-place::backdrop,
-      #modal-disclaimer::backdrop {
+      #modal-submit-place::backdrop {
         background: rgba(3, 7, 18, .75);
         backdrop-filter: blur(6px);
+      }
+      #modal-disclaimer {
+        z-index: 10000000 !important;
+      }
+      #modal-disclaimer::backdrop {
+        background: rgba(3, 7, 18, .88) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: 9999999 !important;
+      }
+      body.legal-locked {
+        overflow: hidden !important;
+      }
+      body.legal-locked > *:not(#modal-disclaimer) {
+        pointer-events: none !important;
+        user-select: none !important;
+      }
+      .btn-submit-action:disabled,
+      .btn-submit-action.btn-disabled {
+        opacity: 0.38 !important;
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+        filter: grayscale(1) !important;
+        box-shadow: none !important;
       }
       .submit-modal-layout {
         display: flex;
@@ -4746,12 +4769,22 @@
           </div>
         </div>
 
-        <div style="padding:14px 18px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:8px; background:rgba(15,23,42,0.85);">
+        <div style="padding:14px 18px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:10px; background:rgba(15,23,42,0.92);">
+          <!-- Kotak Centang Persetujuan Hukum (Wajib dicentang) -->
+          <div id="disclaimer-checkbox-box" style="background:rgba(14,165,233,0.08); border:1px solid rgba(56,189,248,0.35); border-radius:10px; padding:10px 12px;">
+            <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; user-select:none; margin:0;">
+              <input type="checkbox" id="chk-agree-disclaimer" style="width:19px; height:19px; margin-top:2px; accent-color:#0284c7; cursor:pointer; flex-shrink:0;" />
+              <span style="font-size:0.75rem; color:#f1f5f9; line-height:1.45;">
+                <strong style="color:#38bdf8;">Pernyataan Persetujuan Wajib:</strong> Saya telah membaca, memahami, dan menyetujui seluruh ketentuan penafian hukum (*disclaimer*), batasan tanggung jawab, serta sifat nirlaba open-source proyek ini, dan membebaskan pihak pengembang dari segala bentuk tuntutan hukum.
+              </span>
+            </label>
+          </div>
+
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
             <a href="https://github.com/andiarman/PetaPalu/blob/main/DISCLAIMER.md" target="_blank" rel="noopener noreferrer" style="font-size:0.72rem; color:#38bdf8; text-decoration:none;">Baca Dokumen Hukum Lengkap (DISCLAIMER.md) ↗</a>
-            <button type="button" id="btn-agree-disclaimer" class="btn-submit-action" style="padding:8px 18px; font-size:0.78rem; font-weight:700; background:linear-gradient(135deg, #0284c7, #0ea5e9); border:none; border-radius:8px; color:#fff; cursor:pointer; box-shadow:0 0 15px rgba(14,165,233,0.35);">✅ Saya Mengerti, Setuju &amp; Buka Peta</button>
+            <button type="button" id="btn-agree-disclaimer" class="btn-submit-action btn-disabled" disabled style="padding:8px 20px; font-size:0.78rem; font-weight:700; background:linear-gradient(135deg, #0284c7, #0ea5e9); border:none; border-radius:8px; color:#fff; box-shadow:0 0 15px rgba(14,165,233,0.35);">✅ Setujui &amp; Buka Peta</button>
           </div>
-          <div id="disclaimer-mandatory-hint" style="font-size:0.68rem; color:#94a3b8; text-align:right;">*Persetujuan penafian hukum ini hanya diminta 1 kali pada kunjungan pertama Anda.</div>
+          <div id="disclaimer-mandatory-hint" style="font-size:0.68rem; color:#94a3b8; text-align:right;">*Centang kotak persetujuan di atas untuk membuka akses peta (hanya 1 kali).</div>
         </div>
       </div>
     </dialog>
@@ -11619,19 +11652,49 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const menuBtn = document.getElementById("menu-btn-disclaimer");
         const welcomeBtn = document.getElementById("btn-open-disclaimer-welcome");
         const mandatoryHint = document.getElementById("disclaimer-mandatory-hint");
+        const chkBox = document.getElementById("disclaimer-checkbox-box");
+        const chk = document.getElementById("chk-agree-disclaimer");
+        const welcomeOverlay = document.getElementById("welcome-dashboard-overlay");
+
+        let isCurrentSessionMandatory = false;
+
+        const updateAgreeButtonState = () => {
+          if (!isCurrentSessionMandatory) {
+            agreeBtn.disabled = false;
+            agreeBtn.classList.remove("btn-disabled");
+            return;
+          }
+          const isChecked = !!(chk && chk.checked);
+          agreeBtn.disabled = !isChecked;
+          agreeBtn.classList.toggle("btn-disabled", !isChecked);
+        };
 
         const openDisclaimer = (mandatory = false) => {
           if (!modal || typeof modal.showModal !== "function") return;
           if (modal.open) return;
 
+          isCurrentSessionMandatory = mandatory;
+
           if (mandatory) {
+            document.body.classList.add("legal-locked");
+            if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "none";
             if (closeBtn) closeBtn.style.display = "none";
-            if (agreeBtn) agreeBtn.textContent = "✅ Saya Mengerti, Setuju & Buka Peta";
+            if (chkBox) chkBox.style.display = "block";
+            if (chk) chk.checked = false;
             if (mandatoryHint) mandatoryHint.style.display = "block";
+            if (agreeBtn) {
+              agreeBtn.textContent = "✅ Setujui & Buka Peta";
+              updateAgreeButtonState();
+            }
           } else {
             if (closeBtn) closeBtn.style.display = "";
-            if (agreeBtn) agreeBtn.textContent = "Tutup & Kembali ke Peta";
+            if (chkBox) chkBox.style.display = "none";
             if (mandatoryHint) mandatoryHint.style.display = "none";
+            if (agreeBtn) {
+              agreeBtn.textContent = "Tutup & Kembali ke Peta";
+              agreeBtn.disabled = false;
+              agreeBtn.classList.remove("btn-disabled");
+            }
           }
 
           modal.showModal();
@@ -11645,9 +11708,15 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           modal.close();
         };
 
-        // Jika belum pernah disetujui, wajibkan dialog disclaimer terbuka di awal
+        if (chk) {
+          chk.addEventListener("change", updateAgreeButtonState);
+        }
+
+        // Jika belum pernah disetujui, kunci total halaman dan wajibkan dialog disclaimer terbuka di awal
         if (!hasAgreedConsent()) {
           openDisclaimer(true);
+        } else {
+          document.body.classList.remove("legal-locked");
         }
 
         if (menuBtn) {
@@ -11672,7 +11741,13 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
         if (agreeBtn) {
           agreeBtn.addEventListener("click", () => {
+            if (isCurrentSessionMandatory && chk && !chk.checked) {
+              alert("Silakan centang kotak pernyataan persetujuan terlebih dahulu untuk membuka akses peta.");
+              return;
+            }
             setAgreedConsent();
+            document.body.classList.remove("legal-locked");
+            if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "";
             closeDisclaimer(true);
           });
         }
