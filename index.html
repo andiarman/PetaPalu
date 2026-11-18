@@ -97,6 +97,10 @@
         background: linear-gradient(135deg, #0891b2 0%, #0284c7 55%, #4f46e5 100%);
         box-shadow: 0 4px 14px rgba(8, 145, 178, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
       }
+      .brand-icon.mode-hardware {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 55%, #4f46e5 100%);
+        box-shadow: 0 4px 14px rgba(139, 92, 246, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
+      }
       .brand-icon.mode-contour {
         background: linear-gradient(135deg, #059669 0%, #0d9488 55%, #0284c7 100%);
         box-shadow: 0 4px 14px rgba(13, 148, 136, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
@@ -229,6 +233,15 @@
         box-shadow: 0 2px 8px rgba(8, 145, 178, .35);
       }
       .mode-badge-icon.printing svg {
+        width: 17px;
+        height: 17px;
+      }
+      .mode-badge-icon.hardware {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, .35);
+      }
+      .mode-badge-icon.hardware svg {
         width: 17px;
         height: 17px;
       }
@@ -478,7 +491,8 @@
         pointer-events: auto;
       }
       .culinary-marker-icon .map-badge-marker,
-      .printing-marker-icon .map-badge-marker {
+      .printing-marker-icon .map-badge-marker,
+      .hardware-marker-icon .map-badge-marker {
         min-width: 50px;
         max-width: 240px;
         width: max-content;
@@ -491,19 +505,22 @@
         transition: max-width 0.2s ease, box-shadow 0.2s ease;
       }
       .culinary-marker-icon .map-badge-marker:hover,
-      .printing-marker-icon .map-badge-marker:hover {
+      .printing-marker-icon .map-badge-marker:hover,
+      .hardware-marker-icon .map-badge-marker:hover {
         max-width: 320px;
         z-index: 9999;
       }
       .culinary-marker-icon .badge-row,
-      .printing-marker-icon .badge-row {
+      .printing-marker-icon .badge-row,
+      .hardware-marker-icon .badge-row {
         display: flex;
         align-items: center;
         gap: .32rem;
         min-width: 0;
       }
       .culinary-marker-icon .badge-time-text,
-      .printing-marker-icon .badge-time-text {
+      .printing-marker-icon .badge-time-text,
+      .hardware-marker-icon .badge-time-text {
         max-width: 205px;
         white-space: nowrap;
         overflow: hidden;
@@ -515,11 +532,13 @@
         transition: max-width 0.2s ease;
       }
       .culinary-marker-icon .map-badge-marker:hover .badge-time-text,
-      .printing-marker-icon .map-badge-marker:hover .badge-time-text {
+      .printing-marker-icon .map-badge-marker:hover .badge-time-text,
+      .hardware-marker-icon .map-badge-marker:hover .badge-time-text {
         max-width: 285px;
       }
       .culinary-marker-icon .badge-glyph,
-      .printing-marker-icon .badge-glyph {
+      .printing-marker-icon .badge-glyph,
+      .hardware-marker-icon .badge-glyph {
         flex: 0 0 auto;
         display: inline-flex;
         align-items: center;
@@ -765,6 +784,215 @@
         border: 2px solid #ec4899;
         color: #fbcfe8;
         box-shadow: 0 0 12px rgba(236, 72, 153, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+
+      /* Hardware, Gadget & Servis Elektronik Palu (Hardware) */
+      body:not([data-app-mode="hardware"]) .hardware-only-ui {
+        display: none !important;
+      }
+      #hardware-legend {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      @media (min-width: 621px) and (max-width: 980px) {
+        #hardware-legend {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          width: min(780px, calc(100vw - 80px));
+        }
+      }
+      @media (max-width: 620px) {
+        #hardware-legend {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      #hardware-legend .legend-item[data-cat="komputer"][aria-pressed="true"] {
+        border-color: rgba(139, 92, 246, .85);
+        background: rgba(139, 92, 246, .18);
+        color: #ddd6fe;
+        box-shadow: 0 0 14px rgba(139, 92, 246, .3);
+      }
+      #hardware-legend .legend-item[data-cat="hp"][aria-pressed="true"] {
+        border-color: rgba(2, 132, 199, .85);
+        background: rgba(2, 132, 199, .18);
+        color: #bae6fd;
+        box-shadow: 0 0 14px rgba(2, 132, 199, .3);
+      }
+      #hardware-legend .legend-item[data-cat="elektronik"][aria-pressed="true"] {
+        border-color: rgba(5, 150, 105, .85);
+        background: rgba(5, 150, 105, .18);
+        color: #a7f3d0;
+        box-shadow: 0 0 14px rgba(5, 150, 105, .3);
+      }
+      #hardware-legend .legend-item[data-cat="servis_komputer"][aria-pressed="true"] {
+        border-color: rgba(245, 158, 11, .85);
+        background: rgba(245, 158, 11, .18);
+        color: #fef08a;
+        box-shadow: 0 0 14px rgba(245, 158, 11, .3);
+      }
+      #hardware-legend .legend-item[data-cat="servis_hp"][aria-pressed="true"] {
+        border-color: rgba(244, 63, 94, .85);
+        background: rgba(244, 63, 94, .18);
+        color: #fecdd3;
+        box-shadow: 0 0 14px rgba(244, 63, 94, .3);
+      }
+      #hardware-legend .legend-item[data-cat="servis_elektronik"][aria-pressed="true"] {
+        border-color: rgba(13, 148, 136, .85);
+        background: rgba(13, 148, 136, .18);
+        color: #99f6e4;
+        box-shadow: 0 0 14px rgba(13, 148, 136, .3);
+      }
+      #hardware-legend .legend-item[data-cat="official_service"][aria-pressed="true"] {
+        border-color: rgba(99, 102, 241, .85);
+        background: rgba(99, 102, 241, .18);
+        color: #c7d2fe;
+        box-shadow: 0 0 14px rgba(99, 102, 241, .3);
+      }
+
+      .map-badge-marker.status-komputer {
+        border: 1px solid #8b5cf6;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-komputer .badge-glyph {
+        color: #c4b5fd;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-komputer .badge-time-text {
+        color: #ede9fe;
+      }
+      .map-badge-marker.status-komputer .badge-bar-fill {
+        background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+      }
+
+      .map-badge-marker.status-hp {
+        border: 1px solid #0284c7;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-hp .badge-glyph {
+        color: #38bdf8;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-hp .badge-time-text {
+        color: #e0f2fe;
+      }
+      .map-badge-marker.status-hp .badge-bar-fill {
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+      }
+
+      .map-badge-marker.status-elektronik {
+        border: 1px solid #059669;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-elektronik .badge-glyph {
+        color: #34d399;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-elektronik .badge-time-text {
+        color: #d1fae5;
+      }
+      .map-badge-marker.status-elektronik .badge-bar-fill {
+        background: linear-gradient(90deg, #059669, #10b981);
+      }
+
+      .map-badge-marker.status-servis_komputer {
+        border: 1px solid #f59e0b;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-servis_komputer .badge-glyph {
+        color: #fbbf24;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-servis_komputer .badge-time-text {
+        color: #fef3c7;
+      }
+      .map-badge-marker.status-servis_komputer .badge-bar-fill {
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      }
+
+      .map-badge-marker.status-servis_hp {
+        border: 1px solid #f43f5e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-servis_hp .badge-glyph {
+        color: #fb7185;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-servis_hp .badge-time-text {
+        color: #ffe4e6;
+      }
+      .map-badge-marker.status-servis_hp .badge-bar-fill {
+        background: linear-gradient(90deg, #f43f5e, #fb7185);
+      }
+
+      .map-badge-marker.status-servis_elektronik {
+        border: 1px solid #0d9488;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-servis_elektronik .badge-glyph {
+        color: #2dd4bf;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-servis_elektronik .badge-time-text {
+        color: #ccfbf1;
+      }
+      .map-badge-marker.status-servis_elektronik .badge-bar-fill {
+        background: linear-gradient(90deg, #0d9488, #2dd4bf);
+      }
+
+      .map-badge-marker.status-official_service {
+        border: 1px solid #6366f1;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-official_service .badge-glyph {
+        color: #a5b4fc;
+        font-size: 10px;
+        line-height: 1;
+      }
+      .map-badge-marker.status-official_service .badge-time-text {
+        color: #e0e7ff;
+      }
+      .map-badge-marker.status-official_service .badge-bar-fill {
+        background: linear-gradient(90deg, #6366f1, #818cf8);
+      }
+
+      .cluster-bubble.hardware-komputer {
+        border: 2px solid #8b5cf6;
+        color: #ddd6fe;
+        box-shadow: 0 0 12px rgba(139, 92, 246, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-hp {
+        border: 2px solid #0284c7;
+        color: #bae6fd;
+        box-shadow: 0 0 12px rgba(2, 132, 199, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-elektronik {
+        border: 2px solid #059669;
+        color: #a7f3d0;
+        box-shadow: 0 0 12px rgba(5, 150, 105, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-servis_komputer {
+        border: 2px solid #f59e0b;
+        color: #fef08a;
+        box-shadow: 0 0 12px rgba(245, 158, 11, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-servis_hp {
+        border: 2px solid #f43f5e;
+        color: #fecdd3;
+        box-shadow: 0 0 12px rgba(244, 63, 94, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-servis_elektronik {
+        border: 2px solid #0d9488;
+        color: #99f6e4;
+        box-shadow: 0 0 12px rgba(13, 148, 136, .5), 0 3px 8px rgba(0, 0, 0, .5);
+      }
+      .cluster-bubble.hardware-official_service {
+        border: 2px solid #6366f1;
+        color: #c7d2fe;
+        box-shadow: 0 0 12px rgba(99, 102, 241, .5), 0 3px 8px rgba(0, 0, 0, .5);
       }
 
       .culinary-legend {
@@ -3550,10 +3778,18 @@
         background: rgba(6, 182, 212, 0.08);
         box-shadow: 0 10px 28px rgba(6, 182, 212, 0.2);
       }
+      .welcome-card-item.item-hardware:hover {
+        border-color: rgba(139, 92, 246, 0.6);
+        background: rgba(139, 92, 246, 0.08);
+        box-shadow: 0 10px 28px rgba(139, 92, 246, 0.2);
+      }
       .welcome-card-item.item-rtrw:hover {
         border-color: rgba(129, 140, 248, 0.6);
         background: rgba(129, 140, 248, 0.08);
         box-shadow: 0 10px 28px rgba(129, 140, 248, 0.2);
+      }
+      .welcome-grid .welcome-card-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
       }
       .welcome-icon-box {
         flex: 0 0 46px;
@@ -3569,6 +3805,7 @@
       .icon-outage { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
       .icon-culinary { background: linear-gradient(135deg, #f97316, #c2410c); color: #fff; }
       .icon-printing { background: linear-gradient(135deg, #06b6d4, #0284c7); color: #fff; }
+      .icon-hardware { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; }
       .icon-rtrw { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
 
       .welcome-item-body {
@@ -3754,21 +3991,22 @@
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
 
-            <div class="mode-dropdown-header">Mode Perencanaan (Kosong)</div>
-
-            <button type="button" class="mode-dropdown-item" data-mode="empty-4" role="menuitem">
-              <span class="mode-badge-icon empty">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="4" stroke-dasharray="3 3"></rect>
-                  <text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor" stroke="none">4</text>
+            <button type="button" class="mode-dropdown-item" data-mode="hardware" role="menuitem">
+              <span class="mode-badge-icon hardware">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
                 </svg>
               </span>
               <div class="mode-item-text">
-                <span class="mode-item-title">Mode Kosong 4</span>
-                <span class="mode-item-subtitle">Slot perencanaan peta #4</span>
+                <span class="mode-item-title">Peta Elektronik & Servis Palu</span>
+                <span class="mode-item-subtitle">Komputer, Laptop, HP, Alat Elektronik & Servis</span>
               </div>
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
+
+            <div class="mode-dropdown-header">Mode Perencanaan (Kosong)</div>
 
             <button type="button" class="mode-dropdown-item" data-mode="empty-5" role="menuitem">
               <span class="mode-badge-icon empty">
@@ -3865,6 +4103,7 @@
         <button id="open-import" class="outage-only-ui" type="button">＋ Impor hasil AI</button>
         <button id="open-submit-place" class="culinary-only-ui btn-submit-place" type="button" title="Daftarkan coffeeshop atau resto Anda ke peta">➕ Daftarkan Usaha</button>
         <button id="open-submit-print" class="printing-only-ui btn-submit-place" type="button" title="Daftarkan fotocopy atau percetakan Anda ke peta">➕ Daftarkan Usaha</button>
+        <button id="open-submit-hardware" class="hardware-only-ui btn-submit-place" type="button" title="Daftarkan toko hardware atau servis Anda ke peta">➕ Daftarkan Usaha</button>
       </div>
     </header>
 
@@ -4157,6 +4396,118 @@
           <button type="button" id="btn-toggle-print-heat-markers" class="heat-marker-toggle-btn" aria-pressed="true" title="Sembunyikan atau tampilkan ikon titik saat melihat heatmap">
             <span>📍</span>
             <span id="text-toggle-print-heat-markers">Ikon Titik: Aktif</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Legenda dan filter Hardware, Gadget & Servis Elektronik Palu -->
+      <div id="hardware-legend" class="map-legend hardware-only-ui" aria-label="Legenda dan filter hardware dan servis elektronik">
+        <div class="legend-head">
+          <span class="legend-label">Filter Elektronik & Servis</span>
+          <div class="legend-head-actions">
+            <button type="button" id="hardware-heat-toggle-btn" class="boundary-toggle-btn heat-toggle-btn" aria-pressed="false" title="Tampilkan/Sembunyikan heatmap kepadatan toko & servis elektronik di Palu (Default: Nonaktif)">
+              <span class="boundary-btn-icon">🔥</span>
+              <span id="hardware-heat-toggle-text"><span class="txt-full">Heatmap</span><span class="txt-short">Heat</span></span>
+            </button>
+            <button type="button" id="hardware-boundary-toggle-btn" class="boundary-toggle-btn" aria-pressed="true" title="Tampilkan/Sembunyikan batas administrasi kelurahan">
+              <span class="boundary-btn-icon">🏛️</span>
+              <span id="hardware-boundary-toggle-text"><span class="txt-full">Batas Kelurahan</span><span class="txt-short">Batas</span></span>
+            </button>
+            <button type="button" id="hardware-add-btn" class="legend-toggle-btn" style="border-color:rgba(139,92,246,0.4); background:rgba(139,92,246,0.12); color:#ddd6fe;" title="Daftarkan toko atau jasa servis Anda">
+              <span>➕ <span class="txt-full">Daftarkan</span><span class="txt-short">Daftar</span></span>
+            </button>
+            <button type="button" id="hardware-legend-toggle-btn" class="legend-toggle-btn" aria-label="Sembunyikan atau tampilkan filter" title="Sembunyikan/Tampilkan filter">
+              <span id="hardware-legend-toggle-text" class="txt-full">Ciutkan</span>
+              <span id="hardware-legend-toggle-icon" aria-hidden="true">▾</span>
+            </button>
+            <a
+              class="threads-link"
+              href="https://www.threads.com/@andiarman___"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Buka akun Threads @andiarman___ di tab baru"
+              title="Threads @andiarman___"
+            >
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
+              </svg>
+              <span>@andiarman___</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 1: Kategori Filter Utama -->
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="all" aria-pressed="true">
+          <i class="legend-icon legend-icon-all" aria-hidden="true"></i>
+          <span>Semua <b id="hw-count-all">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="komputer" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">💻</i>
+          <span>Komputer/Laptop <b id="hw-count-pc">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="hp" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">📱</i>
+          <span>Toko HP <b id="hw-count-hp">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="elektronik" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🔌</i>
+          <span>Elektronik <b id="hw-count-elec">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="servis_komputer" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🛠️</i>
+          <span>Servis Laptop <b id="hw-count-srv-pc">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="servis_hp" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">📲</i>
+          <span>Servis HP <b id="hw-count-srv-hp">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="servis_elektronik" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🔧</i>
+          <span>Servis AC/TV <b id="hw-count-srv-elec">0</b></span>
+        </button>
+        <button class="legend-item hardware-cat-btn" type="button" data-cat="official_service" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🏢</i>
+          <span>Service Center Resmi <b id="hw-count-official">0</b></span>
+        </button>
+
+        <!-- Row 2: Jam Buka -->
+        <div class="session-filter" id="hardware-session-filter">
+          <span class="legend-label">Jam Buka</span>
+          <div class="session-list" id="hardware-session-list" role="group" aria-label="Saring menurut jam operasional">
+            <button class="session-item hardware-time-btn active" type="button" data-time="all" aria-pressed="true">
+              <b>Semua</b>
+            </button>
+            <button class="session-item hardware-time-btn" type="button" data-time="open-now" aria-pressed="false">
+              <span>🟢 Buka Sekarang <b id="hw-chip-opennow" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item hardware-time-btn" type="button" data-time="24h" aria-pressed="false">
+              <span>⚡ Buka 24 Jam <b id="hw-chip-24h" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item hardware-time-btn" type="button" data-time="scheduled" aria-pressed="false">
+              <span>⏰ Jam Tertentu <b id="hw-chip-scheduled" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+          </div>
+        </div>
+
+        <span class="legend-note">💻 Violet = Komputer & Laptop · 📱 Biru = Toko HP · 🔌 Hijau = Toko Elektronik · 🛠️ Amber = Servis Laptop · 📲 Merah = Servis HP · 🔧 Teal = Servis AC/TV · 🏢 Indigo = Service Center Resmi · 🟢 Hijau = Buka sekarang (Live WITA).</span>
+      </div>
+
+      <!-- Mini Floating Legend Heatmap Kepadatan Hardware & Servis -->
+      <div id="hardware-heat-legend" class="culinary-heat-legend" style="display:none;" aria-label="Legenda Peta Panas Kepadatan Hardware & Servis">
+        <div class="heat-legend-head">
+          <span style="color:#a78bfa;">🔥 Kepadatan Elektronik & Servis</span>
+          <span class="heat-legend-sub">Heatmap</span>
+        </div>
+        <div class="heat-legend-bar" style="background:linear-gradient(to right, #6366f1, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444);"></div>
+        <div class="heat-legend-labels">
+          <span>Rendah</span>
+          <span>Sedang</span>
+          <span>Padat</span>
+        </div>
+        <div class="heat-legend-toggle-row">
+          <button type="button" id="btn-toggle-hw-heat-markers" class="heat-marker-toggle-btn" aria-pressed="true" title="Sembunyikan atau tampilkan ikon titik saat melihat heatmap">
+            <span>📍</span>
+            <span id="text-toggle-hw-heat-markers">Ikon Titik: Aktif</span>
           </button>
         </div>
       </div>
@@ -4494,7 +4845,21 @@
             </div>
           </div>
 
-          <!-- 4. Peta RTRW Kota Palu -->
+          <!-- 4. Peta Elektronik & Servis -->
+          <div class="welcome-card-item item-hardware" data-choose-mode="hardware" role="button" tabindex="0">
+            <div class="welcome-icon-box icon-hardware">
+              <span>💻</span>
+            </div>
+            <div class="welcome-item-body">
+              <div class="welcome-item-title-row">
+                <span class="welcome-item-title">Elektronik & Servis</span>
+                <span class="welcome-item-badge" style="color:#c4b5fd;">290 Titik</span>
+              </div>
+              <span class="welcome-item-desc">Toko komputer, laptop, HP, alat elektronik & bengkel servis di Kota Palu.</span>
+            </div>
+          </div>
+
+          <!-- 5. Peta RTRW Kota Palu -->
           <div class="welcome-card-item item-rtrw" data-choose-mode="rtrw" role="button" tabindex="0">
             <div class="welcome-icon-box icon-rtrw">
               <span>🏛️</span>
@@ -6052,6 +6417,502 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       }
 
       // ==========================================
+      // Mode Toko Hardware, Komputer, HP, Elektronik & Jasa Servis Palu
+      // ==========================================
+      const hardwareLayers = {
+        clusterGroup: null,
+        allMarkers: [],
+        allPlaces: [],
+        loaded: false
+      };
+
+      let hardwareHeatmapLayer = null;
+      let hardwareHeatmapEnabled = false; // TIDAK AUTOAKTIF: default nonaktif
+      let hardwareMarkersVisible = true;
+
+      const hardwareFilterState = {
+        category: "all", // "all" | "komputer" | "hp" | "elektronik" | "servis_komputer" | "servis_hp" | "servis_elektronik" | "official_service"
+        time: "all" // "all" | "open-now" | "24h" | "scheduled"
+      };
+
+      function matchesHardwareFilter(p) {
+        if (hardwareFilterState.category !== "all") {
+          if (p.category !== hardwareFilterState.category) return false;
+        }
+
+        if (hardwareFilterState.time === "open-now") {
+          if (!isPlaceOpenNow(p)) return false;
+        } else if (hardwareFilterState.time === "24h") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (!is24) return false;
+        } else if (hardwareFilterState.time === "scheduled") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (is24) return false;
+        }
+
+        return true;
+      }
+
+      function buildHardwareBadgeHtml(p) {
+        const cat = p.category || "komputer";
+        let catClass = `status-${cat}`;
+        let barColor = "#8b5cf6";
+        let glyphIcon = p.icon || "💻";
+
+        if (cat === "hp") {
+          barColor = "#0284c7";
+        } else if (cat === "elektronik") {
+          barColor = "#059669";
+        } else if (cat === "servis_komputer") {
+          barColor = "#f59e0b";
+        } else if (cat === "servis_hp") {
+          barColor = "#f43f5e";
+        } else if (cat === "servis_elektronik") {
+          barColor = "#0d9488";
+        } else if (cat === "official_service") {
+          barColor = "#6366f1";
+        }
+
+        const labelText = p.name || p.categoryLabel;
+
+        return `
+          <div class="map-badge-marker ${catClass}" title="${escapeHtml(p.name)}: ${escapeHtml(p.address)}">
+            <div class="badge-row">
+              <span class="badge-glyph" aria-hidden="true" style="font-size:11px; line-height:1;">${glyphIcon}</span>
+              <span class="badge-time-text">${escapeHtml(labelText)}</span>
+            </div>
+            <div class="badge-bar-track" aria-hidden="true">
+              <div class="badge-bar-fill" style="width: 100%; background: ${barColor};"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function updateHardwareCounts() {
+        if (!hardwareLayers.allPlaces || !hardwareLayers.allPlaces.length) return;
+
+        let totalPlaces = hardwareLayers.allPlaces.length;
+        let totalPc = 0;
+        let totalHp = 0;
+        let totalElec = 0;
+        let totalSrvPc = 0;
+        let totalSrvHp = 0;
+        let totalSrvElec = 0;
+        let totalOfficial = 0;
+        let totalOpenNow = 0;
+        let total24h = 0;
+        let totalScheduled = 0;
+
+        for (const p of hardwareLayers.allPlaces) {
+          if (p.category === "komputer") totalPc++;
+          else if (p.category === "hp") totalHp++;
+          else if (p.category === "elektronik") totalElec++;
+          else if (p.category === "servis_komputer") totalSrvPc++;
+          else if (p.category === "servis_hp") totalSrvHp++;
+          else if (p.category === "servis_elektronik") totalSrvElec++;
+          else if (p.category === "official_service") totalOfficial++;
+
+          if (isPlaceOpenNow(p)) totalOpenNow++;
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+          if (is24) total24h++;
+          else totalScheduled++;
+        }
+
+        const setTxt = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val;
+        };
+
+        setTxt("hw-count-all", totalPlaces);
+        setTxt("hw-count-pc", totalPc);
+        setTxt("hw-count-hp", totalHp);
+        setTxt("hw-count-elec", totalElec);
+        setTxt("hw-count-srv-pc", totalSrvPc);
+        setTxt("hw-count-srv-hp", totalSrvHp);
+        setTxt("hw-count-srv-elec", totalSrvElec);
+        setTxt("hw-count-official", totalOfficial);
+
+        setTxt("hw-chip-opennow", `(${totalOpenNow})`);
+        setTxt("hw-chip-24h", `(${total24h})`);
+        setTxt("hw-chip-scheduled", `(${totalScheduled})`);
+      }
+
+      function applyHardwareFilter() {
+        if (!hardwareLayers.clusterGroup) return;
+
+        hardwareLayers.clusterGroup.clearLayers();
+        const visible = hardwareLayers.allMarkers.filter(m => matchesHardwareFilter(m.feature.properties));
+        hardwareLayers.clusterGroup.addLayers(visible);
+        updateHardwareCounts();
+
+        if (hardwareHeatmapEnabled) {
+          syncHardwareHeatmap();
+        }
+      }
+
+      async function loadHardwareLayers() {
+        if (hardwareLayers.loaded) {
+          if (hardwareLayers.clusterGroup && !map.hasLayer(hardwareLayers.clusterGroup)) {
+            map.addLayer(hardwareLayers.clusterGroup);
+            applyHardwareFilter();
+          }
+          if (hardwareHeatmapEnabled) {
+            syncHardwareHeatmap();
+          }
+          return;
+        }
+
+        try {
+          const res = await fetch("data/places/palu-hardware-service.json");
+          if (!res.ok) throw new Error("Gagal mengambil data hardware & servis Palu");
+          const places = await res.json();
+          hardwareLayers.allPlaces = places;
+
+          if (typeof L.markerClusterGroup === "function") {
+            hardwareLayers.clusterGroup = L.markerClusterGroup({
+              maxClusterRadius: 42,
+              spiderfyOnMaxZoom: true,
+              showCoverageOnHover: false,
+              zoomToBoundsOnClick: true,
+              disableClusteringAtZoom: 16,
+              animate: true,
+              animateAddingMarkers: false,
+              iconCreateFunction: (cluster) => {
+                const children = cluster.getAllChildMarkers();
+                let pcCount = 0;
+                let hpCount = 0;
+                let srvCount = 0;
+                for (const m of children) {
+                  const cat = m.feature?.properties?.category;
+                  if (cat === "komputer") pcCount++;
+                  else if (cat === "hp") hpCount++;
+                  else if (cat && cat.startsWith("servis")) srvCount++;
+                }
+                let type = "hardware-komputer";
+                if (srvCount >= pcCount && srvCount >= hpCount) type = "hardware-servis_komputer";
+                else if (hpCount > pcCount) type = "hardware-hp";
+
+                const count = cluster.getChildCount();
+                return L.divIcon({
+                  html: `<div class="cluster-bubble ${type}"><span>${count}</span></div>`,
+                  className: `custom-cluster-wrapper cluster-${type}`,
+                  iconSize: [36, 36],
+                  iconAnchor: [18, 18]
+                });
+              }
+            });
+          } else {
+            hardwareLayers.clusterGroup = L.featureGroup();
+          }
+
+          const markers = [];
+
+          for (const p of places) {
+            const marker = L.marker([p.lat, p.lon], {
+              icon: L.divIcon({
+                className: `street-marker-icon hardware-marker-icon`,
+                html: buildHardwareBadgeHtml(p),
+                iconSize: null
+              }),
+              keyboard: true
+            });
+
+            marker.feature = { properties: p };
+
+            marker.bindTooltip(`<b>${escapeHtml(p.name)}</b><br><small style="color:#94a3b8;">${escapeHtml(p.categoryLabel)} · 📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</small>`, {
+              permanent: false,
+              direction: "top",
+              className: "street-tooltip-shell",
+              offset: [0, -10]
+            });
+
+            const featuresHtml = (p.features && p.features.length > 0)
+              ? p.features.map(feat => `<span class="culinary-chip">${escapeHtml(feat)}</span>`).join("")
+              : "";
+            const gmapsUrl = p.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name + ' ' + p.address)}`;
+
+            // Jam Operasional & Status WITA
+            const is24h = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam");
+            const hoursBadge = is24h
+              ? `<span style="background:rgba(14,165,233,0.2); color:#38bdf8; font-weight:700; padding:1px 6px; border-radius:4px; font-size:0.68rem; border:1px solid rgba(14,165,233,0.35);">⚡ BUKA 24 JAM PENUH</span>`
+              : (p.operatingHours?.hoursText ? `<span><b>${escapeHtml(p.operatingHours.hoursText)} WITA</b></span>` : `<span>Jam operasional fleksibel</span>`);
+
+            const isOpen = isPlaceOpenNow(p);
+            const statusBadge = isOpen
+              ? `<span class="culinary-status-pill open">🟢 BUKA SEKARANG</span>`
+              : `<span class="culinary-status-pill closed">🔴 SEDANG TUTUP</span>`;
+
+            // Koordinat Presisi
+            const coordsStr = (p.lat && p.lon)
+              ? `${Number(p.lat).toFixed(5)}, ${Number(p.lon).toFixed(5)}`
+              : "-";
+
+            // No telepon jika ada
+            const phoneHtml = p.phone ? `
+              <div class="culinary-field-row">
+                <span class="culinary-field-icon">📞</span>
+                <div class="culinary-field-content">
+                  <span class="culinary-field-label">Kontak / WhatsApp</span>
+                  <div class="culinary-field-val"><a href="tel:${escapeHtml(p.phone)}" style="color:#38bdf8; text-decoration:none; font-weight:600;">${escapeHtml(p.phone)}</a></div>
+                </div>
+              </div>
+            ` : '';
+
+            marker.bindPopup(`
+              <div class="culinary-popup">
+                <div class="culinary-popup-header">
+                  <div class="culinary-popup-title">${p.icon || '💻'} ${escapeHtml(p.name)}</div>
+                </div>
+
+                <div class="culinary-popup-badges">
+                  <span class="culinary-badge-cat" style="background:rgba(139,92,246,0.16); color:#ddd6fe; border-color:rgba(139,92,246,0.35);">
+                    ${escapeHtml(p.categoryLabel)}
+                  </span>
+                  <span class="culinary-tag-local">
+                    <span>📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</span>
+                  </span>
+                </div>
+
+                <div class="culinary-popup-fields">
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">📍</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Alamat Lengkap</span>
+                      <div class="culinary-field-val">${escapeHtml(p.address)}</div>
+                    </div>
+                  </div>
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">⏰</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Jam Operasional (WITA)</span>
+                      <div class="culinary-field-val" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:2px;">
+                        ${hoursBadge}
+                        ${statusBadge}
+                      </div>
+                    </div>
+                  </div>
+
+                  ${phoneHtml}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">💰</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Info Tarif / Layanan</span>
+                      <div class="culinary-field-val" style="color:#a78bfa; font-weight:600;">${escapeHtml(p.priceRange || 'Standar & Transparan')}</div>
+                    </div>
+                  </div>
+
+                  ${featuresHtml ? `
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">✨</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Spesialisasi & Layanan</span>
+                      <div class="culinary-features" style="margin-top:3px;">
+                        ${featuresHtml}
+                      </div>
+                    </div>
+                  </div>
+                  ` : ''}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">🧭</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Titik Koordinat Presisi</span>
+                      <div class="culinary-field-val culinary-coord-text">${coordsStr}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="culinary-gmaps-btn" style="background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.6 12a.6.6 0 0 0 .8 0c.6-.5 7.6-6.6 7.6-12a8 8 0 0 0-8-8z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>Buka Rute di Google Maps ↗</span>
+                </a>
+              </div>
+            `);
+
+            markers.push(marker);
+          }
+
+          hardwareLayers.allMarkers = markers;
+          updateHardwareCounts();
+
+          if (currentAppMode === "hardware") {
+            applyHardwareFilter();
+            map.addLayer(hardwareLayers.clusterGroup);
+          }
+
+          hardwareLayers.loaded = true;
+        } catch (err) {
+          console.error("Gagal memuat data hardware & servis Palu:", err);
+        }
+      }
+
+      function hideHardwareLayers() {
+        if (hardwareLayers.clusterGroup && map.hasLayer(hardwareLayers.clusterGroup)) {
+          map.removeLayer(hardwareLayers.clusterGroup);
+        }
+        if (hardwareHeatmapLayer && map.hasLayer(hardwareHeatmapLayer)) {
+          map.removeLayer(hardwareHeatmapLayer);
+        }
+        const heatLeg = document.getElementById("hardware-heat-legend");
+        if (heatLeg) heatLeg.style.display = "none";
+      }
+
+      function syncHardwareHeatmap() {
+        const heatLeg = document.getElementById("hardware-heat-legend");
+        if (!hardwareHeatmapEnabled) {
+          if (hardwareHeatmapLayer && map.hasLayer(hardwareHeatmapLayer)) {
+            map.removeLayer(hardwareHeatmapLayer);
+          }
+          if (heatLeg) heatLeg.style.display = "none";
+          return;
+        }
+
+        if (!hardwareLayers.allPlaces || !hardwareLayers.allPlaces.length) return;
+
+        const activePlaces = hardwareLayers.allPlaces.filter(matchesHardwareFilter);
+        const heatPoints = activePlaces.map((p) => {
+          let weight = 1.0;
+          if (p.category === "komputer") weight = 1.3;
+          if (p.category === "official_service") weight = 1.5;
+          return [p.lat, p.lon, weight];
+        });
+
+        if (!hardwareHeatmapLayer) {
+          if (typeof L.heatLayer === "function") {
+            hardwareHeatmapLayer = L.heatLayer(heatPoints, {
+              radius: 30,
+              blur: 20,
+              maxZoom: 16,
+              max: 2.5,
+              gradient: {
+                0.2: "#6366f1",
+                0.4: "#8b5cf6",
+                0.6: "#06b6d4",
+                0.8: "#10b981",
+                0.9: "#f59e0b",
+                1.0: "#ef4444"
+              }
+            });
+          }
+        } else {
+          hardwareHeatmapLayer.setLatLngs(heatPoints);
+        }
+
+        if (hardwareHeatmapLayer && !map.hasLayer(hardwareHeatmapLayer)) {
+          map.addLayer(hardwareHeatmapLayer);
+        }
+
+        if (heatLeg) heatLeg.style.display = "flex";
+      }
+
+      function toggleHardwareHeatmap() {
+        hardwareHeatmapEnabled = !hardwareHeatmapEnabled;
+        const heatBtn = document.getElementById("hardware-heat-toggle-btn");
+        if (heatBtn) {
+          heatBtn.setAttribute("aria-pressed", hardwareHeatmapEnabled ? "true" : "false");
+          heatBtn.classList.toggle("active", hardwareHeatmapEnabled);
+        }
+        syncHardwareHeatmap();
+      }
+
+      function toggleHardwareMarkers() {
+        hardwareMarkersVisible = !hardwareMarkersVisible;
+        const btn = document.getElementById("btn-toggle-hw-heat-markers");
+        const txt = document.getElementById("text-toggle-hw-heat-markers");
+        if (btn) btn.setAttribute("aria-pressed", hardwareMarkersVisible ? "true" : "false");
+        if (txt) txt.textContent = hardwareMarkersVisible ? "Ikon Titik: Aktif" : "Ikon Titik: Tersembunyi";
+
+        if (hardwareLayers.clusterGroup) {
+          if (hardwareMarkersVisible) {
+            if (!map.hasLayer(hardwareLayers.clusterGroup)) map.addLayer(hardwareLayers.clusterGroup);
+          } else {
+            if (map.hasLayer(hardwareLayers.clusterGroup)) map.removeLayer(hardwareLayers.clusterGroup);
+          }
+        }
+      }
+
+      function setupHardwareControls() {
+        // 1. Kategori Buttons
+        const catBtns = document.querySelectorAll(".hardware-cat-btn");
+        catBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            catBtns.forEach(b => b.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            hardwareFilterState.category = btn.dataset.cat || "all";
+            applyHardwareFilter();
+          });
+        });
+
+        // 2. Jam Buka Buttons
+        const timeBtns = document.querySelectorAll(".hardware-time-btn");
+        timeBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            timeBtns.forEach(b => {
+              b.setAttribute("aria-pressed", "false");
+              b.classList.remove("active");
+            });
+            btn.setAttribute("aria-pressed", "true");
+            btn.classList.add("active");
+            hardwareFilterState.time = btn.dataset.time || "all";
+            applyHardwareFilter();
+          });
+        });
+
+        // 3. Heatmap Toggle
+        const hwHeatBtn = document.getElementById("hardware-heat-toggle-btn");
+        if (hwHeatBtn) {
+          hwHeatBtn.addEventListener("click", toggleHardwareHeatmap);
+        }
+
+        const hwHeatMarkerBtn = document.getElementById("btn-toggle-hw-heat-markers");
+        if (hwHeatMarkerBtn) {
+          hwHeatMarkerBtn.addEventListener("click", toggleHardwareMarkers);
+        }
+
+        // 4. Batas Kelurahan Toggle
+        const boundaryBtn = document.getElementById("hardware-boundary-toggle-btn");
+        if (boundaryBtn) {
+          boundaryBtn.addEventListener("click", () => {
+            isBoundaryActive = !isBoundaryActive;
+            boundaryBtn.setAttribute("aria-pressed", isBoundaryActive ? "true" : "false");
+            const txt = document.getElementById("hardware-boundary-toggle-text");
+            if (txt) txt.textContent = isBoundaryActive ? "Batas Kelurahan" : "Batas: Nonaktif";
+            for (const layer of boundaryLayersByRegency.values()) {
+              if (isBoundaryActive) {
+                if (!map.hasLayer(layer)) map.addLayer(layer);
+              } else {
+                if (map.hasLayer(layer)) map.removeLayer(layer);
+              }
+            }
+          });
+        }
+
+        // 5. Daftarkan Usaha Button
+        const addBtn1 = document.getElementById("hardware-add-btn");
+        const addBtn2 = document.getElementById("open-submit-hardware");
+        if (addBtn1) addBtn1.addEventListener("click", openSubmitModal);
+        if (addBtn2) addBtn2.addEventListener("click", openSubmitModal);
+
+        // 6. Collapse Toggle
+        const toggleBtn = document.getElementById("hardware-legend-toggle-btn");
+        const panel = document.getElementById("hardware-legend");
+        if (toggleBtn && panel) {
+          toggleBtn.addEventListener("click", () => {
+            const isCol = panel.classList.toggle("is-collapsed");
+            const txt = document.getElementById("hardware-legend-toggle-text");
+            if (txt) txt.textContent = isCol ? "Buka" : "Ciutkan";
+            if (typeof syncLegendHeight === "function") syncLegendHeight();
+          });
+          stopMapEventInterference(panel);
+        }
+      }
+
+      // ==========================================
       // Mode RTRW Kota Palu 2021-2041 (Perda 2/2021)
       // ==========================================
       const rtrwLayers = {
@@ -6822,6 +7683,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           if (mode === "outage") {
             hideCulinaryLayers();
             hidePrintingLayers();
+            hideHardwareLayers();
             hideRtrwLayers();
             hideContourLayers();
             modeBtn.className = "brand-icon mode-selector-btn mode-outage";
@@ -6835,6 +7697,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             updateBoundaryStyles();
           } else if (mode === "culinary") {
             hidePrintingLayers();
+            hideHardwareLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -6872,6 +7735,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
           } else if (mode === "printing" || mode === "contour") {
             hideCulinaryLayers();
+            hideHardwareLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -6905,9 +7769,46 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideStatusCard();
             if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
             map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
+          } else if (mode === "hardware") {
+            hideCulinaryLayers();
+            hidePrintingLayers();
+            hideRtrwLayers();
+            hideContourLayers();
+            if (geoJsonLayer) {
+              map.removeLayer(geoJsonLayer);
+              geoJsonLayer = null;
+            }
+            if (markerClusterGroup) {
+              map.removeLayer(markerClusterGroup);
+              markerClusterGroup = null;
+            }
+            allPointMarkers = [];
+
+            modeBtn.className = "brand-icon mode-selector-btn mode-hardware";
+            modeBtn.title = "Mode: Toko Hardware & Servis Elektronik Palu (Google Maps)";
+            currentModeIcon.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            `;
+            if (brandTitle) brandTitle.textContent = "Peta Elektronik & Servis — Kota Palu";
+            if (searchInput) {
+              searchInput.placeholder = window.innerWidth <= 620
+                ? "Cari komputer, hp, servis..."
+                : "Cari toko komputer, laptop, hp, servis TV, AC...";
+            }
+
+            loadHardwareLayers();
+            updateBoundaryStyles();
+            hideStatusCard();
+            if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
+            map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
           } else if (mode === "rtrw") {
             hideCulinaryLayers();
             hidePrintingLayers();
+            hideHardwareLayers();
             hideContourLayers();
             if (geoJsonLayer) {
               map.removeLayer(geoJsonLayer);
@@ -6936,6 +7837,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           } else {
             hideCulinaryLayers();
             hidePrintingLayers();
+            hideHardwareLayers();
             hideRtrwLayers();
             hideContourLayers();
             const emptyNum = mode.replace(/^empty-?/, "") || "2";
@@ -8362,6 +9264,20 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
+          const hardwareMatches = [];
+          if (currentAppMode === "hardware" && hardwareLayers.allPlaces.length) {
+            for (const pt of hardwareLayers.allPlaces) {
+              const nameLower = pt.name.toLowerCase();
+              const addrLower = (pt.address || "").toLowerCase();
+              const catLower = (pt.categoryLabel || "").toLowerCase();
+              const featLower = (pt.features || []).join(" ").toLowerCase();
+              if (nameLower.includes(term) || addrLower.includes(term) || catLower.includes(term) || featLower.includes(term)) {
+                hardwareMatches.push(pt);
+                if (hardwareMatches.length >= 25) break;
+              }
+            }
+          }
+
           for (const marker of allPointMarkers) {
             const props = marker.feature?.properties || {};
             const loc = (props.location || "").toLowerCase();
@@ -8393,13 +9309,53 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
-          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length) {
+          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length && !hardwareMatches.length) {
             resultsContainer.innerHTML = `<div class="search-no-results">Tidak ada lokasi yang cocok dengan "<b>${escapeHtml(query)}</b>"</div>`;
             resultsContainer.hidden = false;
             return;
           }
 
           resultsContainer.innerHTML = "";
+
+          for (const pt of hardwareMatches) {
+            const iconEmoji = pt.icon || "💻";
+            const badgeText = pt.categoryLabel || "Elektronik & Servis";
+            const item = document.createElement("div");
+            item.className = "search-result-item";
+            item.tabIndex = 0;
+            item.setAttribute("role", "option");
+            item.innerHTML = `
+              <div class="search-result-name">${iconEmoji} ${escapeHtml(pt.name)}</div>
+              <div class="search-result-meta">
+                <span class="search-result-area">${escapeHtml(pt.address)}</span>
+                <span class="search-result-badge safe" style="background:rgba(139,92,246,0.18); color:#ddd6fe; border:1px solid rgba(139,92,246,0.4);">${badgeText}</span>
+              </div>
+            `;
+            const selectHardware = () => {
+              resultsContainer.hidden = true;
+              const targetMarker = hardwareLayers.allMarkers.find(m => {
+                const ll = m.getLatLng();
+                return Math.abs(ll.lat - pt.lat) < 0.0001 && Math.abs(ll.lng - pt.lon) < 0.0001;
+              });
+
+              if (targetMarker && hardwareLayers.clusterGroup && typeof hardwareLayers.clusterGroup.zoomToShowLayer === "function") {
+                hardwareLayers.clusterGroup.zoomToShowLayer(targetMarker, () => {
+                  targetMarker.openPopup();
+                });
+              } else {
+                map.flyTo([pt.lat, pt.lon], 16, { duration: 1.1 });
+                if (targetMarker) setTimeout(() => targetMarker.openPopup(), 1200);
+              }
+            };
+            item.addEventListener("click", selectHardware);
+            item.addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectHardware();
+              }
+            });
+            resultsContainer.appendChild(item);
+          }
 
           for (const pt of printingMatches) {
             const iconEmoji = pt.icon || "🖨️";
@@ -10462,6 +11418,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       setupModeSwitcher();
       setupCulinaryControls();
       setupPrintingControls();
+      setupHardwareControls();
       setupRtrwControls();
       setupContourControls();
       setupSearchBar();

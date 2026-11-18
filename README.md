@@ -33,6 +33,7 @@
 | ⚡ [**Peta Pemadaman Listrik**](https://andiarman.github.io/PetaPalu/?mode=outage) | Monitoring jadwal dan wilayah pemadaman PLN Sulteng |
 | ☕ [**Peta Coffeeshop & Resto**](https://andiarman.github.io/PetaPalu/?mode=culinary) | Peta kuliner tanpa rating, jam operasional live, dan filter brand |
 | 🖨️ [**Peta Fotocopy & Percetakan**](https://andiarman.github.io/PetaPalu/?mode=printing) | Direktori 220+ tempat fotocopy, digital printing, 3D print & jilid |
+| 💻 [**Peta Elektronik & Servis**](https://andiarman.github.io/PetaPalu/?mode=hardware) | Direktori 290+ toko komputer, laptop, HP, elektronik & jasa servis |
 | 🏛️ [**Peta RTRW Kota Palu**](https://andiarman.github.io/PetaPalu/?mode=rtrw) | Rencana Tata Ruang Wilayah 2021–2041 (Perda No. 2/2021) |
 | 💬 [**Threads Pengembang**](https://www.threads.com/@andiarman___) | Komunikasi, saran fitur, dan update seputar Kota Palu |
 
@@ -63,7 +64,18 @@
 - **Kategori Layanan**: Filter cepat menurut jenis kebutuhan: *Fotocopy & ATK*, *Digital Printing*, *3D Print*, dan *Jilid*.
 - **Heatmap Percetakan**: Peta panas kepadatan sentra percetakan untuk mempermudah pelajar, mahasiswa, dan masyarakat menemukan layanan cetak terdekat.
 
-### 4. 🏛️ Peta Rencana Tata Ruang Wilayah (RTRW)
+### 4. 💻 Peta Elektronik, Gadget & Servis Palu
+- **Direktori 290+ Titik**: Memetakan seluruh toko hardware/gadget dan pusat reparasi di Kota Palu, meliputi:
+  - 💻 **Toko Komputer & Laptop**: Toko PC, laptop, sparepart, gaming gear, dan aksesoris.
+  - 📱 **Toko HP & Smartphone**: Konter HP, gerai distributor resmi, dan aksesoris ponsel.
+  - 🔌 **Toko Alat Elektronik**: Toko audio, TV LED, pendingin ruangan (AC), kulkas, dan komponen elektronik.
+  - 🛠️ **Servis Komputer & Laptop**: Reparasi mati total, ganti keyboard/LCD, servis motherboard, dan servis printer.
+  - 📲 **Servis HP & Smartphone**: Ganti LCD/touchscreen, ganti baterai, perbaikan port, dan perbaikan software.
+  - 🔧 **Servis Elektronik & AC/TV**: Reparasi TV LED/Smart TV, perbaikan AC, kulkas, dan mesin cuci (termasuk teknisi panggilan).
+  - 🏢 **Service Center Resmi Brand**: Authorized service center untuk Asus, Acer, Lenovo, Samsung, Xiaomi, Oppo, Vivo, Epson, Canon, dll.
+- **Fitur Lengkap**: Filter jam operasional live WITA (Buka Sekarang / 24 Jam), tombol kontak telepon/WhatsApp langsung, rincian fasilitas & spesialisasi, heatmap kepadatan, dan integrasi rute Google Maps.
+
+### 5. 🏛️ Peta Rencana Tata Ruang Wilayah (RTRW)
 - Layer visualisasi resmi pola ruang dan struktur ruang Kota Palu 2021–2041 sesuai amanat **Peraturan Daerah (Perda) Kota Palu No. 2 Tahun 2021**.
 
 ---
