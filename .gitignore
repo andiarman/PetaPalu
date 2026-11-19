@@ -2,3 +2,6 @@
 Thumbs.db
 desktop.ini
 jangan upload ke github/
+target/
+.trunk-lock
+crates/frontend/dist/

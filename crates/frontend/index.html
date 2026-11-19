@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Peta Palu — Peta Pemadaman Listrik &amp; Layanan Kota</title>
+    <meta name="description" content="Pantau jadwal pemadaman listrik PLN realtime serta peta lokasi coffeeshop, percetakan, servis elektronik, SPBU, tempat ibadah, dan taman di Kota Palu." />
+    
+    <!-- Open Graph / Facebook / WhatsApp / Threads -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://andiarman.github.io/PetaPalu/" />
+    <meta property="og:site_name" content="Peta Palu" />
+    <meta property="og:title" content="Peta Palu — Portal Pemetaan Terpadu &amp; Jadwal Pemadaman Sulteng" />
+    <meta property="og:description" content="Pantau jadwal pemadaman listrik PLN realtime serta peta lokasi coffeeshop, percetakan, servis elektronik, SPBU, tempat ibadah, dan taman di Kota Palu." />
+    <meta property="og:image" content="https://andiarman.github.io/PetaPalu/og-image.png" />
+    <meta property="og:image:secure_url" content="https://andiarman.github.io/PetaPalu/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Peta Palu — Portal Pemetaan Terpadu Kota Palu" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Peta Palu — Portal Pemetaan Terpadu &amp; Jadwal Pemadaman Sulteng" />
+    <meta name="twitter:description" content="Pantau jadwal pemadaman listrik PLN realtime, direktori kuliner, percetakan, servis elektronik, SPBU, tempat ibadah, dan taman publik." />
+    <meta name="twitter:image" content="https://andiarman.github.io/PetaPalu/og-image.png" />
+
+    <!-- Styles & Fonts -->
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.Default.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Trunk Rust WebAssembly link -->
+    <link data-trunk rel="rust" href="Cargo.toml" />
+    <link data-trunk rel="copy-file" href="../../og-image.png" />
+    <link data-trunk rel="copy-dir" href="../../vendor" />
+    <link data-trunk rel="copy-dir" href="../../data" />
+
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        background: #07111f;
+        color: #e6edf7;
+      }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      #map { position: absolute; inset: 0; z-index: 1; }
+      .leaflet-tile { filter: grayscale(1) saturate(0) contrast(1.04) brightness(.98); }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="vendor/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script src="vendor/leaflet-heat/leaflet-heat.js"></script>
+</body>
+</html>
