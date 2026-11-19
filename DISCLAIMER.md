@@ -61,7 +61,7 @@ Pengembang Peta Palu menghormati privasi, hak kepemilikan, dan kenyamanan seluru
 2. **Saluran Permintaan Takedown / Koreksi:**
    - **GitHub Issues:** Buat laporan pada repositori resmi: [github.com/andiarman/PetaPalu/issues](https://github.com/andiarman/PetaPalu/issues)
    - **Threads Resmi:** DM atau sebut akun pengembang: [@andiarman___](https://www.threads.com/@andiarman___)
-   - **Email:** Hubungi kontak terbuka pengembang di `andiarman.in@gmail.com`
+   - **Email:** Hubungi kontak terbuka pengembang di `andiarman@duck.com`
 
 ---
 
