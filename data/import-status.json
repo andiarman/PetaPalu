@@ -2,13 +2,13 @@
   "status": "done",
   "date": "2026-11-19",
   "totalStreets": 575,
-  "mappedStreets": 568,
+  "mappedStreets": 575,
   "progressPercent": 100,
   "googleMapsApiDetected": false,
   "googleMapsDiagnostic": null,
   "newlyLearnedCount": 0,
-  "startedAt": "2026-11-19T03:08:47.372Z",
-  "completedAt": "2026-11-19T03:09:05.414Z",
-  "updatedAt": "2026-11-19T03:09:05.414Z",
-  "message": "Pemetaan selesai! 568 dari 575 lokasi berhasil dipetakan di server."
+  "startedAt": "2026-11-19T03:15:45.248Z",
+  "completedAt": "2026-11-19T03:15:45.560Z",
+  "updatedAt": "2026-11-19T03:15:45.560Z",
+  "message": "Pemetaan selesai! 575 dari 575 lokasi berhasil dipetakan di server."
 }

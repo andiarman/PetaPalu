@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-11-19",
-  "generated_at": "2026-11-19T03:09:05.412Z",
+  "generated_at": "2026-11-19T03:15:45.558Z",
   "events": [
     {
       "eventId": "55b2097e-ad9c-41f4-b36d-b6a22f0d5981",
@@ -73,6 +73,12 @@
               "latitude": -0.900366,
               "longitude": 119.874544,
               "displayName": "Masjid Raya"
+            },
+            {
+              "location": "Jalan Emy Saelan",
+              "latitude": -0.914887,
+              "longitude": 119.876538,
+              "displayName": "Jalan Emy Saelan"
             }
           ]
         },
@@ -1201,6 +1207,18 @@
               "latitude": -0.82912,
               "longitude": 119.880626,
               "displayName": "Jalan R.e marthadinata"
+            },
+            {
+              "location": "Macan",
+              "latitude": -0.875459,
+              "longitude": 119.875717,
+              "displayName": "Macan"
+            },
+            {
+              "location": "Jalan Sutovo",
+              "latitude": -0.889553,
+              "longitude": 119.873523,
+              "displayName": "Jalan Sutovo"
             }
           ]
         },
@@ -2692,6 +2710,24 @@
               "latitude": -0.912393,
               "longitude": 119.883467,
               "displayName": "Jalan Anoa"
+            },
+            {
+              "location": "Jalan Buvu Panda",
+              "latitude": -0.9619,
+              "longitude": 119.9055,
+              "displayName": "Jalan Buvu Panda"
+            },
+            {
+              "location": "Jalan Sandjo",
+              "latitude": -0.976376,
+              "longitude": 119.910183,
+              "displayName": "Jalan Sandjo"
+            },
+            {
+              "location": "Jalan Liweinda",
+              "latitude": -0.9761,
+              "longitude": 119.9186,
+              "displayName": "Jalan Liweinda"
             }
           ]
         },
@@ -2735,6 +2771,12 @@
               "latitude": -0.842718,
               "longitude": 119.816927,
               "displayName": "Jalan Malonda"
+            },
+            {
+              "location": "Dusun Watudea",
+              "latitude": -0.8605,
+              "longitude": 119.8275,
+              "displayName": "Dusun Watudea"
             }
           ]
         },

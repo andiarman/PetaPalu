@@ -32667,5 +32667,110 @@
     "longitude": 119.868,
     "displayName": "PT Shuang Ying International, KEK Pantoloan, Palu Utara",
     "ulpName": "ULP Taweli"
+  },
+  {
+    "location": "Jalan Emy Saelan",
+    "latitude": -0.914887,
+    "longitude": 119.876538,
+    "displayName": "Jalan Emmy Saelan, Tatura Selatan, Palu Selatan, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Emy Saelan",
+    "latitude": -0.914887,
+    "longitude": 119.876538,
+    "displayName": "Jalan Emmy Saelan, Tatura Selatan, Palu Selatan, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Macan",
+    "latitude": -0.875459,
+    "longitude": 119.875717,
+    "displayName": "Jalan Macan, Talise, Mantikulore, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Jalan Macan",
+    "latitude": -0.875459,
+    "longitude": 119.875717,
+    "displayName": "Jalan Macan, Talise, Mantikulore, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Jalan Sutovo",
+    "latitude": -0.889553,
+    "longitude": 119.873523,
+    "displayName": "Jalan Mayjen Sutoyo, Besusu Tengah, Palu Timur, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Sutovo",
+    "latitude": -0.889553,
+    "longitude": 119.873523,
+    "displayName": "Jalan Mayjen Sutoyo, Besusu Tengah, Palu Timur, Kota Palu",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Jalan Buvu Panda",
+    "latitude": -0.9619,
+    "longitude": 119.9055,
+    "displayName": "Jalan Buvupanda, Desa Lolu, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Buvu Panda",
+    "latitude": -0.9619,
+    "longitude": 119.9055,
+    "displayName": "Jalan Buvupanda, Desa Lolu, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Buvupanda",
+    "latitude": -0.9619,
+    "longitude": 119.9055,
+    "displayName": "Jalan Buvupanda, Desa Lolu, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Jalan Sandjo",
+    "latitude": -0.976376,
+    "longitude": 119.910183,
+    "displayName": "Jalan Sandjo (Gereja BK & SD/SMP BK), Desa Jono Oge, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Sandjo",
+    "latitude": -0.976376,
+    "longitude": 119.910183,
+    "displayName": "Jalan Sandjo (Gereja BK & SD/SMP BK), Desa Jono Oge, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Jalan Liweinda",
+    "latitude": -0.9761,
+    "longitude": 119.9186,
+    "displayName": "Jalan Liweinda (Kharisma Agrowisata), Desa Jono Oge, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Liweinda",
+    "latitude": -0.9761,
+    "longitude": 119.9186,
+    "displayName": "Jalan Liweinda (Kharisma Agrowisata), Desa Jono Oge, Sigi Biromaru, Kabupaten Sigi",
+    "ulpName": "ULP Palu Kota"
+  },
+  {
+    "location": "Dusun Watudea",
+    "latitude": -0.8605,
+    "longitude": 119.8275,
+    "displayName": "Dusun Watudea (Masjid Al-Mubaraqah & Jl. Salambara), Kelurahan Tipo, Ulujadi, Kota Palu",
+    "ulpName": "ULP Kamonji"
+  },
+  {
+    "location": "Watudea",
+    "latitude": -0.8605,
+    "longitude": 119.8275,
+    "displayName": "Dusun Watudea (Masjid Al-Mubaraqah & Jl. Salambara), Kelurahan Tipo, Ulujadi, Kota Palu",
+    "ulpName": "ULP Kamonji"
   }
 ]

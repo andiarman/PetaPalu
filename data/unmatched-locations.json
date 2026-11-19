@@ -1,54 +1,11 @@
 {
   "date": "2026-11-19",
-  "generatedAt": "2026-11-19T03:09:05.414Z",
+  "generatedAt": "2026-11-19T03:15:45.559Z",
   "summary": {
     "totalLocations": 575,
-    "totalMatched": 568,
-    "totalUnmatched": 7,
-    "matchRatePercent": 99
+    "totalMatched": 575,
+    "totalUnmatched": 0,
+    "matchRatePercent": 100
   },
-  "unmatchedLocations": [
-    {
-      "location": "Jalan Emy Saelan",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T09:00:00+08:00 s/d 2026-11-19T13:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Macan",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T13:00:00+08:00 s/d 2026-11-19T16:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Jalan Sutovo",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T13:00:00+08:00 s/d 2026-11-19T16:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Jalan Buvu Panda",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T16:00:00+08:00 s/d 2026-11-19T19:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Jalan Sandjo",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T16:00:00+08:00 s/d 2026-11-19T19:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Jalan Liweinda",
-      "ulpName": "ULP Palu Kota",
-      "timeSlot": "2026-11-19T16:00:00+08:00 s/d 2026-11-19T19:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    },
-    {
-      "location": "Dusun Watudea",
-      "ulpName": "ULP Kamonji",
-      "timeSlot": "2026-11-19T16:00:00+08:00 s/d 2026-11-19T19:30:00+08:00",
-      "reason": "Belum terdata di OpenStreetMap / Nominatim"
-    }
-  ]
+  "unmatchedLocations": []
 }
