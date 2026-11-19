@@ -9938,12 +9938,14 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           }
         });
 
-        const modeItems = modeMenu.querySelectorAll(".mode-dropdown-item");
+        const modeItems = modeMenu.querySelectorAll(".mode-dropdown-item[data-mode]");
         modeItems.forEach((btn) => {
           btn.addEventListener("click", () => {
             const mode = btn.dataset.mode;
-            setAppMode(mode);
-            toggleDropdown(false);
+            if (mode) {
+              setAppMode(mode);
+              toggleDropdown(false);
+            }
           });
         });
 
@@ -10077,6 +10079,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         window.toggleCurrentModeMarkers = toggleCurrentModeMarkers;
 
         window.setAppMode = function(mode) {
+          if (!mode || typeof mode !== "string") return;
           if (mode === currentAppMode && document.body.dataset.appMode === mode) return;
           currentAppMode = mode;
           document.body.dataset.appMode = mode;
@@ -10348,7 +10351,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
-            const emptyNum = mode.replace(/^empty-?/, "") || "2";
+            const emptyNum = (typeof mode === "string" ? mode.replace(/^empty-?/, "") : "") || "2";
             modeBtn.className = "brand-icon mode-selector-btn mode-empty";
             modeBtn.title = `Mode: Mode Kosong ${emptyNum} (Klik untuk ganti mode)`;
             currentModeIcon.innerHTML = `
