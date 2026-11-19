@@ -1,113 +1,132 @@
-# 🦀 Peta Palu — Full-Stack Rust Edition
+# 🗺️ Peta Palu — Platform Pemetaan Terpadu Kota Palu
 
-> **Arsitektur Penuh Bahasa Pemrograman Rust (100% Rust Backend + WebAssembly Frontend)**  
-> Portal Pemetaan Terpadu & Jadwal Pemadaman Listrik Kota Palu, Sulawesi Tengah.
+<p align="center">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/Lisensi-MIT-blue.svg?style=for-the-badge" alt="Lisensi MIT" />
+  </a>
+  <a href="https://andiarman.github.io/PetaPalu/">
+    <img src="https://img.shields.io/badge/🌐_BUKA_PETA_PALU-KLIK_DI_SINI-0284c7?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Website Peta Palu" />
+  </a>
+  <a href="https://andiarman.github.io/PetaPalu/">
+    <img src="https://img.shields.io/badge/Status-Live_GitHub_Pages-22c55e?style=for-the-badge&logo=githubpages&logoColor=white" alt="Status GitHub Pages" />
+  </a>
+  <a href="https://www.threads.com/@andiarman___">
+    <img src="https://img.shields.io/badge/Threads-@andiarman___-000000?style=for-the-badge&logo=threads&logoColor=white" alt="Threads Profile" />
+  </a>
+  <a href="https://andiarman.github.io/PetaPalu/">
+    <img src="https://img.shields.io/badge/Zona_Waktu-WITA_(UTC%2B8)-facc15?style=for-the-badge&logo=clock&logoColor=black" alt="Zona Waktu WITA" />
+  </a>
+</p>
 
-Proyek ini merupakan duplikasi dan penulisan ulang (*rewrite*) menyeluruh dari proyek **Peta Palu** menggunakan ekosistem bahasa pemrograman **Rust** dari hulu ke hilir:
-- **Backend**: Asynchronous REST API Server bertenaga **Axum** & **Tokio**.
-- **Frontend**: Single Page Application (SPA) reaktif berbasis **WebAssembly (WASM)** menggunakan framework **Yew** & **Trunk**.
-- **Shared Logic**: Model data bersama, kalkulasi waktu WITA (UTC+8), dan algoritma *fuzzy search* in-memory tercepat tanpa overhead JavaScript.
-
----
-
-## 🏗️ Struktur Arsitektur Workspace Cargo
-
-```text
-d:\outage-map-pages_backup_20261112_040238_rust/
-├── Cargo.toml                  # Cargo Workspace Definition
-├── Trunk.toml                  # Trunk Bundler Configuration (WASM)
-├── README.md                   # Dokumentasi Lengkap Proyek
-├── run-server.ps1              # Script Menjalankan Backend Axum
-├── run-frontend.ps1            # Script Menjalankan Frontend WebAssembly
-├── data/                       # Direktori Data JSON Asli Kota Palu
-│   └── places/
-│       ├── palu-coffeeshop-resto.json
-│       ├── palu-fotocopy-percetakan.json
-│       ├── palu-hardware-servis.json
-│       ├── palu-spbu-ibadah.json
-│       └── palu-pertamanan-fasilitas.json
-├── vendor/                     # Vendor Library (Leaflet & Plugins)
-└── crates/
-    ├── common/                 # 📦 Shared Domain Models & Logic
-    │   ├── Cargo.toml
-    │   └── src/
-    │       ├── lib.rs
-    │       ├── models.rs       # Struct PlaceRecord, Outage, Hours, Search
-    │       ├── wita.rs         # Kalkulasi Live WITA (UTC+8) & Jam Operasional
-    │       └── search.rs       # In-Memory Fuzzy Search & Scoring Algorithm
-    │
-    ├── server/                 # 🚀 Axum / Tokio REST Backend Server
-    │   ├── Cargo.toml
-    │   └── src/
-    │       ├── main.rs         # Server Entrypoint, CORS & Static Service
-    │       ├── routes.rs       # REST API Endpoints (/health, /places, /search)
-    │       └── state.rs        # In-Memory Cache & Crowdsource Queue
-    │
-    └── frontend/               # ⚡ Yew WebAssembly Frontend
-        ├── Cargo.toml
-        ├── index.html          # HTML Shell & WASM Loader
-        └── src/
-            ├── lib.rs          # WASM Start Function
-            ├── app.rs          # Yew Main Component & Reactive State
-            ├── leaflet.rs      # Rust wasm_bindgen FFI Bindings ke Leaflet
-            └── components/
-                ├── header.rs   # Navigasi Atas, Brand & Search Bar
-                ├── dock.rs     # Quick Mode Switcher Dock (Kiri)
-                ├── heat_dock.rs# Vertical Heatmap Dock (Kanan Atas)
-                └── legend.rs   # Filter Kategori & Jam Buka (Bawah)
-```
+<p align="center">
+  <b>Platform peta interaktif terpadu untuk masyarakat Kota Palu dan Sulawesi Tengah.</b><br>
+  Menyajikan informasi pemadaman listrik PLN secara langsung, direktori jujur 975+ coffeeshop & resto tanpa rating bias, 220+ layanan percetakan & fotocopy, serta rencana tata ruang wilayah (RTRW).
+</p>
 
 ---
 
-## ⚡ Fitur Backend (Axum Server)
+## 🎯 Navigasi Cepat
 
-1. **Kecepatan Tinggi (< 1ms Latensi)**: Data 2.200+ titik dimuat ke memori saat server menyala (*in-memory atomic read cache* via `Arc<RwLock<AppState>>`).
-2. **REST API V1**:
-   - `GET /api/v1/health`: Status server & waktu live WITA.
-   - `GET /api/v1/places?mode=culinary&category=cafe`: Mengambil data titik terfilter.
-   - `GET /api/v1/places/search?q=pantai`: Pencarian cepat nama & alamat.
-   - `POST /api/v1/places/submit`: Menerima dan memvalidasi pendaftaran titik baru dari warga.
-3. **Static File Serving**: Menyajikan bundle WASM, file GeoJSON batas kelurahan, dan Leaflet vendor asset secara otomatis dengan kompresi gzip.
-
----
-
-## ⚡ Fitur Frontend (WebAssembly / Yew)
-
-1. **Zero JS Slop**: Seluruh logika pergantian mode, filtering kategori, live WITA clock, dan pencarian dijalankan langsung di mesin WebAssembly (*compiled binary*).
-2. **Leaflet FFI Interop**: Rust mengontrol objek `L.map`, `L.markerClusterGroup`, dan `L.heatLayer` melalui binding `wasm_bindgen`.
-3. **Memory Safety**: Bebas dari *null pointer exceptions* dan memory leak runtime JavaScript.
+| Tautan Langsung | Keterangan |
+| :--- | :--- |
+| 🌐 [**Website Resmi Peta Palu**](https://andiarman.github.io/PetaPalu/) | Akses seluruh layanan peta secara online |
+| ⚡ [**Peta Pemadaman Listrik**](https://andiarman.github.io/PetaPalu/?mode=outage) | Monitoring jadwal dan wilayah pemadaman PLN Sulteng |
+| ☕ [**Peta Coffeeshop & Resto**](https://andiarman.github.io/PetaPalu/?mode=culinary) | Peta kuliner tanpa rating, jam operasional live, dan filter brand |
+| 🖨️ [**Peta Fotocopy & Percetakan**](https://andiarman.github.io/PetaPalu/?mode=printing) | Direktori 220+ tempat fotocopy, digital printing, 3D print & jilid |
+| 💻 [**Peta Elektronik & Servis**](https://andiarman.github.io/PetaPalu/?mode=hardware) | Direktori 290+ toko komputer, laptop, HP, elektronik & jasa servis |
+| 🏛️ [**Peta RTRW Kota Palu**](https://andiarman.github.io/PetaPalu/?mode=rtrw) | Rencana Tata Ruang Wilayah 2021–2041 (Perda No. 2/2021) |
+| 💬 [**Threads Pengembang**](https://www.threads.com/@andiarman___) | Komunikasi, saran fitur, dan update seputar Kota Palu |
 
 ---
 
-## 🚀 Panduan Menjalankan Proyek
+## 🗺️ Layanan & Mode Peta
 
-### 1. Prasyarat Toolchain Rust
-Pastikan Rust & WebAssembly target terpasang di sistem:
-```powershell
-# 1. Tambahkan target WebAssembly
-rustup target add wasm32-unknown-unknown
+### 1. ⚡ Peta Pemadaman Listrik PLN Sulteng
+- **Real-Time Monitoring**: Menghitung waktu lokal **WITA** untuk menentukan status pemadaman:
+  - 🛑 **Sedang Padam**: Warna merah dengan bar durasi pemadaman yang sedang berjalan.
+  - ⚠️ **Akan Padam**: Warna oranye dengan waktu hitung mundur menuju pemadaman.
+  - 🟢 **Sudah Menyala**: Warna hijau semi-transparan untuk lokasi yang telah selesai masa pemadamannya.
+- **Saring Menurut Sesi**: Kemudahan memfilter wilayah berdasarkan sesi jadwal padam (Sesi I – X).
+- **Cek Rumah Saya (GPS)**: Deteksi otomatis apakah koordinat posisi pengguna berada di dalam area pemadaman.
 
-# 2. Pasang bundler Trunk
-cargo install --locked trunk
+### 2. ☕ Peta Coffeeshop & Resto Palu (Peta Jujur Tanpa Rating)
+- **Prinsip Universal & Setara**: Menampilkan **975+ titik kuliner** di Kota Palu tanpa indikator rating bintang, review, atau algoritma popularitas. Semua usaha lokal memiliki kesempatan tampil setara di pencarian.
+- **Filter Jam Buka Live**:
+  - 🟢 *Buka Sekarang*: Menghitung jam buka hari ini secara real-time menurut waktu WITA.
+  - ⚡ *Buka 24 Jam*: Tempat makan dan kedai yang buka nonstop.
+  - ⏰ *Jam Tertentu*: Tempat dengan jam operasional khusus.
+- **Filter Brand & Franchise**: Pencarian terisolasi untuk jaringan kedai populer (Sin Coffee, Kopi Arobi, Janji Jiwa, Kopi Kenangan, dll.) maupun UMKM independen.
+- **Thermal Heatmap**: Visualisasi peta panas sebaran kepadatan coffeeshop dan resto di setiap sudut Kota Palu.
+- **Formulir Pendaftaran Usaha**: Pengguna dan pemilik usaha dapat mendaftarkan kedai/restonya secara mandiri dengan penanda koordinat interaktif.
+
+### 3. 🖨️ Peta Fotocopy & Percetakan Palu
+- **Direktori 220+ Titik**: Memetakan penyedia jasa percetakan dokumen, fotocopy kilat, digital printing spanduk/banner, 3D printing, hingga penjilidan skripsi/buku di Kota Palu.
+- **Kategori Layanan**: Filter cepat menurut jenis kebutuhan: *Fotocopy & ATK*, *Digital Printing*, *3D Print*, dan *Jilid*.
+- **Heatmap Percetakan**: Peta panas kepadatan sentra percetakan untuk mempermudah pelajar, mahasiswa, dan masyarakat menemukan layanan cetak terdekat.
+
+### 4. 💻 Peta Elektronik, Gadget & Servis Palu
+- **Direktori 290+ Titik**: Memetakan seluruh toko hardware/gadget dan pusat reparasi di Kota Palu, meliputi:
+  - 💻 **Toko Komputer & Laptop**: Toko PC, laptop, sparepart, gaming gear, dan aksesoris.
+  - 📱 **Toko HP & Smartphone**: Konter HP, gerai distributor resmi, dan aksesoris ponsel.
+  - 🔌 **Toko Alat Elektronik**: Toko audio, TV LED, pendingin ruangan (AC), kulkas, dan komponen elektronik.
+  - 🛠️ **Servis Komputer & Laptop**: Reparasi mati total, ganti keyboard/LCD, servis motherboard, dan servis printer.
+  - 📲 **Servis HP & Smartphone**: Ganti LCD/touchscreen, ganti baterai, perbaikan port, dan perbaikan software.
+  - 🔧 **Servis Elektronik & AC/TV**: Reparasi TV LED/Smart TV, perbaikan AC, kulkas, dan mesin cuci (termasuk teknisi panggilan).
+  - 🏢 **Service Center Resmi Brand**: Authorized service center untuk Asus, Acer, Lenovo, Samsung, Xiaomi, Oppo, Vivo, Epson, Canon, dll.
+- **Fitur Lengkap**: Filter jam operasional live WITA (Buka Sekarang / 24 Jam), tombol kontak telepon/WhatsApp langsung, rincian fasilitas & spesialisasi, heatmap kepadatan, dan integrasi rute Google Maps.
+
+### 5. 🏛️ Peta Rencana Tata Ruang Wilayah (RTRW)
+- Layer visualisasi resmi pola ruang dan struktur ruang Kota Palu 2021–2041 sesuai amanat **Peraturan Daerah (Perda) Kota Palu No. 2 Tahun 2021**.
+
+---
+
+## 💻 Dashboard Awal (Welcome Experience)
+
+Saat pertama kali membuka website:
+- Background peta Kota Palu ditampilkan dalam kondisi **freeze** (latar kabur/dimming artistik).
+- Muncul kartu pop-up **Peta Palu** yang memuat kartu icon dari setiap proyek layanan kota.
+- Pengguna dapat langsung memilih layanan yang diinginkan untuk membuka peta secara instan, atau mengeklik *"Langsung Jelajahi Peta"*.
+- Dashboard ini dapat dibuka kembali kapan saja melalui header judul atau menu dropdown.
+
+---
+
+## 🛠️ Arsitektur & Teknologi
+
+- **Frontend**: Single Page Application (SPA) murni dengan performa ultra-ringan tanpa *framework overhead*.
+- **Mapping Engine**: [Leaflet.js](https://leafletjs.com/), [Leaflet.markercluster](https://github.com/Leaflet/Leaflet.markercluster), [Leaflet.heat](https://github.com/Leaflet/Leaflet.heat).
+- **Desain & Gaya**: Glassmorphism gelap responsif, optimal pada ponsel pintar (360px) hingga monitor layar lebar.
+- **Sumber Data Terbuka**: OpenStreetMap, batas administrasi kelurahan/kabupaten Sulawesi Tengah, dan integrasi Google Maps navigasi.
+- **Hosting & CI/CD**: Otomatisasi GitHub Actions melalui [.github/workflows/deploy.yml](.github/workflows/deploy.yml) dan hosting di GitHub Pages.
+
+---
+
+## 🚀 Menjalankan Proyek Secara Lokal
+
+```bash
+# 1. Clone repository
+git clone https://github.com/andiarman/PetaPalu.git
+cd PetaPalu
+
+# 2. Jalankan server lokal sederhana
+npx serve .
+# Atau cukup buka index.html langsung di browser Anda
 ```
 
-### 2. Menjalankan Backend Server
-Buka terminal PowerShell:
-```powershell
-cd d:\outage-map-pages_backup_20261112_040238_rust
-.\run-server.ps1
-# Server akan berjalan di http://localhost:8080
-```
+---
 
-### 3. Menjalankan Frontend WebAssembly
-Buka terminal baru:
-```powershell
-cd d:\outage-map-pages_backup_20261112_040238_rust
-.\run-frontend.ps1
-# Frontend Trunk dev server akan berjalan di http://localhost:8081
-```
-Atau Anda dapat langsung melakukan kompilasi produksi:
-```powershell
-trunk build --release
-```
-Hasil kompilasi WebAssembly yang siap di-deploy ke server akan berada di `crates/frontend/dist/`.
+## ⚖️ Penafian Hukum & Batasan Tanggung Jawab (Disclaimer)
+
+1. **Sifat Proyek Open Source & Komunitas**: Peta Palu adalah proyek sumber terbuka independen berbasis komunitas yang dikembangkan secara sukarela untuk kepentingan publik dan kemudahan akses informasi masyarakat. Proyek ini tidak memiliki afiliasi resmi dengan PT PLN (Persero), instansi pemerintah manapun, atau pemilik usaha/toko yang terdata.
+2. **Data "Sebagaimana Adanya" (*AS IS*)**: Seluruh informasi (koordinat, alamat, kontak, jam operasional, estimasi tarif, dan jadwal pemadaman) disajikan apa adanya tanpa jaminan keakuratan mutlak. Jadwal pemadaman atau jam buka tempat fisik dapat berubah sewaktu-waktu di luar kendali pengembang.
+3. **Pembatasan Tanggung Jawab (*Limitation of Liability*)**: Pengembang, kontributor, dan pemilik repositori **TIDAK BERTANGGUNG JAWAB** atas segala bentuk kerugian langsung maupun tidak langsung, kerusakan, kecelakaan, biaya yang timbul, perselisihan hukum, atau konsekuensi apa pun yang dialami pengguna akibat pemanfaatan data atau kunjungan ke titik lokasi yang tertera di peta ini. Pengguna bertanggung jawab penuh secara mandiri atas segala tindakan yang diambil.
+4. **Kebijakan Koreksi & Penghapusan Data (*Notice and Takedown Policy*)**: Pemilik usaha atau pihak berkepentingan yang berkeberatan atas pencantuman data lokasinya, atau ingin memperbarui informasi, dapat mengajukan permohonan penghapusan/koreksi data kapan saja melalui [GitHub Issues](https://github.com/andiarman/PetaPalu/issues) atau Threads [@andiarman___](https://www.threads.com/@andiarman___). Permohonan akan diproses dengan cepat tanpa pungutan biaya.
+
+Dokumen penafian hukum lengkap dapat dibaca pada [DISCLAIMER.md](DISCLAIMER.md).
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dirilis di bawah lisensi terbuka [MIT License](LICENSE).
+
+Hak Cipta © 2026 **Andi Arman** ([@andiarman](https://github.com/andiarman)).
