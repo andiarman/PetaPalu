@@ -106,6 +106,10 @@
         background: linear-gradient(135deg, #059669 0%, #10b981 55%, #047857 100%);
         box-shadow: 0 4px 14px rgba(16, 185, 129, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
       }
+      .brand-icon.mode-parks {
+        background: linear-gradient(135deg, #10b981 0%, #059669 55%, #047857 100%);
+        box-shadow: 0 4px 14px rgba(16, 185, 129, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
+      }
       .brand-icon.mode-contour {
         background: linear-gradient(135deg, #059669 0%, #0d9488 55%, #0284c7 100%);
         box-shadow: 0 4px 14px rgba(13, 148, 136, .45), inset 0 1px 0 rgba(255, 255, 255, .3);
@@ -258,6 +262,15 @@
       }
       .mode-badge-icon.facility svg,
       .mode-badge-icon.spbu_ibadah svg {
+        width: 17px;
+        height: 17px;
+      }
+      .mode-badge-icon.parks {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, .35);
+      }
+      .mode-badge-icon.parks svg {
         width: 17px;
         height: 17px;
       }
@@ -1178,6 +1191,116 @@
         color: #fecdd3;
         box-shadow: 0 0 12px rgba(244, 63, 94, .5), 0 3px 8px rgba(0, 0, 0, .5);
       }
+
+      /* Pertamanan & Fasilitas Pendukung Palu (parks) */
+      body:not([data-app-mode="parks"]) .parks-only-ui {
+        display: none !important;
+      }
+      #parks-legend {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      @media (min-width: 621px) and (max-width: 980px) {
+        #parks-legend {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          width: min(780px, calc(100vw - 80px));
+        }
+      }
+      @media (max-width: 620px) {
+        #parks-legend {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      #parks-legend .legend-item[data-cat="taman_kota"][aria-pressed="true"] {
+        border-color: rgba(16, 185, 129, .85);
+        background: rgba(16, 185, 129, .18);
+        color: #a7f3d0;
+        box-shadow: 0 0 14px rgba(16, 185, 129, .3);
+      }
+      #parks-legend .legend-item[data-cat="hutan_kota"][aria-pressed="true"] {
+        border-color: rgba(5, 150, 105, .85);
+        background: rgba(5, 150, 105, .18);
+        color: #6ee7b7;
+        box-shadow: 0 0 14px rgba(5, 150, 105, .3);
+      }
+      #parks-legend .legend-item[data-cat="taman_pantai"][aria-pressed="true"] {
+        border-color: rgba(6, 182, 212, .85);
+        background: rgba(6, 182, 212, .18);
+        color: #a5f3fc;
+        box-shadow: 0 0 14px rgba(6, 182, 212, .3);
+      }
+      #parks-legend .legend-item[data-cat="sarana_olahraga"][aria-pressed="true"] {
+        border-color: rgba(245, 158, 11, .85);
+        background: rgba(245, 158, 11, .18);
+        color: #fde68a;
+        box-shadow: 0 0 14px rgba(245, 158, 11, .3);
+      }
+      #parks-legend .legend-item[data-cat="wisata_bukit"][aria-pressed="true"] {
+        border-color: rgba(139, 92, 246, .85);
+        background: rgba(139, 92, 246, .18);
+        color: #ddd6fe;
+        box-shadow: 0 0 14px rgba(139, 92, 246, .3);
+      }
+      #parks-legend .legend-item[data-cat="taman_ramah_anak"][aria-pressed="true"] {
+        border-color: rgba(236, 72, 153, .85);
+        background: rgba(236, 72, 153, .18);
+        color: #fbcfe8;
+        box-shadow: 0 0 14px rgba(236, 72, 153, .3);
+      }
+
+      .map-badge-marker.status-taman_kota {
+        border: 1px solid #10b981;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-taman_kota .badge-glyph { color: #6ee7b7; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-taman_kota .badge-time-text { color: #ecfdf5; }
+      .map-badge-marker.status-taman_kota .badge-bar-fill { background: linear-gradient(90deg, #10b981, #34d399); }
+
+      .map-badge-marker.status-hutan_kota {
+        border: 1px solid #059669;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-hutan_kota .badge-glyph { color: #34d399; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-hutan_kota .badge-time-text { color: #ecfdf5; }
+      .map-badge-marker.status-hutan_kota .badge-bar-fill { background: linear-gradient(90deg, #059669, #10b981); }
+
+      .map-badge-marker.status-taman_pantai {
+        border: 1px solid #06b6d4;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-taman_pantai .badge-glyph { color: #38bdf8; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-taman_pantai .badge-time-text { color: #f0fdfa; }
+      .map-badge-marker.status-taman_pantai .badge-bar-fill { background: linear-gradient(90deg, #06b6d4, #38bdf8); }
+
+      .map-badge-marker.status-sarana_olahraga {
+        border: 1px solid #f59e0b;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-sarana_olahraga .badge-glyph { color: #fde68a; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-sarana_olahraga .badge-time-text { color: #fffbeb; }
+      .map-badge-marker.status-sarana_olahraga .badge-bar-fill { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+      .map-badge-marker.status-wisata_bukit {
+        border: 1px solid #8b5cf6;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-wisata_bukit .badge-glyph { color: #ddd6fe; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-wisata_bukit .badge-time-text { color: #f5f3ff; }
+      .map-badge-marker.status-wisata_bukit .badge-bar-fill { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+      .map-badge-marker.status-taman_ramah_anak {
+        border: 1px solid #ec4899;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+      }
+      .map-badge-marker.status-taman_ramah_anak .badge-glyph { color: #fbcfe8; font-size: 11px; line-height: 1; }
+      .map-badge-marker.status-taman_ramah_anak .badge-time-text { color: #fdf2f8; }
+      .map-badge-marker.status-taman_ramah_anak .badge-bar-fill { background: linear-gradient(90deg, #ec4899, #f472b6); }
+
+      .cluster-bubble.parks-taman_kota { border: 2px solid #10b981; color: #a7f3d0; box-shadow: 0 0 12px rgba(16, 185, 129, .5); }
+      .cluster-bubble.parks-hutan_kota { border: 2px solid #059669; color: #6ee7b7; box-shadow: 0 0 12px rgba(5, 150, 105, .5); }
+      .cluster-bubble.parks-taman_pantai { border: 2px solid #06b6d4; color: #a5f3fc; box-shadow: 0 0 12px rgba(6, 182, 212, .5); }
+      .cluster-bubble.parks-sarana_olahraga { border: 2px solid #f59e0b; color: #fde68a; box-shadow: 0 0 12px rgba(245, 158, 11, .5); }
+      .cluster-bubble.parks-wisata_bukit { border: 2px solid #8b5cf6; color: #ddd6fe; box-shadow: 0 0 12px rgba(139, 92, 246, .5); }
+      .cluster-bubble.parks-taman_ramah_anak { border: 2px solid #ec4899; color: #fbcfe8; box-shadow: 0 0 12px rgba(236, 72, 153, .5); }
 
       .culinary-legend {
         position: absolute;
@@ -2944,6 +3067,12 @@
         border-color: #d1fae5;
         box-shadow: 0 0 14px rgba(16, 185, 129, 0.7), 0 2px 6px rgba(0, 0, 0, 0.4);
       }
+      .dock-btn-parks.active {
+        background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        color: #ffffff;
+        border-color: #a7f3d0;
+        box-shadow: 0 0 14px rgba(16, 185, 129, 0.7), 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
       .dock-btn-rtrw.active {
         background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         color: #ffffff;
@@ -4379,6 +4508,11 @@
         background: rgba(16, 185, 129, 0.08);
         box-shadow: 0 10px 28px rgba(16, 185, 129, 0.2);
       }
+      .welcome-card-item.item-parks:hover {
+        border-color: rgba(16, 185, 129, 0.7);
+        background: rgba(16, 185, 129, 0.1);
+        box-shadow: 0 10px 28px rgba(16, 185, 129, 0.25);
+      }
       .welcome-card-item.item-rtrw:hover {
         border-color: rgba(129, 140, 248, 0.6);
         background: rgba(129, 140, 248, 0.08);
@@ -4403,6 +4537,7 @@
       .icon-printing { background: linear-gradient(135deg, #06b6d4, #0284c7); color: #fff; }
       .icon-hardware { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; }
       .icon-facility { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+      .icon-parks { background: linear-gradient(135deg, #10b981, #047857); color: #fff; }
       .icon-rtrw { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
 
       .welcome-item-body {
@@ -4619,6 +4754,20 @@
               <span class="mode-item-active-dot" aria-hidden="true">●</span>
             </button>
 
+            <button type="button" class="mode-dropdown-item" data-mode="parks" role="menuitem">
+              <span class="mode-badge-icon parks">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22v-5"/>
+                  <path d="M12 17c-3.5 0-6-2.5-6-6 0-3 2-5 3.5-6.5C10.5 3.5 11 2.5 12 2c1 0.5 1.5 1.5 2.5 2.5C16 6 18 8 18 11c0 3.5-2.5 6-6 6z"/>
+                </svg>
+              </span>
+              <div class="mode-item-text">
+                <span class="mode-item-title">Peta Taman &amp; Fasilitas Palu</span>
+                <span class="mode-item-subtitle">Taman Kota, Hutan Kota, Sarana Olahraga &amp; RTH</span>
+              </div>
+              <span class="mode-item-active-dot" aria-hidden="true">●</span>
+            </button>
+
             <div class="mode-dropdown-header">Informasi & Hukum</div>
 
             <button type="button" class="mode-dropdown-item" id="menu-btn-disclaimer" role="menuitem">
@@ -4719,6 +4868,7 @@
         <button id="open-submit-print" class="printing-only-ui btn-submit-place" type="button" title="Daftarkan fotocopy atau percetakan Anda ke peta">➕ Daftarkan Usaha</button>
         <button id="open-submit-hardware" class="hardware-only-ui btn-submit-place" type="button" title="Daftarkan toko hardware atau servis Anda ke peta">➕ Daftarkan Usaha</button>
         <button id="open-submit-facility" class="facility-only-ui btn-submit-place" type="button" title="Daftarkan SPBU atau tempat ibadah Anda ke peta">➕ Daftarkan Lokasi</button>
+        <button id="open-submit-parks" class="parks-only-ui btn-submit-place" type="button" title="Daftarkan taman atau fasilitas publik ke peta">➕ Usulkan Fasilitas</button>
       </div>
     </header>
 
@@ -4780,6 +4930,14 @@
             <path d="M4 9h10"></path>
             <path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"></path>
             <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"></path>
+          </svg>
+        </button>
+
+        <!-- 6. Peta Pertamanan & Fasilitas Pendukung -->
+        <button type="button" class="dock-mode-btn dock-btn-parks" data-mode="parks" data-tooltip="Peta Taman &amp; Fasilitas" aria-label="Peta Taman &amp; Fasilitas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+            <path d="M12 22v-5"/>
+            <path d="M12 17c-3.5 0-6-2.5-6-6 0-3 2-5 3.5-6.5C10.5 3.5 11 2.5 12 2c1 0.5 1.5 1.5 2.5 2.5C16 6 18 8 18 11c0 3.5-2.5 6-6 6z"/>
           </svg>
         </button>
 
@@ -5323,6 +5481,114 @@
         </div>
       </div>
 
+      <!-- Legenda dan filter Pertamanan & Fasilitas Pendukung Palu -->
+      <div id="parks-legend" class="map-legend parks-only-ui" aria-label="Legenda dan filter taman dan fasilitas pendukung">
+        <div class="legend-head">
+          <span class="legend-label">Filter Taman &amp; Fasilitas Publik</span>
+          <div class="legend-head-actions">
+            <button type="button" id="parks-heat-toggle-btn" class="boundary-toggle-btn heat-toggle-btn" aria-pressed="false" title="Tampilkan/Sembunyikan heatmap sebaran taman &amp; fasilitas di Palu (Default: Nonaktif)">
+              <span class="boundary-btn-icon">🔥</span>
+              <span id="parks-heat-toggle-text"><span class="txt-full">Heatmap</span><span class="txt-short">Heat</span></span>
+            </button>
+            <button type="button" id="parks-boundary-toggle-btn" class="boundary-toggle-btn" aria-pressed="true" title="Tampilkan/Sembunyikan batas administrasi kelurahan">
+              <span class="boundary-btn-icon">🏛️</span>
+              <span id="parks-boundary-toggle-text"><span class="txt-full">Batas Kelurahan</span><span class="txt-short">Batas</span></span>
+            </button>
+            <button type="button" id="parks-add-btn" class="legend-toggle-btn" style="border-color:rgba(16,185,129,0.4); background:rgba(16,185,129,0.12); color:#a7f3d0;" title="Daftarkan taman atau fasilitas publik baru">
+              <span>➕ <span class="txt-full">Usulkan</span><span class="txt-short">Usul</span></span>
+            </button>
+            <button type="button" id="parks-legend-toggle-btn" class="legend-toggle-btn" aria-label="Sembunyikan atau tampilkan filter" title="Sembunyikan/Tampilkan filter">
+              <span id="parks-legend-toggle-text" class="txt-full">Ciutkan</span>
+              <span id="parks-legend-toggle-icon" aria-hidden="true">▾</span>
+            </button>
+            <a
+              class="threads-link"
+              href="https://www.threads.com/@andiarman___"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Buka akun Threads @andiarman___ di tab baru"
+              title="Threads @andiarman___"
+            >
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                <path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/>
+              </svg>
+              <span>@andiarman___</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 1: Kategori Filter Utama -->
+        <button class="legend-item parks-cat-btn" type="button" data-cat="all" aria-pressed="true">
+          <i class="legend-icon legend-icon-all" aria-hidden="true"></i>
+          <span>Semua <b id="parks-count-all">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="taman_kota" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🌳</i>
+          <span>Taman Kota <b id="parks-count-taman_kota">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="hutan_kota" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🌲</i>
+          <span>Hutan Kota <b id="parks-count-hutan_kota">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="taman_pantai" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🌊</i>
+          <span>Taman Pantai <b id="parks-count-taman_pantai">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="sarana_olahraga" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">⚽</i>
+          <span>Sarana Olahraga <b id="parks-count-sarana_olahraga">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="wisata_bukit" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">⛰️</i>
+          <span>Wisata Puncak <b id="parks-count-wisata_bukit">0</b></span>
+        </button>
+        <button class="legend-item parks-cat-btn" type="button" data-cat="taman_ramah_anak" aria-pressed="false">
+          <i class="legend-icon" aria-hidden="true">🎠</i>
+          <span>Taman Anak &amp; RTH <b id="parks-count-taman_ramah_anak">0</b></span>
+        </button>
+
+        <!-- Row 2: Jam Buka -->
+        <div class="session-filter" id="parks-session-filter">
+          <span class="legend-label">Jam Buka</span>
+          <div class="session-list" id="parks-session-list" role="group" aria-label="Saring menurut jam operasional">
+            <button class="session-item parks-time-btn active" type="button" data-time="all" aria-pressed="true">
+              <b>Semua</b>
+            </button>
+            <button class="session-item parks-time-btn" type="button" data-time="open-now" aria-pressed="false">
+              <span>🟢 Buka Sekarang <b id="parks-chip-opennow" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item parks-time-btn" type="button" data-time="24h" aria-pressed="false">
+              <span>⚡ Buka 24 Jam <b id="parks-chip-24h" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+            <button class="session-item parks-time-btn" type="button" data-time="scheduled" aria-pressed="false">
+              <span>⏰ Jam Tertentu <b id="parks-chip-scheduled" style="font-weight:700; opacity:0.9;"></b></span>
+            </button>
+          </div>
+        </div>
+
+        <span class="legend-note">🌳 Hijau Zamrud = Taman Kota &amp; Alun-Alun · 🌲 Hijau Tua = Hutan Kota · 🌊 Cyan = Taman Pantai · ⚽ Amber = Sarana Olahraga &amp; Lapangan · ⛰️ Ungu = Wisata Puncak &amp; Bukit · 🎠 Pink = Taman Ramah Anak &amp; RTH Lingkungan · 🟢 Hijau = Buka sekarang (Live WITA).</span>
+      </div>
+
+      <!-- Mini Floating Legend Heatmap Kepadatan Taman & Fasilitas Publik -->
+      <div id="parks-heat-legend" class="culinary-heat-legend" style="display:none;" aria-label="Legenda Peta Panas Kepadatan Taman dan Fasilitas Publik">
+        <div class="heat-legend-head">
+          <span style="color:#6ee7b7;">🔥 Sebaran Taman &amp; Fasilitas Publik</span>
+          <span class="heat-legend-sub">Heatmap</span>
+        </div>
+        <div class="heat-legend-bar" style="background:linear-gradient(to right, #059669, #10b981, #06b6d4, #f59e0b, #ef4444);"></div>
+        <div class="heat-legend-labels">
+          <span>Rendah</span>
+          <span>Sedang</span>
+          <span>Padat</span>
+        </div>
+        <div class="heat-legend-toggle-row">
+          <button type="button" id="btn-toggle-parks-heat-markers" class="heat-marker-toggle-btn" aria-pressed="true" title="Sembunyikan atau tampilkan ikon titik saat melihat heatmap">
+            <span>📍</span>
+            <span id="text-toggle-parks-heat-markers">Ikon Titik: Aktif</span>
+          </button>
+        </div>
+      </div>
+
       <div id="rtrw-legend" class="rtrw-legend" aria-label="Legenda RTRW Kota Palu">
         <div class="rtrw-legend-head">
           <span>🏛️ RTRW Kota Palu (Perda 2/2021)</span>
@@ -5415,6 +5681,12 @@
                 <option value="gereja">⛪ Gereja (Kristen/Katolik)</option>
                 <option value="pura">🛕 Pura Hindu</option>
                 <option value="vihara">🪷 Vihara &amp; Klenteng</option>
+                <option value="taman_kota">🌳 Taman Kota &amp; Alun-Alun</option>
+                <option value="hutan_kota">🌲 Hutan Kota &amp; Ekowisata</option>
+                <option value="taman_pantai">🌊 Taman Pantai &amp; Waterfront</option>
+                <option value="sarana_olahraga">⚽ Sarana Olahraga Publik &amp; Lapangan</option>
+                <option value="wisata_bukit">⛰️ Wisata Puncak &amp; Bukit Alam</option>
+                <option value="taman_ramah_anak">🎠 Taman Bermain &amp; RTH Lingkungan</option>
               </select>
             </div>
             <div class="submit-form-group">
@@ -5763,6 +6035,20 @@
             </div>
           </div>
 
+          <!-- 6. Peta Pertamanan & Fasilitas Pendukung -->
+          <div class="welcome-card-item item-parks" data-choose-mode="parks" role="button" tabindex="0">
+            <div class="welcome-icon-box icon-parks">
+              <span>🌳</span>
+            </div>
+            <div class="welcome-item-body">
+              <div class="welcome-item-title-row">
+                <span class="welcome-item-title">Taman &amp; Fasilitas Publik</span>
+                <span class="welcome-item-badge" style="color:#6ee7b7;">305 Titik</span>
+              </div>
+              <span class="welcome-item-desc">Taman kota, alun-alun, hutan kota, sarana olahraga publik &amp; RTH Palu.</span>
+            </div>
+          </div>
+
           <!-- 6. Peta RTRW Kota Palu -->
           <div class="welcome-card-item item-rtrw" data-choose-mode="rtrw" role="button" tabindex="0">
             <div class="welcome-icon-box icon-rtrw">
@@ -5899,6 +6185,10 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
     </script>
 
     <script>
+      if (typeof L.Popup === "function" && L.Popup.prototype && L.Popup.prototype.options) {
+        L.Popup.prototype.options.autoPanPaddingTopLeft = [20, 85];
+        L.Popup.prototype.options.autoPanPaddingBottomRight = [20, 95];
+      }
       const map = L.map("map", {
         zoomControl: false,
         fadeAnimation: true,
@@ -6531,9 +6821,14 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
           if (catSelect && !['spbu', 'pertashop', 'masjid', 'gereja', 'pura', 'vihara'].includes(catSelect.value)) {
             catSelect.value = "spbu";
           }
+        } else if (currentAppMode === "parks") {
+          if (titleEl) titleEl.textContent = "🌳 Usulkan Taman / Fasilitas Publik Baru";
+          if (catSelect && !['taman_kota', 'hutan_kota', 'taman_pantai', 'sarana_olahraga', 'wisata_bukit', 'taman_ramah_anak'].includes(catSelect.value)) {
+            catSelect.value = "taman_kota";
+          }
         } else {
           if (titleEl) titleEl.textContent = "☕ Daftarkan Coffeeshop / Resto Anda";
-          if (catSelect && ['fotocopy', 'percetakan', '3d_print', 'jilid', 'komputer', 'hp', 'elektronik', 'servis_komputer', 'servis_hp', 'servis_elektronik', 'official_service'].includes(catSelect.value)) {
+          if (catSelect && ['fotocopy', 'percetakan', '3d_print', 'jilid', 'komputer', 'hp', 'elektronik', 'servis_komputer', 'servis_hp', 'servis_elektronik', 'official_service', 'spbu', 'pertashop', 'masjid', 'gereja', 'pura', 'vihara', 'taman_kota', 'hutan_kota', 'taman_pantai', 'sarana_olahraga', 'wisata_bukit', 'taman_ramah_anak'].includes(catSelect.value)) {
             catSelect.value = "cafe";
           }
         }
@@ -8165,6 +8460,8 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             `, {
               maxWidth: 340,
               minWidth: 260,
+              autoPanPaddingTopLeft: [20, 85],
+              autoPanPaddingBottomRight: [20, 95],
               className: "culinary-popup-wrapper"
             });
 
@@ -8347,6 +8644,519 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           toggleBtn.addEventListener("click", () => {
             const isCol = panel.classList.toggle("is-collapsed");
             const txt = document.getElementById("facility-legend-toggle-text");
+            if (txt) txt.textContent = isCol ? "Buka" : "Ciutkan";
+            if (typeof syncLegendHeight === "function") syncLegendHeight();
+          });
+          stopMapEventInterference(panel);
+        }
+      }
+
+      // ==========================================
+      // Pertamanan & Fasilitas Pendukung Palu (parks)
+      // ==========================================
+      const parksLayers = {
+        allPlaces: [],
+        allMarkers: [],
+        clusterGroup: null,
+        loaded: false
+      };
+
+      const parksFilterState = {
+        category: "all",
+        time: "all",
+        search: ""
+      };
+
+      let parksHeatmapEnabled = false;
+      let parksHeatmapLayer = null;
+      let parksMarkersVisible = true;
+
+      function matchesParksFilter(p) {
+        if (!p) return false;
+
+        if (parksFilterState.category !== "all") {
+          if (p.category !== parksFilterState.category) return false;
+        }
+
+        if (parksFilterState.time === "open-now") {
+          if (!isPlaceOpenNow(p)) return false;
+        } else if (parksFilterState.time === "24h") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam") || (p.operatingHours?.hoursText || "").includes("24 Jam");
+          if (!is24) return false;
+        } else if (parksFilterState.time === "scheduled") {
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam") || (p.operatingHours?.hoursText || "").includes("24 Jam");
+          if (is24) return false;
+        }
+
+        return true;
+      }
+
+      function buildParksBadgeHtml(p) {
+        const cat = p.category || "taman_kota";
+        let catClass = `status-${cat}`;
+        let barColor = "#10b981";
+        let glyphIcon = p.icon || "🌳";
+
+        if (cat === "hutan_kota") {
+          barColor = "#059669";
+        } else if (cat === "taman_pantai") {
+          barColor = "#06b6d4";
+        } else if (cat === "sarana_olahraga") {
+          barColor = "#f59e0b";
+        } else if (cat === "wisata_bukit") {
+          barColor = "#8b5cf6";
+        } else if (cat === "taman_ramah_anak") {
+          barColor = "#ec4899";
+        }
+
+        const labelText = p.name || p.categoryLabel;
+
+        return `
+          <div class="map-badge-marker ${catClass}" title="${escapeHtml(p.name)}: ${escapeHtml(p.address)}">
+            <div class="badge-row">
+              <span class="badge-glyph" aria-hidden="true" style="font-size:11px; line-height:1;">${glyphIcon}</span>
+              <span class="badge-time-text">${escapeHtml(labelText)}</span>
+            </div>
+            <div class="badge-bar-track" aria-hidden="true">
+              <div class="badge-bar-fill" style="width: 100%; background: ${barColor};"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      function updateParksCounts() {
+        if (!parksLayers.allPlaces || !parksLayers.allPlaces.length) return;
+
+        let totalPlaces = parksLayers.allPlaces.length;
+        let totalTamanKota = 0;
+        let totalHutanKota = 0;
+        let totalTamanPantai = 0;
+        let totalSaranaOlahraga = 0;
+        let totalWisataBukit = 0;
+        let totalTamanRamahAnak = 0;
+
+        let totalOpenNow = 0;
+        let total24h = 0;
+        let totalScheduled = 0;
+
+        for (const p of parksLayers.allPlaces) {
+          if (p.category === "taman_kota") totalTamanKota++;
+          else if (p.category === "hutan_kota") totalHutanKota++;
+          else if (p.category === "taman_pantai") totalTamanPantai++;
+          else if (p.category === "sarana_olahraga") totalSaranaOlahraga++;
+          else if (p.category === "wisata_bukit") totalWisataBukit++;
+          else if (p.category === "taman_ramah_anak") totalTamanRamahAnak++;
+
+          if (isPlaceOpenNow(p)) totalOpenNow++;
+          const is24 = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam") || (p.operatingHours?.hoursText || "").includes("24 Jam");
+          if (is24) total24h++;
+          else totalScheduled++;
+        }
+
+        const setTxt = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val;
+        };
+
+        setTxt("parks-count-all", totalPlaces);
+        setTxt("parks-count-taman_kota", totalTamanKota);
+        setTxt("parks-count-hutan_kota", totalHutanKota);
+        setTxt("parks-count-taman_pantai", totalTamanPantai);
+        setTxt("parks-count-sarana_olahraga", totalSaranaOlahraga);
+        setTxt("parks-count-wisata_bukit", totalWisataBukit);
+        setTxt("parks-count-taman_ramah_anak", totalTamanRamahAnak);
+
+        setTxt("parks-chip-opennow", `(${totalOpenNow})`);
+        setTxt("parks-chip-24h", `(${total24h})`);
+        setTxt("parks-chip-scheduled", `(${totalScheduled})`);
+      }
+
+      function applyParksFilter() {
+        if (!parksLayers.clusterGroup) return;
+
+        parksLayers.clusterGroup.clearLayers();
+        const visible = parksLayers.allMarkers.filter(m => matchesParksFilter(m.feature.properties));
+        parksLayers.clusterGroup.addLayers(visible);
+        updateParksCounts();
+
+        if (parksHeatmapEnabled) {
+          syncParksHeatmap();
+        }
+      }
+
+      async function loadParksLayers() {
+        if (parksLayers.loaded) {
+          if (parksLayers.clusterGroup && !map.hasLayer(parksLayers.clusterGroup)) {
+            map.addLayer(parksLayers.clusterGroup);
+            applyParksFilter();
+          }
+          if (parksHeatmapEnabled) {
+            syncParksHeatmap();
+          }
+          return;
+        }
+
+        try {
+          const res = await fetch("data/places/palu-pertamanan-fasilitas.json");
+          if (!res.ok) throw new Error("Gagal mengambil data pertamanan & fasilitas Palu");
+          const places = await res.json();
+          parksLayers.allPlaces = places;
+
+          if (typeof L.markerClusterGroup === "function") {
+            parksLayers.clusterGroup = L.markerClusterGroup({
+              maxClusterRadius: 42,
+              spiderfyOnMaxZoom: true,
+              showCoverageOnHover: false,
+              zoomToBoundsOnClick: true,
+              disableClusteringAtZoom: 16,
+              animate: true,
+              animateAddingMarkers: false,
+              iconCreateFunction: (cluster) => {
+                const children = cluster.getAllChildMarkers();
+                let tamanKotaCount = 0;
+                let hutanKotaCount = 0;
+                let tamanPantaiCount = 0;
+                let olahragaCount = 0;
+                let bukitCount = 0;
+                let anakCount = 0;
+                for (const m of children) {
+                  const cat = m.feature?.properties?.category;
+                  if (cat === "taman_kota") tamanKotaCount++;
+                  else if (cat === "hutan_kota") hutanKotaCount++;
+                  else if (cat === "taman_pantai") tamanPantaiCount++;
+                  else if (cat === "sarana_olahraga") olahragaCount++;
+                  else if (cat === "wisata_bukit") bukitCount++;
+                  else if (cat === "taman_ramah_anak") anakCount++;
+                }
+                let type = "parks-taman_kota";
+                const maxVal = Math.max(tamanKotaCount, hutanKotaCount, tamanPantaiCount, olahragaCount, bukitCount, anakCount);
+                if (maxVal === hutanKotaCount) type = "parks-hutan_kota";
+                else if (maxVal === tamanPantaiCount) type = "parks-taman_pantai";
+                else if (maxVal === olahragaCount) type = "parks-sarana_olahraga";
+                else if (maxVal === bukitCount) type = "parks-wisata_bukit";
+                else if (maxVal === anakCount) type = "parks-taman_ramah_anak";
+
+                const count = cluster.getChildCount();
+                return L.divIcon({
+                  html: `<div class="cluster-bubble ${type}"><span>${count}</span></div>`,
+                  className: `custom-cluster-wrapper cluster-${type}`,
+                  iconSize: [36, 36],
+                  iconAnchor: [18, 18]
+                });
+              }
+            });
+          } else {
+            parksLayers.clusterGroup = L.featureGroup();
+          }
+
+          const markers = [];
+
+          for (const p of places) {
+            const marker = L.marker([p.lat, p.lon], {
+              icon: L.divIcon({
+                className: `street-marker-icon parks-marker-icon`,
+                html: buildParksBadgeHtml(p),
+                iconSize: null
+              }),
+              keyboard: true
+            });
+
+            marker.feature = { properties: p };
+
+            marker.bindTooltip(`<b>${escapeHtml(p.name)}</b><br><small style="color:#94a3b8;">${escapeHtml(p.categoryLabel)} · 📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</small>`, {
+              permanent: false,
+              direction: "top",
+              className: "street-tooltip-shell",
+              offset: [0, -10]
+            });
+
+            const featuresHtml = (p.features && p.features.length > 0)
+              ? p.features.map(feat => `<span class="culinary-chip">${escapeHtml(feat)}</span>`).join("")
+              : "";
+            const gmapsUrl = p.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name + ' ' + p.address)}`;
+
+            // Jam Operasional & Status WITA
+            const is24h = p.operatingHours?.isOpen24Hours || (p.name || "").toLowerCase().includes("24 jam") || (p.operatingHours?.hoursText || "").includes("24 Jam");
+            const hoursBadge = is24h
+              ? `<span style="background:rgba(16,185,129,0.2); color:#6ee7b7; font-weight:700; padding:1px 6px; border-radius:4px; font-size:0.68rem; border:1px solid rgba(16,185,129,0.35);">⚡ BUKA 24 JAM / AKSES TERBUKA</span>`
+              : (p.operatingHours?.hoursText ? `<span><b>${escapeHtml(p.operatingHours.hoursText)} WITA</b></span>` : `<span>Akses publik terbuka</span>`);
+
+            const isOpen = isPlaceOpenNow(p);
+            const statusBadge = isOpen
+              ? `<span class="culinary-status-pill open">🟢 BUKA SEKARANG</span>`
+              : `<span class="culinary-status-pill closed">🔴 SEDANG TUTUP</span>`;
+
+            // No telepon jika ada
+            const phoneHtml = p.phone ? `
+              <div class="culinary-field-row">
+                <span class="culinary-field-icon">📞</span>
+                <div class="culinary-field-content">
+                  <span class="culinary-field-label">Kontak / Pengelola</span>
+                  <div class="culinary-field-val"><a href="tel:${escapeHtml(p.phone)}" style="color:#38bdf8; text-decoration:none; font-weight:600;">${escapeHtml(p.phone)}</a></div>
+                </div>
+              </div>
+            ` : '';
+
+            marker.bindPopup(`
+              <div class="culinary-popup">
+                <div class="culinary-popup-header">
+                  <div class="culinary-popup-title">${p.icon || '🌳'} ${escapeHtml(p.name)}</div>
+                </div>
+
+                <div class="culinary-popup-badges">
+                  <span class="culinary-badge-cat" style="background:rgba(16,185,129,0.16); color:#a7f3d0; border-color:rgba(16,185,129,0.35);">
+                    ${escapeHtml(p.categoryLabel)}
+                  </span>
+                  <span class="culinary-tag-local">
+                    <span>📍 ${escapeHtml(p.kecamatan || 'Kota Palu')}</span>
+                  </span>
+                </div>
+
+                <div class="culinary-popup-fields">
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">📍</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Alamat Lengkap</span>
+                      <div class="culinary-field-val">${escapeHtml(p.address)}</div>
+                    </div>
+                  </div>
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">⏰</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Jam Operasional (WITA)</span>
+                      <div class="culinary-field-val" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:2px;">
+                        ${hoursBadge}
+                        ${statusBadge}
+                      </div>
+                    </div>
+                  </div>
+
+                  ${phoneHtml}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">ℹ️</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Status Akses / Tiket</span>
+                      <div class="culinary-field-val" style="color:#6ee7b7; font-weight:600;">${escapeHtml(p.priceRange || 'Fasilitas Publik Terbuka')}</div>
+                    </div>
+                  </div>
+
+                  ${featuresHtml ? `
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">✨</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Fasilitas Penunjang</span>
+                      <div class="culinary-features" style="margin-top:3px;">
+                        ${featuresHtml}
+                      </div>
+                    </div>
+                  </div>
+                  ` : ''}
+
+                  <div class="culinary-field-row">
+                    <span class="culinary-field-icon">🧭</span>
+                    <div class="culinary-field-content">
+                      <span class="culinary-field-label">Koordinat Presisi</span>
+                      <div class="culinary-field-val" style="font-family:monospace; font-size:0.75rem; color:#94a3b8;">${Number(p.lat).toFixed(5)}, ${Number(p.lon).toFixed(5)}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="culinary-popup-actions">
+                  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" class="culinary-btn-route">
+                    <span>🗺️ Buka di Google Maps</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+              </div>
+            `, {
+              maxWidth: 340,
+              minWidth: 260,
+              autoPanPaddingTopLeft: [20, 85],
+              autoPanPaddingBottomRight: [20, 95],
+              className: "culinary-popup-wrapper"
+            });
+
+            markers.push(marker);
+          }
+
+          parksLayers.allMarkers = markers;
+          updateParksCounts();
+
+          if (currentAppMode === "parks") {
+            applyParksFilter();
+            map.addLayer(parksLayers.clusterGroup);
+          }
+          parksLayers.loaded = true;
+
+          if (parksHeatmapEnabled) {
+            syncParksHeatmap();
+          }
+        } catch (err) {
+          console.error("Gagal memuat data pertamanan & fasilitas Palu:", err);
+        }
+      }
+
+      function hideParksLayers() {
+        if (parksLayers.clusterGroup && map.hasLayer(parksLayers.clusterGroup)) {
+          map.removeLayer(parksLayers.clusterGroup);
+        }
+        if (parksHeatmapLayer && map.hasLayer(parksHeatmapLayer)) {
+          map.removeLayer(parksHeatmapLayer);
+        }
+        const heatLegend = document.getElementById("parks-heat-legend");
+        if (heatLegend) heatLegend.style.display = "none";
+      }
+
+      function syncParksHeatmap() {
+        if (!parksHeatmapEnabled) {
+          if (parksHeatmapLayer && map.hasLayer(parksHeatmapLayer)) {
+            map.removeLayer(parksHeatmapLayer);
+          }
+          return;
+        }
+
+        if (!parksLayers.allPlaces || !parksLayers.allPlaces.length) return;
+
+        const activePlaces = parksLayers.allPlaces.filter(matchesParksFilter);
+        const heatPoints = activePlaces.map((p) => {
+          let weight = 1.0;
+          if (p.category === "taman_kota") weight = 1.3;
+          else if (p.category === "sarana_olahraga") weight = 1.2;
+          else if (p.category === "hutan_kota") weight = 1.4;
+          return [p.lat, p.lon, weight];
+        });
+
+        if (parksHeatmapLayer && map.hasLayer(parksHeatmapLayer)) {
+          map.removeLayer(parksHeatmapLayer);
+        }
+
+        if (typeof L.heatLayer === "function") {
+          parksHeatmapLayer = L.heatLayer(heatPoints, {
+            radius: 28,
+            blur: 20,
+            maxZoom: 16,
+            max: 2.0,
+            gradient: {
+              0.2: "#059669",
+              0.4: "#10b981",
+              0.6: "#06b6d4",
+              0.8: "#f59e0b",
+              1.0: "#ef4444"
+            }
+          });
+          map.addLayer(parksHeatmapLayer);
+        }
+      }
+
+      function toggleParksHeatmap() {
+        parksHeatmapEnabled = !parksHeatmapEnabled;
+        const btn = document.getElementById("parks-heat-toggle-btn");
+        const txt = document.getElementById("parks-heat-toggle-text");
+        const heatLegend = document.getElementById("parks-heat-legend");
+
+        if (btn) btn.setAttribute("aria-pressed", parksHeatmapEnabled ? "true" : "false");
+        if (txt) {
+          txt.innerHTML = parksHeatmapEnabled
+            ? `<span class="txt-full">Heatmap Aktif</span><span class="txt-short">Heat On</span>`
+            : `<span class="txt-full">Heatmap</span><span class="txt-short">Heat</span>`;
+        }
+
+        if (heatLegend) {
+          heatLegend.style.display = parksHeatmapEnabled ? "block" : "none";
+        }
+
+        syncParksHeatmap();
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
+      }
+
+      function toggleParksMarkers() {
+        parksMarkersVisible = !parksMarkersVisible;
+        const btn = document.getElementById("btn-toggle-parks-heat-markers");
+        const txt = document.getElementById("text-toggle-parks-heat-markers");
+        if (btn) btn.setAttribute("aria-pressed", parksMarkersVisible ? "true" : "false");
+        if (txt) txt.textContent = parksMarkersVisible ? "Ikon Titik: Aktif" : "Ikon Titik: Tersembunyi";
+        if (typeof updateHeatDockUI === "function") updateHeatDockUI();
+
+        if (parksLayers.clusterGroup) {
+          if (parksMarkersVisible) {
+            if (!map.hasLayer(parksLayers.clusterGroup)) map.addLayer(parksLayers.clusterGroup);
+          } else {
+            if (map.hasLayer(parksLayers.clusterGroup)) map.removeLayer(parksLayers.clusterGroup);
+          }
+        }
+      }
+
+      function setupParksControls() {
+        // 1. Kategori Buttons
+        const catBtns = document.querySelectorAll(".parks-cat-btn");
+        catBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            catBtns.forEach(b => b.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            parksFilterState.category = btn.dataset.cat || "all";
+            applyParksFilter();
+          });
+        });
+
+        // 2. Jam Buka Buttons
+        const timeBtns = document.querySelectorAll(".parks-time-btn");
+        timeBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            timeBtns.forEach(b => {
+              b.setAttribute("aria-pressed", "false");
+              b.classList.remove("active");
+            });
+            btn.setAttribute("aria-pressed", "true");
+            btn.classList.add("active");
+            parksFilterState.time = btn.dataset.time || "all";
+            applyParksFilter();
+          });
+        });
+
+        // 3. Heatmap Toggle
+        const parksHeatBtn = document.getElementById("parks-heat-toggle-btn");
+        if (parksHeatBtn) {
+          parksHeatBtn.addEventListener("click", toggleParksHeatmap);
+        }
+
+        const parksHeatMarkerBtn = document.getElementById("btn-toggle-parks-heat-markers");
+        if (parksHeatMarkerBtn) {
+          parksHeatMarkerBtn.addEventListener("click", toggleParksMarkers);
+        }
+
+        // 4. Batas Kelurahan Toggle
+        const boundaryBtn = document.getElementById("parks-boundary-toggle-btn");
+        if (boundaryBtn) {
+          boundaryBtn.addEventListener("click", () => {
+            isBoundaryActive = !isBoundaryActive;
+            boundaryBtn.setAttribute("aria-pressed", isBoundaryActive ? "true" : "false");
+            const txt = document.getElementById("parks-boundary-toggle-text");
+            if (txt) txt.textContent = isBoundaryActive ? "Batas Kelurahan" : "Batas: Nonaktif";
+            for (const layer of boundaryLayersByRegency.values()) {
+              if (isBoundaryActive) {
+                if (!map.hasLayer(layer)) map.addLayer(layer);
+              } else {
+                if (map.hasLayer(layer)) map.removeLayer(layer);
+              }
+            }
+          });
+        }
+
+        // 5. Daftarkan Lokasi Button
+        const addBtn1 = document.getElementById("parks-add-btn");
+        const addBtn2 = document.getElementById("open-submit-parks");
+        if (addBtn1) addBtn1.addEventListener("click", openSubmitModal);
+        if (addBtn2) addBtn2.addEventListener("click", openSubmitModal);
+
+        // 6. Collapse Toggle
+        const toggleBtn = document.getElementById("parks-legend-toggle-btn");
+        const panel = document.getElementById("parks-legend");
+        if (toggleBtn && panel) {
+          toggleBtn.addEventListener("click", () => {
+            const isCol = panel.classList.toggle("is-collapsed");
+            const txt = document.getElementById("parks-legend-toggle-text");
             if (txt) txt.textContent = isCol ? "Buka" : "Ciutkan";
             if (typeof syncLegendHeight === "function") syncLegendHeight();
           });
@@ -9148,8 +9958,8 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           if (!dock || !btn) return;
 
           const mode = currentAppMode;
-          // Hanya tampil di 4 mode titik: kuliner, percetakan, hardware/servis, dan spbu/ibadah
-          if (mode !== "culinary" && mode !== "printing" && mode !== "hardware" && mode !== "spbu_ibadah") {
+          // Hanya tampil di 5 mode titik: kuliner, percetakan, hardware/servis, spbu/ibadah, dan parks
+          if (mode !== "culinary" && mode !== "printing" && mode !== "hardware" && mode !== "spbu_ibadah" && mode !== "parks") {
             dock.style.display = "none";
             return;
           }
@@ -9175,6 +9985,10 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             isHeatActive = !!facilityHeatmapEnabled;
             isMarkersActive = !!facilityMarkersVisible;
             gradientCss = "linear-gradient(180deg, #ef4444 0%, #f59e0b 25%, #38bdf8 50%, #10b981 75%, #059669 100%)";
+          } else if (mode === "parks") {
+            isHeatActive = !!parksHeatmapEnabled;
+            isMarkersActive = !!parksMarkersVisible;
+            gradientCss = "linear-gradient(180deg, #ef4444 0%, #f59e0b 25%, #06b6d4 50%, #10b981 75%, #059669 100%)";
           }
 
           // Master on/off toggle button
@@ -9210,6 +10024,8 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             if (typeof toggleHardwareHeatmap === "function") toggleHardwareHeatmap();
           } else if (mode === "spbu_ibadah") {
             if (typeof toggleFacilityHeatmap === "function") toggleFacilityHeatmap();
+          } else if (mode === "parks") {
+            if (typeof toggleParksHeatmap === "function") toggleParksHeatmap();
           }
           updateHeatDockUI();
         }
@@ -9225,6 +10041,8 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             if (typeof toggleHardwareMarkers === "function") toggleHardwareMarkers();
           } else if (mode === "spbu_ibadah") {
             if (typeof toggleFacilityMarkers === "function") toggleFacilityMarkers();
+          } else if (mode === "parks") {
+            if (typeof toggleParksMarkers === "function") toggleParksMarkers();
           }
           updateHeatDockUI();
         }
@@ -9259,6 +10077,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hidePrintingLayers();
             hideHardwareLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             modeBtn.className = "brand-icon mode-selector-btn mode-outage";
@@ -9274,6 +10093,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hidePrintingLayers();
             hideHardwareLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -9313,6 +10133,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideCulinaryLayers();
             hideHardwareLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -9350,6 +10171,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideCulinaryLayers();
             hidePrintingLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -9387,6 +10209,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideCulinaryLayers();
             hidePrintingLayers();
             hideHardwareLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             if (geoJsonLayer) {
@@ -9421,11 +10244,49 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hideStatusCard();
             if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
             map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
+          } else if (mode === "parks") {
+            hideCulinaryLayers();
+            hidePrintingLayers();
+            hideHardwareLayers();
+            hideFacilityLayers();
+            hideRtrwLayers();
+            hideContourLayers();
+            if (geoJsonLayer) {
+              map.removeLayer(geoJsonLayer);
+              geoJsonLayer = null;
+            }
+            if (markerClusterGroup) {
+              map.removeLayer(markerClusterGroup);
+              markerClusterGroup = null;
+            }
+            allPointMarkers = [];
+
+            modeBtn.className = "brand-icon mode-selector-btn mode-parks";
+            modeBtn.title = "Mode: Pertamanan & Fasilitas Palu (Google Maps)";
+            currentModeIcon.innerHTML = `
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 22v-5"/>
+                <path d="M12 17c-3.5 0-6-2.5-6-6 0-3 2-5 3.5-6.5C10.5 3.5 11 2.5 12 2c1 0.5 1.5 1.5 2.5 2.5C16 6 18 8 18 11c0 3.5-2.5 6-6 6z"/>
+              </svg>
+            `;
+            if (brandTitle) brandTitle.textContent = "Peta Pertamanan & Fasilitas — Kota Palu";
+            if (searchInput) {
+              searchInput.placeholder = window.innerWidth <= 620
+                ? "Cari taman, lapangan, RTH..."
+                : "Cari taman kota, hutan kota, lapangan olahraga, RTH...";
+            }
+
+            loadParksLayers();
+            updateBoundaryStyles();
+            hideStatusCard();
+            if (typeof syncLegendHeight === "function") setTimeout(syncLegendHeight, 50);
+            map.flyTo([-0.895, 119.870], 13, { duration: 1.2 });
           } else if (mode === "rtrw") {
             hideCulinaryLayers();
             hidePrintingLayers();
             hideHardwareLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideContourLayers();
             if (geoJsonLayer) {
               map.removeLayer(geoJsonLayer);
@@ -9456,6 +10317,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             hidePrintingLayers();
             hideHardwareLayers();
             hideFacilityLayers();
+            hideParksLayers();
             hideRtrwLayers();
             hideContourLayers();
             const emptyNum = mode.replace(/^empty-?/, "") || "2";
@@ -10914,6 +11776,20 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
+          const parksMatches = [];
+          if (currentAppMode === "parks" && parksLayers.allPlaces.length) {
+            for (const pt of parksLayers.allPlaces) {
+              const nameLower = pt.name.toLowerCase();
+              const addrLower = (pt.address || "").toLowerCase();
+              const catLower = (pt.categoryLabel || "").toLowerCase();
+              const featLower = (pt.features || []).join(" ").toLowerCase();
+              if (nameLower.includes(term) || addrLower.includes(term) || catLower.includes(term) || featLower.includes(term)) {
+                parksMatches.push(pt);
+                if (parksMatches.length >= 25) break;
+              }
+            }
+          }
+
           for (const marker of allPointMarkers) {
             const props = marker.feature?.properties || {};
             const loc = (props.location || "").toLowerCase();
@@ -10945,13 +11821,53 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             }
           }
 
-          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length && !hardwareMatches.length && !facilityMatches.length) {
+          if (!matches.length && !placeMatches.length && !culinaryMatches.length && !printingMatches.length && !hardwareMatches.length && !facilityMatches.length && !parksMatches.length) {
             resultsContainer.innerHTML = `<div class="search-no-results">Tidak ada lokasi yang cocok dengan "<b>${escapeHtml(query)}</b>"</div>`;
             resultsContainer.hidden = false;
             return;
           }
 
           resultsContainer.innerHTML = "";
+
+          for (const pt of parksMatches) {
+            const iconEmoji = pt.icon || "🌳";
+            const badgeText = pt.categoryLabel || "Taman & Fasilitas";
+            const item = document.createElement("div");
+            item.className = "search-result-item";
+            item.tabIndex = 0;
+            item.setAttribute("role", "option");
+            item.innerHTML = `
+              <div class="search-result-name">${iconEmoji} ${escapeHtml(pt.name)}</div>
+              <div class="search-result-meta">
+                <span class="search-result-area">${escapeHtml(pt.address)}</span>
+                <span class="search-result-badge safe" style="background:rgba(16,185,129,0.18); color:#6ee7b7; border:1px solid rgba(16,185,129,0.4);">${badgeText}</span>
+              </div>
+            `;
+            const selectParks = () => {
+              resultsContainer.hidden = true;
+              const targetMarker = parksLayers.allMarkers.find(m => {
+                const ll = m.getLatLng();
+                return Math.abs(ll.lat - pt.lat) < 0.0001 && Math.abs(ll.lng - pt.lon) < 0.0001;
+              });
+
+              if (targetMarker && parksLayers.clusterGroup && typeof parksLayers.clusterGroup.zoomToShowLayer === "function") {
+                parksLayers.clusterGroup.zoomToShowLayer(targetMarker, () => {
+                  targetMarker.openPopup();
+                });
+              } else {
+                map.flyTo([pt.lat, pt.lon], 16, { duration: 1.1 });
+                if (targetMarker) setTimeout(() => targetMarker.openPopup(), 1200);
+              }
+            };
+            item.addEventListener("click", selectParks);
+            item.addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectParks();
+              }
+            });
+            resultsContainer.appendChild(item);
+          }
 
           for (const pt of facilityMatches) {
             const iconEmoji = pt.icon || "⛽";
@@ -13323,6 +14239,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       setupPrintingControls();
       setupHardwareControls();
       setupFacilityControls();
+      setupParksControls();
       setupRtrwControls();
       setupContourControls();
       setupSearchBar();
