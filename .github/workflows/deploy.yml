@@ -1,4 +1,4 @@
-name: Deploy ke GitHub Pages
+name: Deploy Rust WASM ke GitHub Pages
 
 on:
   push:
@@ -15,20 +15,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Install Rust Stable Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Download & Install Trunk
+        run: |
+          wget -qO- https://github.com/trunk-rs/trunk/releases/download/v0.22.2/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf- -C /usr/local/bin
+          trunk --version
+
+      - name: Build Rust WebAssembly Frontend
+        run: |
+          trunk build --release --public-url /PetaPalu/
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
+
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: crates/frontend/dist
+
       - name: Deploy ke GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

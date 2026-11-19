@@ -1,0 +1,45 @@
+[package]
+name = "petapalu-frontend"
+version = "0.1.0"
+edition = "2021"
+description = "WebAssembly (WASM) frontend for Peta Palu written in 100% Rust"
+authors = ["Andi Arman <andiarman@users.noreply.github.com>"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+petapalu-common = { path = "../common" }
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+log = "0.4"
+wasm-logger = "0.2"
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+  "Window",
+  "Document",
+  "Element",
+  "HtmlElement",
+  "HtmlInputElement",
+  "HtmlSelectElement",
+  "HtmlButtonElement",
+  "DomTokenList",
+  "Storage",
+  "Location",
+  "History",
+  "CustomEvent",
+  "EventTarget",
+  "MouseEvent",
+  "KeyboardEvent",
+  "InputEvent",
+  "console",
+  "Headers",
+  "Request",
+  "RequestInit",
+  "Response"
+]
