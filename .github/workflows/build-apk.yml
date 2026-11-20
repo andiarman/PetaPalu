@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Setup Java (JDK 17)
         uses: actions/setup-java@v4
@@ -87,19 +89,22 @@ jobs:
         run: |
           echo "Membangun berkas APK Android via Rust Tauri..."
           if ! tauri android build --apk --target aarch64 --debug --ci > build_output.txt 2>&1; then
-            echo "## ❌ Kompilasi Tauri Android Gagal" >> $GITHUB_STEP_SUMMARY
-            echo '```text' >> $GITHUB_STEP_SUMMARY
-            cat build_output.txt >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
             echo "::error::Kompilasi Tauri Android Gagal!"
-            cat build_output.txt
             exit 1
           fi
           
-          echo "## ✅ Kompilasi Sukses!" >> $GITHUB_STEP_SUMMARY
-          echo '```text' >> $GITHUB_STEP_SUMMARY
-          find src-tauri/gen/android -name "*.apk" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "Kompilasi sukses! Mencari file APK..."
+          find src-tauri/gen/android -name "*.apk"
+
+      - name: Push Build Log ke Branch android-build-log jika Gagal
+        if: failure()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B android-build-log
+          git add -f build_output.txt
+          git commit -m "chore(debug): tauri android build output log [skip ci]" || true
+          git push -f origin android-build-log || true
 
       - name: Siapkan Artefak APK Siap Unduh
         run: |
@@ -120,11 +125,3 @@ jobs:
           name: PetaPalu-Android-APK
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
-
-      - name: Simpan Build Log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: tauri-build-log
-          path: build_output.txt
-          if-no-files-found: ignore
