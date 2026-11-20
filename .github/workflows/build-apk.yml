@@ -69,10 +69,12 @@ jobs:
           tauri android init --skip-targets-install --ci
           chmod +x src-tauri/gen/android/gradlew || true
 
-      - name: Tambahkan Android Permissions (Internet & GPS)
+      - name: Patch Gradle Repositories & Permissions
         run: |
           python3 -c "
           import os
+
+          # 1. Tambahkan izin GPS & Internet ke AndroidManifest.xml
           manifest = 'src-tauri/gen/android/app/src/main/AndroidManifest.xml'
           if os.path.exists(manifest):
               with open(manifest, 'r') as f:
@@ -83,6 +85,29 @@ jobs:
                   with open(manifest, 'w') as f:
                       f.write(content)
                   print('Berhasil menyematkan izin GPS & Internet ke AndroidManifest.xml')
+
+          # 2. Patch seluruh konfigurasi Gradle agar menyertakan google() dan mavenCentral()
+          # Ini memperbaiki error 'Could not find org.jetbrains.kotlin:kotlin-stdlib:2.3.21'
+          for root, dirs, files in os.walk('src-tauri/gen/android'):
+              for f in files:
+                  if f.endswith('.kts') or f.endswith('.gradle'):
+                      p = os.path.join(root, f)
+                      with open(p, 'r') as fl:
+                          c = fl.read()
+                      if 'repositories {' in c:
+                          c = c.replace('repositories {', 'repositories {\n        google()\n        mavenCentral()')
+                          with open(p, 'w') as fl:
+                              fl.write(c)
+                          print(f'Patched repositories in {p}')
+
+          # 3. Pastikan buildSrc memiliki repositories dengan mavenCentral
+          buildsrc_dir = 'src-tauri/gen/android/buildSrc'
+          os.makedirs(buildsrc_dir, exist_ok=True)
+          buildsrc_gradle = os.path.join(buildsrc_dir, 'build.gradle.kts')
+          if not os.path.exists(buildsrc_gradle):
+              with open(buildsrc_gradle, 'w') as f:
+                  f.write('repositories {\n    google()\n    mavenCentral()\n    gradlePluginPortal()\n}\n')
+              print('Created buildSrc/build.gradle.kts with mavenCentral & google')
           "
 
       - name: Build Android APK (ARM64)
@@ -125,3 +150,13 @@ jobs:
           name: PetaPalu-Android-APK
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
+
+      - name: Publikasikan File APK Langsung ke Branch apk-release
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B apk-release
+          git add -f output-apk/PetaPalu.apk
+          git commit -m "release: update PetaPalu.apk [skip ci]"
+          git push -f origin apk-release
+          echo "APK berhasil dipublikasikan ke branch apk-release!"
