@@ -6,6 +6,7 @@ on:
     paths:
       - 'src-tauri/**'
       - 'crates/**'
+      - 'package.json'
       - '.github/workflows/build-apk.yml'
   workflow_dispatch:
 
@@ -28,10 +29,15 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Node.js
+      - name: Setup Node.js & Install Tauri CLI
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+
+      - name: Install Local Node Dependencies
+        run: |
+          npm install
+          npx tauri --version
 
       - name: Setup Rust Stable Toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -60,13 +66,9 @@ jobs:
         run: |
           trunk build --release --public-url /
 
-      - name: Install Tauri CLI
-        run: |
-          npm install -g @tauri-apps/cli
-
       - name: Initialize Android Target
         run: |
-          tauri android init --skip-targets-install --ci
+          npx tauri android init --skip-targets-install --ci
           chmod +x src-tauri/gen/android/gradlew || true
 
       - name: Patch Gradle Repositories & Permissions
@@ -74,17 +76,17 @@ jobs:
           python3 -c "
           import os
 
-          # 1. Tambahkan izin GPS & Internet ke AndroidManifest.xml
+          # 1. Tambahkan izin GPS ke AndroidManifest.xml (Internet sudah default dari Tauri)
           manifest = 'src-tauri/gen/android/app/src/main/AndroidManifest.xml'
           if os.path.exists(manifest):
               with open(manifest, 'r') as f:
                   content = f.read()
-              perms = '''    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n'''
+              perms = '''    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n'''
               if '<application' in content and 'ACCESS_FINE_LOCATION' not in content:
                   content = content.replace('<application', perms + '    <application', 1)
                   with open(manifest, 'w') as f:
                       f.write(content)
-                  print('Berhasil menyematkan izin GPS & Internet ke AndroidManifest.xml')
+                  print('Berhasil menyematkan izin GPS ke AndroidManifest.xml')
 
           # 2. Patch seluruh konfigurasi Gradle agar menyertakan google() dan mavenCentral()
           # Ini memperbaiki error 'Could not find org.jetbrains.kotlin:kotlin-stdlib:2.3.21'
@@ -113,7 +115,7 @@ jobs:
       - name: Build Android APK (ARM64)
         run: |
           echo "Membangun berkas APK Android via Rust Tauri..."
-          if ! tauri android build --apk --target aarch64 --debug --ci > build_output.txt 2>&1; then
+          if ! npx tauri android build --apk --target aarch64 --debug --ci > build_output.txt 2>&1; then
             echo "::error::Kompilasi Tauri Android Gagal!"
             exit 1
           fi
