@@ -5,6 +5,8 @@ description = "Peta Palu Android & Desktop App"
 authors = ["Andi Arman <andiarman@duck.com>"]
 edition = "2021"
 
+[workspace]
+
 [lib]
 name = "petapalu_app_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]

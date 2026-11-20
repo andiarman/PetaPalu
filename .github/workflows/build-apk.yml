@@ -34,7 +34,7 @@ jobs:
       - name: Setup Rust Stable Toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown, aarch64-linux-android, armv7-linux-androideabi, x86_64-linux-android
+          targets: wasm32-unknown-unknown, aarch64-linux-android
 
       - name: Setup Android NDK
         run: |
@@ -59,20 +59,28 @@ jobs:
       - name: Initialize Android Target
         run: |
           tauri android init --skip-targets-install --ci
+          chmod +x src-tauri/gen/android/gradlew || true
 
       - name: Tambahkan Android Permissions (Internet & GPS)
         run: |
-          MANIFEST="src-tauri/gen/android/app/src/main/AndroidManifest.xml"
-          if [ -f "$MANIFEST" ]; then
-            sed -i '/<application/i \    <uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />' "$MANIFEST"
-            echo "AndroidManifest.xml updated with permissions:"
-            head -n 25 "$MANIFEST"
-          fi
+          python3 -c "
+          import os
+          manifest = 'src-tauri/gen/android/app/src/main/AndroidManifest.xml'
+          if os.path.exists(manifest):
+              with open(manifest, 'r') as f:
+                  content = f.read()
+              perms = '''    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n'''
+              if '<application' in content and 'ACCESS_FINE_LOCATION' not in content:
+                  content = content.replace('<application', perms + '    <application', 1)
+                  with open(manifest, 'w') as f:
+                      f.write(content)
+                  print('Berhasil menyematkan izin GPS & Internet ke AndroidManifest.xml')
+          "
 
-      - name: Build Android APK (ARM64 & ARMv7)
+      - name: Build Android APK (ARM64)
         run: |
-          echo "Building Android APK via Rust / Tauri..."
-          tauri android build --apk --target aarch64 --debug
+          echo "Membangun berkas APK Android via Rust Tauri..."
+          tauri android build --apk --target aarch64 --debug --ci
           
           echo "Daftar berkas APK yang dihasilkan:"
           find src-tauri/gen/android -name "*.apk"
@@ -80,9 +88,9 @@ jobs:
       - name: Siapkan Artefak APK Siap Unduh
         run: |
           mkdir -p output-apk
-          # Salin file APK debug yang siap install di seluruh HP Android
+          # Salin file APK debug yang siap install langsung di HP Android
           find src-tauri/gen/android -name "*.apk" -exec cp {} output-apk/PetaPalu.apk \;
-          echo "Ukuran file APK:"
+          echo "Detail file APK siap unduh:"
           ls -lh output-apk/PetaPalu.apk
 
       - name: Upload APK ke GitHub Artifacts
@@ -91,3 +99,12 @@ jobs:
           name: PetaPalu-Android-APK
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
+
+      - name: Upload Build Logs on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-failure-logs
+          path: |
+            src-tauri/gen/android/**/*.log
+            src-tauri/gen/android/app/build/reports

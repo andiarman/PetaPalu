@@ -3,7 +3,6 @@ members = [
     "crates/common",
     "crates/server",
     "crates/frontend",
-    "src-tauri",
 ]
 resolver = "2"
 
