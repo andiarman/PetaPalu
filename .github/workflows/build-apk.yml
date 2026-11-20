@@ -87,28 +87,30 @@ jobs:
         run: |
           echo "Membangun berkas APK Android via Rust Tauri..."
           if ! tauri android build --apk --target aarch64 --debug --ci > build_output.txt 2>&1; then
+            echo "## ❌ Kompilasi Tauri Android Gagal" >> $GITHUB_STEP_SUMMARY
+            echo '```text' >> $GITHUB_STEP_SUMMARY
+            cat build_output.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
             echo "::error::Kompilasi Tauri Android Gagal!"
-            echo "=== 120 BARIS TERAKHIR LOG KOMPILASI ==="
-            tail -n 120 build_output.txt
+            cat build_output.txt
             exit 1
           fi
           
-          echo "Kompilasi sukses! Mencari file APK yang dihasilkan..."
-          cat build_output.txt | grep -i "apk" || true
-          find src-tauri/gen/android -name "*.apk"
+          echo "## ✅ Kompilasi Sukses!" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          find src-tauri/gen/android -name "*.apk" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Siapkan Artefak APK Siap Unduh
         run: |
           mkdir -p output-apk
-          # Cari file APK debug yang berhasil dibuat
           APK_FILE=$(find src-tauri/gen/android -name "*.apk" | head -n 1)
           if [ -n "$APK_FILE" ]; then
             cp "$APK_FILE" output-apk/PetaPalu.apk
             echo "File APK berhasil disiapkan:"
             ls -lh output-apk/PetaPalu.apk
           else
-            echo "Peringatan: Berkas .apk tidak ditemukan di src-tauri/gen/android"
-            find src-tauri/gen/android -type f | head -n 30
+            echo "Peringatan: Berkas .apk tidak ditemukan"
             exit 1
           fi
 
