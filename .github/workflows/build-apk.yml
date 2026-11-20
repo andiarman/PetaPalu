@@ -36,16 +36,18 @@ jobs:
         with:
           targets: wasm32-unknown-unknown, aarch64-linux-android
 
-      - name: Setup Android SDK Platform & NDK
+      - name: Setup Android SDK Platform, NDK & Licenses
         run: |
           ANDROID_NDK_VERSION="26.1.10909125"
           echo "Memasang Android Platform 34, Build Tools, dan NDK..."
           yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;$ANDROID_NDK_VERSION"
+          yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses || true
           
           NDK_PATH="${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}"
           echo "NDK_HOME=${NDK_PATH}" >> $GITHUB_ENV
           echo "ANDROID_NDK_HOME=${NDK_PATH}" >> $GITHUB_ENV
           echo "ANDROID_NDK_ROOT=${NDK_PATH}" >> $GITHUB_ENV
+          echo "${NDK_PATH}/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
 
       - name: Download & Install Trunk
         run: |
@@ -84,26 +86,31 @@ jobs:
       - name: Build Android APK (ARM64)
         run: |
           echo "Membangun berkas APK Android via Rust Tauri..."
-          tauri android build --apk --target aarch64 --debug --ci --verbose 2>&1 | tee build.log
-          
-          echo "Daftar berkas APK yang dihasilkan:"
-          find src-tauri/gen/android -name "*.apk"
-
-      - name: Tampilkan Log Error jika Gagal
-        if: failure()
-        run: |
-          if [ -f build.log ]; then
-            echo "=== 150 BARIS TERAKHIR DARI BUILD.LOG ==="
-            tail -n 150 build.log
+          if ! tauri android build --apk --target aarch64 --debug --ci > build_output.txt 2>&1; then
+            echo "::error::Kompilasi Tauri Android Gagal!"
+            echo "=== 120 BARIS TERAKHIR LOG KOMPILASI ==="
+            tail -n 120 build_output.txt
+            exit 1
           fi
+          
+          echo "Kompilasi sukses! Mencari file APK yang dihasilkan..."
+          cat build_output.txt | grep -i "apk" || true
+          find src-tauri/gen/android -name "*.apk"
 
       - name: Siapkan Artefak APK Siap Unduh
         run: |
           mkdir -p output-apk
-          # Salin file APK debug yang siap install langsung di HP Android
-          find src-tauri/gen/android -name "*.apk" -exec cp {} output-apk/PetaPalu.apk \;
-          echo "Detail file APK siap unduh:"
-          ls -lh output-apk/PetaPalu.apk
+          # Cari file APK debug yang berhasil dibuat
+          APK_FILE=$(find src-tauri/gen/android -name "*.apk" | head -n 1)
+          if [ -n "$APK_FILE" ]; then
+            cp "$APK_FILE" output-apk/PetaPalu.apk
+            echo "File APK berhasil disiapkan:"
+            ls -lh output-apk/PetaPalu.apk
+          else
+            echo "Peringatan: Berkas .apk tidak ditemukan di src-tauri/gen/android"
+            find src-tauri/gen/android -type f | head -n 30
+            exit 1
+          fi
 
       - name: Upload APK ke GitHub Artifacts
         uses: actions/upload-artifact@v4
@@ -112,10 +119,10 @@ jobs:
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
 
-      - name: Simpan Build Log Lengkap
+      - name: Simpan Build Log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tauri-build-log
-          path: build.log
+          path: build_output.txt
           if-no-files-found: ignore
