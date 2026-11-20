@@ -36,12 +36,16 @@ jobs:
         with:
           targets: wasm32-unknown-unknown, aarch64-linux-android
 
-      - name: Setup Android NDK
+      - name: Setup Android SDK Platform & NDK
         run: |
           ANDROID_NDK_VERSION="26.1.10909125"
-          echo "Installing Android NDK $ANDROID_NDK_VERSION..."
-          yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "ndk;$ANDROID_NDK_VERSION"
-          echo "NDK_HOME=${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}" >> $GITHUB_ENV
+          echo "Memasang Android Platform 34, Build Tools, dan NDK..."
+          yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;$ANDROID_NDK_VERSION"
+          
+          NDK_PATH="${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}"
+          echo "NDK_HOME=${NDK_PATH}" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME=${NDK_PATH}" >> $GITHUB_ENV
+          echo "ANDROID_NDK_ROOT=${NDK_PATH}" >> $GITHUB_ENV
 
       - name: Download & Install Trunk
         run: |
@@ -80,10 +84,18 @@ jobs:
       - name: Build Android APK (ARM64)
         run: |
           echo "Membangun berkas APK Android via Rust Tauri..."
-          tauri android build --apk --target aarch64 --debug --ci
+          tauri android build --apk --target aarch64 --debug --ci --verbose 2>&1 | tee build.log
           
           echo "Daftar berkas APK yang dihasilkan:"
           find src-tauri/gen/android -name "*.apk"
+
+      - name: Tampilkan Log Error jika Gagal
+        if: failure()
+        run: |
+          if [ -f build.log ]; then
+            echo "=== 150 BARIS TERAKHIR DARI BUILD.LOG ==="
+            tail -n 150 build.log
+          fi
 
       - name: Siapkan Artefak APK Siap Unduh
         run: |
@@ -100,11 +112,10 @@ jobs:
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
 
-      - name: Upload Build Logs on Failure
-        if: failure()
+      - name: Simpan Build Log Lengkap
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: android-build-failure-logs
-          path: |
-            src-tauri/gen/android/**/*.log
-            src-tauri/gen/android/app/build/reports
+          name: tauri-build-log
+          path: build.log
+          if-no-files-found: ignore
