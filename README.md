@@ -198,6 +198,11 @@ trunk build --release --public-url /PetaPalu/
 ```
 Hasil artefak statis siap saji akan tercipta di direktori `crates/frontend/dist/`.
 
+### 5. Membangun Berkas APK Android (Rust / Tauri v2)
+Proyek ini mendukung kompilasi ke Android APK bertenaga Rust via **Tauri v2**:
+- Otomatis via cloud: Pipeline [`.github/workflows/build-apk.yml`](.github/workflows/build-apk.yml) mengompilasi Rust ke berkas **`PetaPalu.apk`** siap unduh di tab GitHub Actions.
+- Berjalan offline-first dengan seluruh modul komputasi WebAssembly dan antarmuka peta Kota Palu.
+
 ---
 
 ## 📄 Lisensi
