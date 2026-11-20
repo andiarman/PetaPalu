@@ -7,6 +7,9 @@
   <a href="https://andiarman.github.io/PetaPalu/">
     <img src="https://img.shields.io/badge/🌐_BUKA_PETA_PALU-KLIK_DI_SINI-0284c7?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Website Peta Palu" />
   </a>
+  <a href="https://github.com/andiarman/PetaPalu/releases/download/android-v1.0.0/PetaPalu.apk">
+    <img src="https://img.shields.io/badge/📱_DOWNLOAD_APK-ANDROID_(RUST)-3ddc84?style=for-the-badge&logo=android&logoColor=white" alt="Download APK Android" />
+  </a>
   <a href="https://andiarman.github.io/PetaPalu/">
     <img src="https://img.shields.io/badge/Status-Live_GitHub_Pages-22c55e?style=for-the-badge&logo=githubpages&logoColor=white" alt="Status GitHub Pages" />
   </a>

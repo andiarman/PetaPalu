@@ -76,7 +76,7 @@ jobs:
           python3 -c "
           import os
 
-          # 1. Tambahkan izin GPS ke AndroidManifest.xml (Internet sudah default dari Tauri)
+          # 1. Tambahkan izin GPS ke AndroidManifest.xml
           manifest = 'src-tauri/gen/android/app/src/main/AndroidManifest.xml'
           if os.path.exists(manifest):
               with open(manifest, 'r') as f:
@@ -89,7 +89,6 @@ jobs:
                   print('Berhasil menyematkan izin GPS ke AndroidManifest.xml')
 
           # 2. Patch seluruh konfigurasi Gradle agar menyertakan google() dan mavenCentral()
-          # Ini memperbaiki error 'Could not find org.jetbrains.kotlin:kotlin-stdlib:2.3.21'
           for root, dirs, files in os.walk('src-tauri/gen/android'):
               for f in files:
                   if f.endswith('.kts') or f.endswith('.gradle'):
@@ -153,12 +152,25 @@ jobs:
           path: output-apk/PetaPalu.apk
           if-no-files-found: error
 
-      - name: Publikasikan File APK Langsung ke Branch apk-release
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B apk-release
-          git add -f output-apk/PetaPalu.apk
-          git commit -m "release: update PetaPalu.apk [skip ci]"
-          git push -f origin apk-release
-          echo "APK berhasil dipublikasikan ke branch apk-release!"
+      - name: Buat GitHub Release Otomatis & Publikasikan PetaPalu.apk
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-v1.0.0
+          name: "📱 Peta Palu Android APK (Rust Tauri v2)"
+          body: |
+            ## 📱 Peta Palu untuk Android (100% Rust & WebAssembly)
+            
+            Berkas instalasi mandiri **PetaPalu.apk** untuk ponsel pintar Android:
+            - **Inti Native**: Ditenagai oleh **Rust (Tauri v2)** pada arsitektur prosesor ARM64 (`aarch64`).
+            - **Engine Peta**: WebAssembly Rust murni dengan antarmuka Leaflet Kota Palu, jadwal pemadaman listrik PLN realtime, direktori kuliner, dan seluruh 7 mode layanan.
+            - **Privasi & GPS**: Dilengkapi izin `ACCESS_FINE_LOCATION` agar fitur *Cek Rumah Saya* dapat mendeteksi koordinat lokasi rumah Anda secara langsung dan privat (client-side).
+            
+            ### 📥 Cara Pasang di HP:
+            1. Unduh berkas **`PetaPalu.apk`** di bawah.
+            2. Buka berkas yang telah diunduh di HP Android Anda.
+            3. Jika muncul peringatan *"Install from unknown source / Izinkan dari sumber ini"*, pilih **Izinkan**.
+            4. Aplikasi Peta Palu siap digunakan!
+          files: |
+            output-apk/PetaPalu.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
