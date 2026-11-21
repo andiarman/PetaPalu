@@ -408,10 +408,6 @@
       body.legal-locked {
         overflow: hidden !important;
       }
-      body.legal-locked > *:not(#modal-disclaimer) {
-        pointer-events: none !important;
-        user-select: none !important;
-      }
       .btn-submit-action:disabled,
       .btn-submit-action.btn-disabled {
         opacity: 0.38 !important;
@@ -14455,6 +14451,8 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           if (!overlay) return;
           overlay.classList.add("is-hidden");
           document.body.classList.remove("map-frozen");
+          document.body.classList.remove("legal-locked");
+          setAgreedConsent();
         };
 
         const openDashboard = () => {
@@ -14542,27 +14540,13 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           if (modal.open) return;
 
           isCurrentSessionMandatory = mandatory;
-
-          if (mandatory) {
-            document.body.classList.add("legal-locked");
-            if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "none";
-            if (closeBtn) closeBtn.style.display = "none";
-            if (chkBox) chkBox.style.display = "block";
-            if (chk) chk.checked = false;
-            if (mandatoryHint) mandatoryHint.style.display = "block";
-            if (agreeBtn) {
-              agreeBtn.textContent = "✅ Setujui & Buka Peta";
-              updateAgreeButtonState();
-            }
-          } else {
-            if (closeBtn) closeBtn.style.display = "";
-            if (chkBox) chkBox.style.display = "none";
-            if (mandatoryHint) mandatoryHint.style.display = "none";
-            if (agreeBtn) {
-              agreeBtn.textContent = "Tutup & Kembali ke Peta";
-              agreeBtn.disabled = false;
-              agreeBtn.classList.remove("btn-disabled");
-            }
+          if (closeBtn) closeBtn.style.display = "";
+          if (chkBox) chkBox.style.display = "none";
+          if (mandatoryHint) mandatoryHint.style.display = "none";
+          if (agreeBtn) {
+            agreeBtn.textContent = "Tutup & Kembali ke Peta";
+            agreeBtn.disabled = false;
+            agreeBtn.classList.remove("btn-disabled");
           }
 
           modal.showModal();
@@ -14570,9 +14554,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
         const closeDisclaimer = (force = false) => {
           if (!modal || typeof modal.close !== "function") return;
-          if (!hasAgreedConsent() && !force) {
-            return;
-          }
           modal.close();
         };
 
@@ -14580,12 +14561,9 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           chk.addEventListener("change", updateAgreeButtonState);
         }
 
-        // Jika belum pernah disetujui, kunci total halaman dan wajibkan dialog disclaimer terbuka di awal
-        if (!hasAgreedConsent()) {
-          openDisclaimer(true);
-        } else {
-          document.body.classList.remove("legal-locked");
-        }
+        // Halaman dan dashboard selalu bebas klik tanpa freeze atau deadlock
+        document.body.classList.remove("legal-locked");
+        if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "auto";
 
         if (menuBtn) {
           menuBtn.addEventListener("click", () => {
