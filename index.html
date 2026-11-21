@@ -3449,16 +3449,10 @@
         contain: layout style;
       }
       #map[data-point-filter="active"] .street-marker-icon:not(.status-active),
-      #map[data-point-filter="active"] .outage-road-line:not(.status-active),
-      #map[data-point-filter="active"] .outage-building-shape:not(.status-active),
       #map[data-point-filter="active"] .area-shape:not(.status-active),
       #map[data-point-filter="upcoming"] .street-marker-icon:not(.status-upcoming),
-      #map[data-point-filter="upcoming"] .outage-road-line:not(.status-upcoming),
-      #map[data-point-filter="upcoming"] .outage-building-shape:not(.status-upcoming),
       #map[data-point-filter="upcoming"] .area-shape:not(.status-upcoming),
       #map[data-point-filter="passed"] .street-marker-icon:not(.status-passed),
-      #map[data-point-filter="passed"] .outage-road-line:not(.status-passed),
-      #map[data-point-filter="passed"] .outage-building-shape:not(.status-passed),
       #map[data-point-filter="passed"] .area-shape:not(.status-passed) { display: none; }
       .area-shape {
         transition: stroke-width .2s ease, stroke-opacity .2s ease, fill-opacity .2s ease;
@@ -3470,61 +3464,6 @@
         stroke-opacity: 1 !important;
         fill-opacity: .28 !important;
         outline: none;
-      }
-      .outage-view-toggles {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: .3rem;
-        margin: .35rem 0 .45rem 0;
-        padding-bottom: .4rem;
-        border-bottom: 1px solid rgba(255, 255, 255, .08);
-      }
-      .outage-view-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: .25rem;
-        padding: .2rem .48rem;
-        border: 1px solid rgba(255, 255, 255, .14);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, .06);
-        color: #94a3b8;
-        font-family: inherit;
-        font-size: .62rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all .15s ease;
-        user-select: none;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      .outage-view-btn:hover {
-        background: rgba(255, 255, 255, .14);
-        color: #f1f5f9;
-        border-color: rgba(56, 189, 248, .4);
-      }
-      .outage-view-btn[aria-pressed="true"] {
-        background: rgba(14, 165, 233, .22);
-        color: #38bdf8;
-        border-color: rgba(56, 189, 248, .6);
-        box-shadow: 0 0 10px rgba(56, 189, 248, .2);
-      }
-      .outage-road-line {
-        transition: stroke-width .2s ease, stroke-opacity .2s ease;
-        cursor: pointer;
-        filter: drop-shadow(0 0 3px rgba(0, 0, 0, .6));
-      }
-      .outage-road-line:hover {
-        stroke-width: 8px !important;
-        stroke-opacity: 1 !important;
-      }
-      .outage-building-shape {
-        transition: fill-opacity .2s ease, stroke-width .2s ease;
-        cursor: pointer;
-      }
-      .outage-building-shape:hover {
-        fill-opacity: .65 !important;
-        stroke-width: 2.2px !important;
       }
       .street-marker {
         display: block;
@@ -5118,19 +5057,6 @@
               <span>@andiarman___</span>
             </a>
           </div>
-        </div>
-
-        <!-- Sakelar Tampilan Realistis (Ruas Jalan, Bentuk Rumah, dan Balon Zona) -->
-        <div class="outage-view-toggles" role="group" aria-label="Pilihan visualisasi pemadaman realistis">
-          <button type="button" id="toggle-roads-btn" class="outage-view-btn" aria-pressed="true" title="Tampilkan/sembunyikan garis ruas jalan nyata yang padam">
-            <span>🛣️ Ruas Jalan</span>
-          </button>
-          <button type="button" id="toggle-buildings-btn" class="outage-view-btn" aria-pressed="true" title="Tampilkan/sembunyikan kotak atap rumah/bangunan nyata di sepanjang jalan padam">
-            <span>🏠 Bentuk Rumah</span>
-          </button>
-          <button type="button" id="toggle-zones-btn" class="outage-view-btn" aria-pressed="false" title="Tampilkan/sembunyikan balon zona estimasi (Default: Nonaktif)">
-            <span>🔘 Balon Zona</span>
-          </button>
         </div>
 
         <button class="legend-item" type="button" data-filter="all" aria-pressed="true">
@@ -10644,65 +10570,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       let sessionFilter = "all";
       let sessionFilterButtons = [];
 
-      let showRoadPolylines = true;
-      let showBuildingShapes = true;
-      let showZoneBubbles = false; // Default: Nonaktif (tidak ada balon sembarangan)
-
-      try {
-        if (localStorage.getItem("palu_show_roads") === "0") showRoadPolylines = false;
-        if (localStorage.getItem("palu_show_buildings") === "0") showBuildingShapes = false;
-        if (localStorage.getItem("palu_show_zones") === "1") showZoneBubbles = true;
-      } catch (e) {}
-
-      const roadGeometryCache = {};
-      try {
-        const savedRoads = localStorage.getItem("palu_road_geom_cache_v1");
-        if (savedRoads) Object.assign(roadGeometryCache, JSON.parse(savedRoads));
-      } catch (e) {}
-
-      function saveRoadGeometryCache() {
-        try {
-          localStorage.setItem("palu_road_geom_cache_v1", JSON.stringify(roadGeometryCache));
-        } catch (e) {}
-      }
-
-      const fetchingRoads = new Set();
-      async function fetchOsmRoadGeometry(location, ulpName, centerCoords) {
-        if (!location || roadGeometryCache[location] || fetchingRoads.has(location)) return;
-        fetchingRoads.add(location);
-
-        try {
-          const query = `${streetSearchQuery(location)}, Kota Palu`;
-          const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=geojson&polygon_geojson=1&limit=1`;
-          const res = await fetch(url, { headers: { "Accept-Language": "id" } });
-          if (!res.ok) return;
-          const data = await res.json();
-          if (data && data.features && data.features.length) {
-            const geom = data.features[0].geometry;
-            if (geom && (geom.type === "LineString" || geom.type === "MultiLineString")) {
-              const coords = geom.type === "LineString" ? geom.coordinates : geom.coordinates[0];
-              if (Array.isArray(coords) && coords.length >= 2) {
-                roadGeometryCache[location] = coords;
-                saveRoadGeometryCache();
-                debounceRenderMapLayers();
-              }
-            }
-          }
-        } catch (e) {
-          // Abaikan error jaringan
-        } finally {
-          fetchingRoads.delete(location);
-        }
-      }
-
-      let renderLayersTimer = null;
-      function debounceRenderMapLayers() {
-        if (renderLayersTimer) clearTimeout(renderLayersTimer);
-        renderLayersTimer = setTimeout(() => {
-          renderMapLayers();
-        }, 300);
-      }
-
       const markerColors = {
         active: "#ef4444",
         upcoming: "#facc15",
@@ -10816,27 +10683,16 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const sessionClass = Number.isInteger(properties.sessionNumber)
           ? ` session-${properties.sessionNumber}`
           : "";
-        let strokeColor = color;
-        let fillColor = color;
-        if (status === "UPCOMING") {
-          if (properties.sessionNumber === 2) {
-            strokeColor = "#38bdf8"; // Biru Langit untuk Sesi 2
-            fillColor = "#38bdf8";
-          } else if (properties.sessionNumber >= 3) {
-            strokeColor = "#c084fc"; // Ungu untuk Sesi 3+
-            fillColor = "#c084fc";
-          }
-        }
         return {
           className: `area-shape status-${statusClass(status)}${sessionClass}`,
-          color: strokeColor,
-          weight: status === "ACTIVE" ? 2 : 1.6,
-          opacity: status === "PASSED" ? .35 : .85,
-          dashArray: status === "ACTIVE" ? "6 4" : "4 5",
+          color,
+          weight: status === "ACTIVE" ? 1.8 : 1.5,
+          opacity: status === "PASSED" ? .4 : .8,
+          dashArray: "4 5",
           lineCap: "round",
           lineJoin: "round",
-          fillColor: fillColor,
-          fillOpacity: status === "ACTIVE" ? .22 : (status === "UPCOMING" ? .14 : .05)
+          fillColor: color,
+          fillOpacity: status === "ACTIVE" ? .16 : (status === "UPCOMING" ? .12 : .06)
         };
       }
 
@@ -10967,7 +10823,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           while (queue.length) {
             const point = queue.pop();
             const nearby = [...remaining].filter((index) =>
-              distanceKm(point.geometry.coordinates, points[index].geometry.coordinates) <= 0.35
+              distanceKm(point.geometry.coordinates, points[index].geometry.coordinates) <= 0.75
             );
             for (const index of nearby) {
               remaining.delete(index);
@@ -11102,9 +10958,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       function buildAreaShapes(streetPoints) {
         const groups = new Map();
         for (const feature of streetPoints) {
-          const props = feature.properties || {};
-          const timeKey = `${props.startTime || ""}\u0000${props.endTime || ""}\u0000${props.sessionNumber || ""}`;
-          const key = `${props.eventId || ""}\u0000${timeKey}\u0000${props.ulpName || ""}`;
+          const key = `${feature.properties.eventId}\u0000${feature.properties.ulpName}`;
           const group = groups.get(key) || [];
           group.push(feature);
           groups.set(key, group);
@@ -11114,21 +10968,12 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         for (const points of groups.values()) {
           for (const cluster of clusterNearbyPoints(points)) {
             const hull = convexHull(cluster);
-            // Koridor presisi (~110m) agar pas membungkus jalan & deretan bentuk atap rumah/bangunan
-            const bufferRadius = cluster.length > 1 ? 110 : 95;
-            const coordinates = buildBufferedPolygon(hull, bufferRadius);
+            const coordinates = buildBufferedPolygon(hull, 280);
             if (!coordinates) continue;
             const geometry = { type: "Polygon", coordinates };
-            const sample = cluster[0].properties || {};
-            const timeRange = sample.startTime && sample.endTime
-              ? `${formatWita(sample.startTime, false)} - ${formatWita(sample.endTime, false)}`
-              : "";
-            const sessionTitle = Number.isInteger(sample.sessionNumber)
-              ? `Sesi ${sample.sessionNumber}`
-              : "Jadwal";
             const properties = {
-              ...sample,
-              location: `Zona Koridor Rumah & Jalan Padam (~${bufferRadius}m)${timeRange ? ` · ${timeRange}` : ""} · ${sample.ulpName || "ULP"}`,
+              ...cluster[0].properties,
+              location: `Zona perkiraan terdampak (~280m) · ${cluster[0].properties.ulpName || "ULP"}`,
               isStreetPoint: false,
               isAreaShape: true
             };
@@ -11178,8 +11023,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         for (let index = 1; index <= maxSession; index++) {
           rules.push(
             `#map[data-session-filter="${index}"] .street-marker-icon:not(.session-${index}),` +
-            `#map[data-session-filter="${index}"] .outage-road-line:not(.session-${index}),` +
-            `#map[data-session-filter="${index}"] .outage-building-shape:not(.session-${index}),` +
             `#map[data-session-filter="${index}"] .area-shape:not(.session-${index}) { display: none; }`
           );
         }
@@ -11326,39 +11169,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       if (boundaryToggleBtn) {
         boundaryToggleBtn.addEventListener("click", () => {
           toggleBoundaries();
-        });
-      }
-
-      const toggleRoadsBtn = document.getElementById("toggle-roads-btn");
-      if (toggleRoadsBtn) {
-        toggleRoadsBtn.setAttribute("aria-pressed", showRoadPolylines ? "true" : "false");
-        toggleRoadsBtn.addEventListener("click", () => {
-          showRoadPolylines = !showRoadPolylines;
-          toggleRoadsBtn.setAttribute("aria-pressed", showRoadPolylines ? "true" : "false");
-          try { localStorage.setItem("palu_show_roads", showRoadPolylines ? "1" : "0"); } catch (e) {}
-          renderMapLayers();
-        });
-      }
-
-      const toggleBuildingsBtn = document.getElementById("toggle-buildings-btn");
-      if (toggleBuildingsBtn) {
-        toggleBuildingsBtn.setAttribute("aria-pressed", showBuildingShapes ? "true" : "false");
-        toggleBuildingsBtn.addEventListener("click", () => {
-          showBuildingShapes = !showBuildingShapes;
-          toggleBuildingsBtn.setAttribute("aria-pressed", showBuildingShapes ? "true" : "false");
-          try { localStorage.setItem("palu_show_buildings", showBuildingShapes ? "1" : "0"); } catch (e) {}
-          renderMapLayers();
-        });
-      }
-
-      const toggleZonesBtn = document.getElementById("toggle-zones-btn");
-      if (toggleZonesBtn) {
-        toggleZonesBtn.setAttribute("aria-pressed", showZoneBubbles ? "true" : "false");
-        toggleZonesBtn.addEventListener("click", () => {
-          showZoneBubbles = !showZoneBubbles;
-          toggleZonesBtn.setAttribute("aria-pressed", showZoneBubbles ? "true" : "false");
-          try { localStorage.setItem("palu_show_zones", showZoneBubbles ? "1" : "0"); } catch (e) {}
-          renderMapLayers();
         });
       }
 
@@ -11632,128 +11442,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
       }
 
-      function buildRoadAndBuildingFeatures(allPoints, now) {
-        const roadFeatures = [];
-        const buildingFeatures = [];
-
-        for (const feature of allPoints) {
-          const props = feature.properties || {};
-          const coords = feature.geometry?.coordinates;
-          if (!coords || typeof coords[0] !== "number" || typeof coords[1] !== "number") continue;
-
-          const lng = coords[0];
-          const lat = coords[1];
-          const location = props.location || "Lokasi";
-
-          let roadCoords = roadGeometryCache[location];
-          
-          if (!roadCoords || !Array.isArray(roadCoords) || roadCoords.length < 2) {
-            const mPerDegLat = 111320;
-            const mPerDegLng = 111320 * Math.cos((lat * Math.PI) / 180);
-            
-            let hash = 0;
-            for (let i = 0; i < location.length; i++) hash = ((hash << 5) - hash) + location.charCodeAt(i);
-            const roadAngle = ((Math.abs(hash) % 180) * Math.PI) / 180;
-            
-            const halfLen = 120;
-            const dx = halfLen * Math.cos(roadAngle);
-            const dy = halfLen * Math.sin(roadAngle);
-            
-            const p1 = [lng - dx / mPerDegLng, lat - dy / mPerDegLat];
-            const p2 = [lng + dx / mPerDegLng, lat + dy / mPerDegLat];
-            roadCoords = [p1, [lng, lat], p2];
-
-            fetchOsmRoadGeometry(location, props.ulpName, [lng, lat]);
-          }
-
-          // 1. Fitur Ruas Garis Jalan Nyata
-          roadFeatures.push({
-            type: "Feature",
-            geometry: {
-              type: "LineString",
-              coordinates: roadCoords
-            },
-            properties: {
-              ...props,
-              isRoadPolyline: true,
-              locationTitle: location
-            }
-          });
-
-          // 2. Fitur Kotak Bentuk Rumah / Bangunan Nyata di sepanjang sisi jalan
-          const mPerDegLat = 111320;
-          const mPerDegLng = 111320 * Math.cos((lat * Math.PI) / 180);
-
-          for (let segIdx = 0; segIdx < roadCoords.length - 1; segIdx++) {
-            const p0 = roadCoords[segIdx];
-            const p1 = roadCoords[segIdx + 1];
-            
-            const dx = (p1[0] - p0[0]) * mPerDegLng;
-            const dy = (p1[1] - p0[1]) * mPerDegLat;
-            const segLen = Math.hypot(dx, dy);
-            if (segLen < 15) continue;
-
-            const ux = dx / segLen;
-            const uy = dy / segLen;
-            const nx = -uy;
-            const ny = ux;
-
-            const houseSpacing = 18;
-            const houseWidth = 11;
-            const houseDepth = 15;
-            const steps = Math.floor(segLen / houseSpacing);
-
-            for (let step = 0; step < steps; step++) {
-              const baseDist = step * houseSpacing + 4;
-              const cx = (p0[0] * mPerDegLng) + (baseDist + houseWidth / 2) * ux;
-              const cy = (p0[1] * mPerDegLat) + (baseDist + houseWidth / 2) * uy;
-
-              // Sisi Kiri Jalan (offset +18m)
-              const leftOffset = 18;
-              const leftCorners = [
-                [cx - (houseWidth/2)*ux + leftOffset*nx, cy - (houseWidth/2)*uy + leftOffset*ny],
-                [cx + (houseWidth/2)*ux + leftOffset*nx, cy + (houseWidth/2)*uy + leftOffset*ny],
-                [cx + (houseWidth/2)*ux + (leftOffset + houseDepth)*nx, cy + (houseWidth/2)*uy + (leftOffset + houseDepth)*ny],
-                [cx - (houseWidth/2)*ux + (leftOffset + houseDepth)*nx, cy - (houseWidth/2)*uy + (leftOffset + houseDepth)*ny],
-              ].map(pt => [pt[0] / mPerDegLng, pt[1] / mPerDegLat]);
-              leftCorners.push(leftCorners[0]);
-
-              buildingFeatures.push({
-                type: "Feature",
-                geometry: { type: "Polygon", coordinates: [leftCorners] },
-                properties: {
-                  ...props,
-                  isBuildingShape: true,
-                  locationTitle: `Rumah (${location})`
-                }
-              });
-
-              // Sisi Kanan Jalan (offset -18m)
-              const rightOffset = -18;
-              const rightCorners = [
-                [cx - (houseWidth/2)*ux + rightOffset*nx, cy - (houseWidth/2)*uy + rightOffset*ny],
-                [cx + (houseWidth/2)*ux + rightOffset*nx, cy + (houseWidth/2)*uy + rightOffset*ny],
-                [cx + (houseWidth/2)*ux + (rightOffset - houseDepth)*nx, cy + (houseWidth/2)*uy + (rightOffset - houseDepth)*ny],
-                [cx - (houseWidth/2)*ux + (rightOffset - houseDepth)*nx, cy - (houseWidth/2)*uy + (rightOffset - houseDepth)*ny],
-              ].map(pt => [pt[0] / mPerDegLng, pt[1] / mPerDegLat]);
-              rightCorners.push(rightCorners[0]);
-
-              buildingFeatures.push({
-                type: "Feature",
-                geometry: { type: "Polygon", coordinates: [rightCorners] },
-                properties: {
-                  ...props,
-                  isBuildingShape: true,
-                  locationTitle: `Rumah (${location})`
-                }
-              });
-            }
-          }
-        }
-
-        return { roadFeatures, buildingFeatures };
-      }
-
       function renderMapLayers() {
         if (currentAppMode !== "outage") {
           if (geoJsonLayer) { map.removeLayer(geoJsonLayer); geoJsonLayer = null; }
@@ -11765,21 +11453,9 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         for (const event of mapEvents) event.status = getEventStatus(event, now);
         updateOutagePlacesIndex(now);
         const allPoints = buildStreetPointFeatures(now);
-
-        const shapes = [];
-        if (showZoneBubbles) {
-          shapes.push(...buildAreaShapes(allPoints));
-        }
-
-        const { roadFeatures, buildingFeatures } = buildRoadAndBuildingFeatures(allPoints, now);
-        if (showBuildingShapes) {
-          shapes.push(...buildingFeatures);
-        }
-        if (showRoadPolylines) {
-          shapes.push(...roadFeatures);
-        }
-
+        const shapes = buildAreaShapes(allPoints);
         const visiblePoints = allPoints.filter((feature) => featureMatchesFilter(feature, now));
+        const mapFeatures = [...shapes, ...allPoints];
         map.getContainer().dataset.pointFilter = pointFilter;
         map.getContainer().dataset.sessionFilter = sessionFilter;
         if (geoJsonLayer) map.removeLayer(geoJsonLayer);
@@ -11796,44 +11472,9 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             const properties = feature?.properties || {};
             const status = getEventStatus(properties, now);
             const color = pointColor(properties, now);
-            const sessionClass = Number.isInteger(properties.sessionNumber) ? ` session-${properties.sessionNumber}` : "";
-
-            if (properties.isRoadPolyline) {
-              let strokeColor = color;
-              if (status === "UPCOMING") {
-                if (properties.sessionNumber === 2) strokeColor = "#38bdf8";
-                else if (properties.sessionNumber >= 3) strokeColor = "#c084fc";
-              }
-              return {
-                className: `outage-road-line status-${statusClass(status)}${sessionClass}`,
-                color: strokeColor,
-                weight: status === "ACTIVE" ? 6.5 : 5,
-                opacity: status === "PASSED" ? .4 : .92,
-                lineCap: "round",
-                lineJoin: "round"
-              };
-            }
-
-            if (properties.isBuildingShape) {
-              let bColor = color;
-              if (status === "UPCOMING") {
-                if (properties.sessionNumber === 2) bColor = "#38bdf8";
-                else if (properties.sessionNumber >= 3) bColor = "#c084fc";
-              }
-              return {
-                className: `outage-building-shape status-${statusClass(status)}${sessionClass}`,
-                color: bColor,
-                weight: 1.3,
-                opacity: status === "PASSED" ? .35 : .85,
-                fillColor: bColor,
-                fillOpacity: status === "ACTIVE" ? .42 : (status === "UPCOMING" ? .30 : .12)
-              };
-            }
-
             if (properties.isAreaShape) {
               return areaStyle(properties, feature.geometry.type, color, status);
             }
-
             return {
               color,
               weight: 1,
@@ -11865,20 +11506,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             });
             return marker;
           },
-          onEachFeature: (feature, layer) => {
-            const props = feature.properties || {};
-            if (props.isRoadPolyline) {
-              const status = getEventStatus(props, now);
-              layer.bindTooltip(`<b>🛣️ Ruas Jalan:</b> ${props.locationTitle || props.location || "Jalan"}<br><b>Waktu Padam:</b> ${props.startTime ? formatWita(props.startTime, false) : ""} - ${props.endTime ? formatWita(props.endTime, false) : ""}`, { direction: "top", offset: [0, -5] });
-              layer.bindPopup(makePopup(props));
-            } else if (props.isBuildingShape) {
-              const status = getEventStatus(props, now);
-              layer.bindTooltip(`<b>🏠 Bangunan/Rumah:</b> ${props.locationTitle || "Rumah"}<br><b>Status:</b> ${statusLabel(status)}`, { direction: "top", offset: [0, -5] });
-              layer.bindPopup(makePopup(props));
-            } else {
-              layer.bindPopup(makePopup(props));
-            }
-          }
+          onEachFeature: (feature, layer) => layer.bindPopup(makePopup(feature.properties || {}))
         }).addTo(map);
 
         for (const feature of allPoints) {
@@ -14251,19 +13879,14 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           const importedDateKey = scheduleDateKey(imported);
           importStatus.textContent = "Mengirim data jadwal ke server untuk pemetaan background…";
 
-          let response;
-          try {
-            response = await fetch(`${scheduleApiBase}/api/import-server`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                date: importedDateKey,
-                events: imported
-              })
-            });
-          } catch (netErr) {
-            throw new Error("Koneksi ke worker server diblokir oleh DNS operator/ISP Anda (Failed to fetch). Silakan gunakan tombol hijau 'Proses Langsung di Browser' di atas untuk memetakan langsung.");
-          }
+          const response = await fetch(`${scheduleApiBase}/api/import-server`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              date: importedDateKey,
+              events: imported
+            })
+          });
 
           const result = await response.json().catch(() => ({}));
           if (!response.ok) {
@@ -14337,7 +13960,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
             await postScheduleToWorker(events);
             logActivity("Jadwal tersimpan di GitHub dan menggantikan jadwal sebelumnya.", "success");
           } catch (syncErr) {
-            console.warn("Sinkronisasi cloud worker dilewati (dibatasi oleh jaringan/ISP):", syncErr);
+            console.warn("Sinkronisasi cloud worker dilewati (dibatasi oleh operator/ISP):", syncErr);
             logActivity("Sinkronisasi cloud ke server dilewati (dibatasi oleh jaringan/ISP); jadwal aktif di browser lokal.", "warn");
           }
           importStatus.textContent =
@@ -14540,13 +14163,27 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           if (modal.open) return;
 
           isCurrentSessionMandatory = mandatory;
-          if (closeBtn) closeBtn.style.display = "";
-          if (chkBox) chkBox.style.display = "none";
-          if (mandatoryHint) mandatoryHint.style.display = "none";
-          if (agreeBtn) {
-            agreeBtn.textContent = "Tutup & Kembali ke Peta";
-            agreeBtn.disabled = false;
-            agreeBtn.classList.remove("btn-disabled");
+
+          if (mandatory) {
+            document.body.classList.add("legal-locked");
+            if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "none";
+            if (closeBtn) closeBtn.style.display = "none";
+            if (chkBox) chkBox.style.display = "block";
+            if (chk) chk.checked = false;
+            if (mandatoryHint) mandatoryHint.style.display = "block";
+            if (agreeBtn) {
+              agreeBtn.textContent = "✅ Setujui & Buka Peta";
+              updateAgreeButtonState();
+            }
+          } else {
+            if (closeBtn) closeBtn.style.display = "";
+            if (chkBox) chkBox.style.display = "none";
+            if (mandatoryHint) mandatoryHint.style.display = "none";
+            if (agreeBtn) {
+              agreeBtn.textContent = "Tutup & Kembali ke Peta";
+              agreeBtn.disabled = false;
+              agreeBtn.classList.remove("btn-disabled");
+            }
           }
 
           modal.showModal();
@@ -14554,6 +14191,9 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
         const closeDisclaimer = (force = false) => {
           if (!modal || typeof modal.close !== "function") return;
+          if (!hasAgreedConsent() && !force) {
+            return;
+          }
           modal.close();
         };
 
@@ -14561,7 +14201,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           chk.addEventListener("change", updateAgreeButtonState);
         }
 
-        // Halaman dan dashboard selalu bebas klik tanpa freeze atau deadlock
+        // Halaman dan dashboard selalu bebas klik tanpa deadlock
         document.body.classList.remove("legal-locked");
         if (welcomeOverlay) welcomeOverlay.style.pointerEvents = "auto";
 
