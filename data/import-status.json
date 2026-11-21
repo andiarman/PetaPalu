@@ -1,10 +1,14 @@
 {
-  "status": "processing",
+  "status": "done",
   "date": "2026-11-21",
   "totalStreets": 414,
-  "mappedStreets": 0,
-  "progressPercent": 0,
+  "mappedStreets": 414,
+  "progressPercent": 100,
+  "googleMapsApiDetected": false,
+  "googleMapsDiagnostic": null,
+  "newlyLearnedCount": 0,
   "startedAt": "2026-11-21T02:43:16.633Z",
-  "updatedAt": "2026-11-21T02:43:16.633Z",
-  "message": "Jadwal diterima server. Memulai pemetaan 414 lokasi..."
+  "completedAt": "2026-11-21T02:44:29.062Z",
+  "updatedAt": "2026-11-21T02:44:29.062Z",
+  "message": "Pemetaan selesai! 414 dari 414 lokasi berhasil dipetakan di server."
 }
