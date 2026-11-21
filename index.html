@@ -10644,6 +10644,65 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       let sessionFilter = "all";
       let sessionFilterButtons = [];
 
+      let showRoadPolylines = true;
+      let showBuildingShapes = true;
+      let showZoneBubbles = false; // Default: Nonaktif (tidak ada balon sembarangan)
+
+      try {
+        if (localStorage.getItem("palu_show_roads") === "0") showRoadPolylines = false;
+        if (localStorage.getItem("palu_show_buildings") === "0") showBuildingShapes = false;
+        if (localStorage.getItem("palu_show_zones") === "1") showZoneBubbles = true;
+      } catch (e) {}
+
+      const roadGeometryCache = {};
+      try {
+        const savedRoads = localStorage.getItem("palu_road_geom_cache_v1");
+        if (savedRoads) Object.assign(roadGeometryCache, JSON.parse(savedRoads));
+      } catch (e) {}
+
+      function saveRoadGeometryCache() {
+        try {
+          localStorage.setItem("palu_road_geom_cache_v1", JSON.stringify(roadGeometryCache));
+        } catch (e) {}
+      }
+
+      const fetchingRoads = new Set();
+      async function fetchOsmRoadGeometry(location, ulpName, centerCoords) {
+        if (!location || roadGeometryCache[location] || fetchingRoads.has(location)) return;
+        fetchingRoads.add(location);
+
+        try {
+          const query = `${streetSearchQuery(location)}, Kota Palu`;
+          const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=geojson&polygon_geojson=1&limit=1`;
+          const res = await fetch(url, { headers: { "Accept-Language": "id" } });
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data && data.features && data.features.length) {
+            const geom = data.features[0].geometry;
+            if (geom && (geom.type === "LineString" || geom.type === "MultiLineString")) {
+              const coords = geom.type === "LineString" ? geom.coordinates : geom.coordinates[0];
+              if (Array.isArray(coords) && coords.length >= 2) {
+                roadGeometryCache[location] = coords;
+                saveRoadGeometryCache();
+                debounceRenderMapLayers();
+              }
+            }
+          }
+        } catch (e) {
+          // Abaikan error jaringan
+        } finally {
+          fetchingRoads.delete(location);
+        }
+      }
+
+      let renderLayersTimer = null;
+      function debounceRenderMapLayers() {
+        if (renderLayersTimer) clearTimeout(renderLayersTimer);
+        renderLayersTimer = setTimeout(() => {
+          renderMapLayers();
+        }, 300);
+      }
+
       const markerColors = {
         active: "#ef4444",
         upcoming: "#facc15",
@@ -11571,65 +11630,6 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         } else {
           emptyState.hidden = true;
         }
-      }
-
-      let showRoadPolylines = true;
-      let showBuildingShapes = true;
-      let showZoneBubbles = false; // Default: Nonaktif (tidak ada balon sembarangan)
-
-      try {
-        if (localStorage.getItem("palu_show_roads") === "0") showRoadPolylines = false;
-        if (localStorage.getItem("palu_show_buildings") === "0") showBuildingShapes = false;
-        if (localStorage.getItem("palu_show_zones") === "1") showZoneBubbles = true;
-      } catch (e) {}
-
-      const roadGeometryCache = {};
-      try {
-        const savedRoads = localStorage.getItem("palu_road_geom_cache_v1");
-        if (savedRoads) Object.assign(roadGeometryCache, JSON.parse(savedRoads));
-      } catch (e) {}
-
-      function saveRoadGeometryCache() {
-        try {
-          localStorage.setItem("palu_road_geom_cache_v1", JSON.stringify(roadGeometryCache));
-        } catch (e) {}
-      }
-
-      const fetchingRoads = new Set();
-      async function fetchOsmRoadGeometry(location, ulpName, centerCoords) {
-        if (!location || roadGeometryCache[location] || fetchingRoads.has(location)) return;
-        fetchingRoads.add(location);
-
-        try {
-          const query = `${streetSearchQuery(location)}, Kota Palu`;
-          const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=geojson&polygon_geojson=1&limit=1`;
-          const res = await fetch(url, { headers: { "Accept-Language": "id" } });
-          if (!res.ok) return;
-          const data = await res.json();
-          if (data && data.features && data.features.length) {
-            const geom = data.features[0].geometry;
-            if (geom && (geom.type === "LineString" || geom.type === "MultiLineString")) {
-              const coords = geom.type === "LineString" ? geom.coordinates : geom.coordinates[0];
-              if (Array.isArray(coords) && coords.length >= 2) {
-                roadGeometryCache[location] = coords;
-                saveRoadGeometryCache();
-                debounceRenderMapLayers();
-              }
-            }
-          }
-        } catch (e) {
-          // Abaikan error jaringan
-        } finally {
-          fetchingRoads.delete(location);
-        }
-      }
-
-      let renderLayersTimer = null;
-      function debounceRenderMapLayers() {
-        if (renderLayersTimer) clearTimeout(renderLayersTimer);
-        renderLayersTimer = setTimeout(() => {
-          renderMapLayers();
-        }, 300);
       }
 
       function buildRoadAndBuildingFeatures(allPoints, now) {
