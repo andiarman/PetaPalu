@@ -6258,6 +6258,34 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
       const activityStatus = document.getElementById("activity-status");
       const activityLogButton = document.getElementById("open-activity-log");
       const emptyState = document.getElementById("empty-state");
+
+      // --- Arsitektur Sinkronisasi Realtime Terpusat (Web GitHub Pages & APK Android Tauri) ---
+      const GITHUB_PAGES_BASE = "https://andiarman.github.io/PetaPalu";
+      const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/andiarman/PetaPalu/main";
+      const LOCAL_DATA_BASE = "data";
+
+      async function fetchLiveJson(relPath, options = {}) {
+        const clean = relPath.replace(/^\/+/, "");
+        const t = Date.now();
+        const urls = [
+          `${GITHUB_PAGES_BASE}/${clean}?t=${t}`,
+          `${GITHUB_RAW_BASE}/${clean}?t=${t}`,
+          `${clean}?t=${t}`
+        ];
+
+        for (const url of urls) {
+          try {
+            const res = await fetch(url, { ...options, cache: "no-store" });
+            if (res.ok) {
+              return await res.json();
+            }
+          } catch {
+            // Lanjut ke endpoint cadangan berikutnya
+          }
+        }
+        throw new Error(`Gagal memuat ${clean} dari semua endpoint online & offline`);
+      }
+
       let geoJsonLayer;
       let markerClusterGroup;
       let allPointMarkers = [];
@@ -6501,9 +6529,7 @@ Ketentuan Khusus & Aturan Ekstraksi (Sangat Penting):
         }
 
         try {
-          const res = await fetch("data/places/palu-coffeeshop-resto.json");
-          if (!res.ok) throw new Error("Gagal mengambil data coffeeshop & resto");
-          const places = await res.json();
+          const places = await fetchLiveJson("data/places/palu-coffeeshop-resto.json");
           culinaryLayers.allPlaces = places;
 
           // Inisialisasi cluster group identik dengan sistem peta pemadaman
@@ -7298,9 +7324,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
 
         try {
-          const res = await fetch("data/places/palu-fotocopy-percetakan.json");
-          if (!res.ok) throw new Error("Gagal mengambil data fotocopy & percetakan");
-          const places = await res.json();
+          const places = await fetchLiveJson("data/places/palu-fotocopy-percetakan.json");
           printingLayers.allPlaces = places;
 
           if (typeof L.markerClusterGroup === "function") {
@@ -7810,9 +7834,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
 
         try {
-          const res = await fetch("data/places/palu-hardware-service.json");
-          if (!res.ok) throw new Error("Gagal mengambil data hardware & servis Palu");
-          const places = await res.json();
+          const places = await fetchLiveJson("data/places/palu-hardware-service.json");
           hardwareLayers.allPlaces = places;
 
           if (typeof L.markerClusterGroup === "function") {
@@ -8307,9 +8329,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
 
         try {
-          const res = await fetch("data/places/palu-spbu-ibadah.json");
-          if (!res.ok) throw new Error("Gagal mengambil data SPBU & tempat ibadah Palu");
-          const places = await res.json();
+          const places = await fetchLiveJson("data/places/palu-spbu-ibadah.json");
           facilityLayers.allPlaces = places;
 
           if (typeof L.markerClusterGroup === "function") {
@@ -8821,9 +8841,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         }
 
         try {
-          const res = await fetch("data/places/palu-pertamanan-fasilitas.json");
-          if (!res.ok) throw new Error("Gagal mengambil data pertamanan & fasilitas Palu");
-          const places = await res.json();
+          const places = await fetchLiveJson("data/places/palu-pertamanan-fasilitas.json");
           parksLayers.allPlaces = places;
 
           if (typeof L.markerClusterGroup === "function") {
@@ -11363,15 +11381,33 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const nowKey = witaDateKey(new Date());
         const yesterdayKey = witaDateKey(new Date(Date.now() - 24 * 60 * 60 * 1000));
         const days = [[nowKey, false], [yesterdayKey, true]];
+
+        // Sumber prioritas sinkronisasi (Web GitHub Pages & APK Android):
+        // 1. Live GitHub Pages (Langsung terkoneksi dengan update commit website)
+        // 2. Live GitHub Raw (Cadangan instan dari repository)
+        // 3. Local data bundle (Offline fallback saat sinyal padam)
+        const dataBases = [
+          `${GITHUB_PAGES_BASE}/data`,
+          `${GITHUB_RAW_BASE}/data`,
+          LOCAL_DATA_BASE
+        ];
+
         for (const [dayKey, spillOnly] of days) {
-          const response = await fetch(`${githubDataDir}/${dayKey}.json?t=${Date.now()}`, { cache: "no-store" });
-          if (!response.ok) continue;
-          const payload = await response.json().catch(() => null);
-          if (!payload || !Array.isArray(payload.events)) continue;
-          const events = spillOnly
-            ? payload.events.filter((event) => Date.parse(event.endTime) > Date.now())
-            : payload.events;
-          return { date: dayKey, events };
+          for (const base of dataBases) {
+            try {
+              const response = await fetch(`${base}/${dayKey}.json?t=${Date.now()}`, { cache: "no-store" });
+              if (!response.ok) continue;
+              const payload = await response.json().catch(() => null);
+              if (!payload || !Array.isArray(payload.events)) continue;
+              const events = spillOnly
+                ? payload.events.filter((event) => Date.parse(event.endTime) > Date.now())
+                : payload.events;
+              console.log(`[PetaPalu Live Sync] Terhubung & sinkron dengan data ${dayKey} (${base})`);
+              return { date: dayKey, events, source: base };
+            } catch {
+              continue;
+            }
+          }
         }
         return null;
       }
@@ -11691,9 +11727,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
 
       async function initSultengPlaces() {
         try {
-          const res = await fetch("data/sulteng-places.json");
-          if (!res.ok) return;
-          const json = await res.json();
+          const json = await fetchLiveJson("data/sulteng-places.json");
           if (Array.isArray(json.places)) {
             sultengPlacesData = json.places;
           }
@@ -13769,11 +13803,21 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         try {
           let statusData = null;
 
-          // 1. PRIORITAS UTAMA: data/import-status.json dari GitHub Pages (langsung & bebas blokir ISP)
-          try {
-            const resLocal = await fetch(`data/import-status.json?t=${Date.now()}`, { cache: "no-store" });
-            if (resLocal.ok) statusData = await resLocal.json();
-          } catch {}
+          // 1. PRIORITAS UTAMA: data/import-status.json dari GitHub Pages live atau lokal (bebas blokir ISP)
+          const statusCandidates = [
+            `${GITHUB_PAGES_BASE}/data/import-status.json?t=${Date.now()}`,
+            `${GITHUB_RAW_BASE}/data/import-status.json?t=${Date.now()}`,
+            `data/import-status.json?t=${Date.now()}`
+          ];
+          for (const sUrl of statusCandidates) {
+            try {
+              const res = await fetch(sUrl, { cache: "no-store" });
+              if (res.ok) {
+                statusData = await res.json();
+                break;
+              }
+            } catch {}
+          }
 
           // 2. Fallback: jika status di GitHub Pages belum ada atau idle, periksa Cloudflare Worker dengan timeout pendek
           if (!statusData || !statusData.status || statusData.status === "idle") {

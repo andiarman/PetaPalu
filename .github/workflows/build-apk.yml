@@ -76,17 +76,17 @@ jobs:
           python3 -c "
           import os
 
-          # 1. Tambahkan izin GPS ke AndroidManifest.xml
+          # 1. Tambahkan izin Internet, Network State, dan GPS ke AndroidManifest.xml
           manifest = 'src-tauri/gen/android/app/src/main/AndroidManifest.xml'
           if os.path.exists(manifest):
               with open(manifest, 'r') as f:
                   content = f.read()
-              perms = '''    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n'''
+              perms = '''    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\n'''
               if '<application' in content and 'ACCESS_FINE_LOCATION' not in content:
                   content = content.replace('<application', perms + '    <application', 1)
                   with open(manifest, 'w') as f:
                       f.write(content)
-                  print('Berhasil menyematkan izin GPS ke AndroidManifest.xml')
+                  print('Berhasil menyematkan izin Internet, Jaringan, dan GPS ke AndroidManifest.xml')
 
           # 2. Patch seluruh konfigurasi Gradle agar menyertakan google() dan mavenCentral()
           for root, dirs, files in os.walk('src-tauri/gen/android'):
