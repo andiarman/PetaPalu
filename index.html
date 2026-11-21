@@ -30,6 +30,12 @@
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     <link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.css" />
     <link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.Default.css" />
+    
+    <!-- Trunk Rust WebAssembly link -->
+    <link data-trunk rel="rust" href="Cargo.toml" />
+    <link data-trunk rel="copy-file" href="../../og-image.png" />
+    <link data-trunk rel="copy-dir" href="../../vendor" />
+    <link data-trunk rel="copy-dir" href="../../data" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
@@ -10681,16 +10687,27 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         const sessionClass = Number.isInteger(properties.sessionNumber)
           ? ` session-${properties.sessionNumber}`
           : "";
+        let strokeColor = color;
+        let fillColor = color;
+        if (status === "UPCOMING") {
+          if (properties.sessionNumber === 2) {
+            strokeColor = "#38bdf8"; // Biru Langit untuk Sesi 2
+            fillColor = "#38bdf8";
+          } else if (properties.sessionNumber >= 3) {
+            strokeColor = "#c084fc"; // Ungu untuk Sesi 3+
+            fillColor = "#c084fc";
+          }
+        }
         return {
           className: `area-shape status-${statusClass(status)}${sessionClass}`,
-          color,
-          weight: status === "ACTIVE" ? 1.8 : 1.5,
-          opacity: status === "PASSED" ? .4 : .8,
-          dashArray: "4 5",
+          color: strokeColor,
+          weight: status === "ACTIVE" ? 2 : 1.6,
+          opacity: status === "PASSED" ? .35 : .85,
+          dashArray: status === "ACTIVE" ? "6 4" : "4 5",
           lineCap: "round",
           lineJoin: "round",
-          fillColor: color,
-          fillOpacity: status === "ACTIVE" ? .16 : (status === "UPCOMING" ? .12 : .06)
+          fillColor: fillColor,
+          fillOpacity: status === "ACTIVE" ? .22 : (status === "UPCOMING" ? .14 : .05)
         };
       }
 
@@ -10821,7 +10838,7 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           while (queue.length) {
             const point = queue.pop();
             const nearby = [...remaining].filter((index) =>
-              distanceKm(point.geometry.coordinates, points[index].geometry.coordinates) <= 0.75
+              distanceKm(point.geometry.coordinates, points[index].geometry.coordinates) <= 0.35
             );
             for (const index of nearby) {
               remaining.delete(index);
@@ -10956,7 +10973,9 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
       function buildAreaShapes(streetPoints) {
         const groups = new Map();
         for (const feature of streetPoints) {
-          const key = `${feature.properties.eventId}\u0000${feature.properties.ulpName}`;
+          const props = feature.properties || {};
+          const timeKey = `${props.startTime || ""}\u0000${props.endTime || ""}\u0000${props.sessionNumber || ""}`;
+          const key = `${props.eventId || ""}\u0000${timeKey}\u0000${props.ulpName || ""}`;
           const group = groups.get(key) || [];
           group.push(feature);
           groups.set(key, group);
@@ -10966,12 +10985,21 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
         for (const points of groups.values()) {
           for (const cluster of clusterNearbyPoints(points)) {
             const hull = convexHull(cluster);
-            const coordinates = buildBufferedPolygon(hull, 280);
+            // Koridor presisi (~110m) agar pas membungkus jalan & deretan bentuk atap rumah/bangunan
+            const bufferRadius = cluster.length > 1 ? 110 : 95;
+            const coordinates = buildBufferedPolygon(hull, bufferRadius);
             if (!coordinates) continue;
             const geometry = { type: "Polygon", coordinates };
+            const sample = cluster[0].properties || {};
+            const timeRange = sample.startTime && sample.endTime
+              ? `${formatWita(sample.startTime, false)} - ${formatWita(sample.endTime, false)}`
+              : "";
+            const sessionTitle = Number.isInteger(sample.sessionNumber)
+              ? `Sesi ${sample.sessionNumber}`
+              : "Jadwal";
             const properties = {
-              ...cluster[0].properties,
-              location: `Zona perkiraan terdampak (~280m) · ${cluster[0].properties.ulpName || "ULP"}`,
+              ...sample,
+              location: `Zona Koridor Rumah & Jalan Padam (~${bufferRadius}m)${timeRange ? ` · ${timeRange}` : ""} · ${sample.ulpName || "ULP"}`,
               isStreetPoint: false,
               isAreaShape: true
             };
@@ -13877,14 +13905,19 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           const importedDateKey = scheduleDateKey(imported);
           importStatus.textContent = "Mengirim data jadwal ke server untuk pemetaan background…";
 
-          const response = await fetch(`${scheduleApiBase}/api/import-server`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              date: importedDateKey,
-              events: imported
-            })
-          });
+          let response;
+          try {
+            response = await fetch(`${scheduleApiBase}/api/import-server`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                date: importedDateKey,
+                events: imported
+              })
+            });
+          } catch (netErr) {
+            throw new Error("Koneksi ke worker server diblokir oleh DNS operator/ISP Anda (Failed to fetch). Silakan gunakan tombol hijau 'Proses Langsung di Browser' di atas untuk memetakan langsung.");
+          }
 
           const result = await response.json().catch(() => ({}));
           if (!response.ok) {
@@ -13952,12 +13985,17 @@ Mohon dikurasi untuk upload mingguan. Terima kasih!`
           saveLocalStore(currentSchedule);
           await fetchMapLayers();
           document.getElementById("ai-json-input").value = "";
-          importStatus.textContent = "Jadwal tervalidasi. Menyimpan ke GitHub…";
-          logActivity("Menyimpan jadwal ke GitHub melalui Worker…");
-          await postScheduleToWorker(events);
-          logActivity("Jadwal tersimpan di GitHub dan menggantikan jadwal sebelumnya.", "success");
+          importStatus.textContent = "Jadwal tervalidasi. Menyimpan data…";
+          logActivity("Menyimpan jadwal ke browser…");
+          try {
+            await postScheduleToWorker(events);
+            logActivity("Jadwal tersimpan di GitHub dan menggantikan jadwal sebelumnya.", "success");
+          } catch (syncErr) {
+            console.warn("Sinkronisasi cloud worker dilewati (dibatasi oleh jaringan/ISP):", syncErr);
+            logActivity("Sinkronisasi cloud ke server dilewati (dibatasi oleh jaringan/ISP); jadwal aktif di browser lokal.", "warn");
+          }
           importStatus.textContent =
-            `${imported.length} jadwal tersimpan ke GitHub dan menggantikan jadwal sebelumnya; ` +
+            `${imported.length} jadwal aktif di browser & peta; ` +
             `${parsed.skippedEvents} jadwal dan ${parsed.skippedGroups} kelompok kosong dilewati.`;
           importDialog.close();
           enqueued = true;
